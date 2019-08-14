@@ -1,0 +1,201 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Add Student</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- [(ngModel)]="model.staffID" -->
+    <div class="modal-body">
+        <form novalidate name="form" #StudentForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row container col-sm-8">
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Student Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-row">
+                            <label for="photo">Photo : </label>
+                            <label for="file-upload" class="custom-file-upload margin-photo"
+                                [ngClass]="{greenColor: model.url || model.photo}">
+                                <i class="fa fa-cloud-upload"></i> {{model.url || model.photo ? 'Update Photo' : 'Upload Photo'}}
+                            </label>
+                        </div>
+                        <div>
+                            <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+                            <div class="row photoHW" *ngIf="(model.url || model.photo) && !uploadingImageLoading">
+                                <img class="photoImg" [src]="model.url || model.photo">
+                                <span class="fa-stack fa-lg clickable remove-photo-icon" (click)="model.url = ''; model.photo = ''">
+                                    <i class="fa fa-circle fa-stack-2x icon-background" title="Remove photo"></i>
+                                    <i class="fa fa-times fa-stack-1x"></i>
+                                </span>
+                            </div>
+                            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" placeholder="Name" required>
+                            <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                                <div [hidden]="!userName.errors.required">
+                                Student name is required !
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Roll Number</label>
+                            <input type="text" class="form-control" [(ngModel)]="model.studentRollNo" #studentRollNo="ngModel" name="studentRollNo" (input)="checkUserId($event.target.value)" placeholder="Roll Number" required>
+                            <div *ngIf="studentRollNo.errors && (studentRollNo.dirty || studentRollNo.touched)" class="alert alert-danger">
+                                <div [hidden]="!studentRollNo.errors.required">
+                                Student roll number is required !
+                                </div>
+                            </div>
+                            <div *ngIf="userExists" class="alert alert-danger">
+                                Username already Exists.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-6">
+                        <label>Gender</label><br>
+                        <span class="radio " *ngFor="let gender of genders">
+                            <input type="radio" name="gender" [(ngModel)]="model.gender" [value]="gender.value" required> {{gender.display}}
+                        </span>
+                        <!-- <div *ngIf="gender.errors && (gender.dirty || gender.touched)" class="alert alert-danger">
+                            <div [hidden]="!gender.errors.required">
+                              Student name is required !
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Class</label>
+                        <select name="class" class="form-control" [(ngModel)]="model.studentClass" required>
+                            <option [ngValue]="null" [disabled]="true">--Select Class--</option>
+                            <option *ngFor="let c of classes" [value]="c.classID">{{c.className}}</option>
+                        </select>
+                        <!-- <div *ngIf="studentClass.errors && (studentClass.dirty || studentClass.touched)" class="alert alert-danger">
+                            <div [hidden]="!studentClass.errors.required">
+                              Class is required !
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <hr>
+                <div>Parents Details</div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Father Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.fatherName" #fatherName="ngModel" name="fatherName" placeholder="Father Name" required>
+                        <div *ngIf="fatherName.errors && (fatherName.dirty || fatherName.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherName.errors.required">
+                              Father name is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Father Username</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.fatherID" #fatherID="ngModel" name="fatherID" (input)="checkFatherUserId($event.target.value)" placeholder="Father Username" required>
+                        <div *ngIf="fatherID.errors && (fatherID.dirty || fatherID.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherID.errors.required">
+                              Father Username is required !
+                            </div>
+                        </div>
+                        <div *ngIf="userFExists" class="alert alert-danger">
+                            Father Username already Exists.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Father Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.fatherEmail" #fatherEmail="ngModel" name="fatherEmail" placeholder="Father Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                        <div *ngIf="fatherEmail.errors && (fatherEmail.dirty || fatherEmail.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherEmail.errors.required">
+                              Father email is required !
+                            </div>
+                            <div [hidden]="!fatherEmail.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Father Mobile No.</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" [(ngModel)]="model.fatherMobile" #fatherMobile="ngModel" name="fatherMobile" placeholder="Father Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10" required>
+                        <div *ngIf="fatherMobile.errors && (fatherMobile.dirty || fatherMobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherMobile.errors.required">
+                              Father mobile number is required !
+                            </div>
+                            <div [hidden]="!fatherMobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!fatherMobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mother Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.motherName" #motherName="ngModel" name="motherName" placeholder="Mother Name" required>
+                        <div *ngIf="motherName.errors && (motherName.dirty || motherName.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherName.errors.required">
+                              Mother name is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mother Username</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.motherID" #motherID="ngModel" name="motherID" (input)="checkMotherUserId($event.target.value)" placeholder="Mother Username" required>
+                        <div *ngIf="motherID.errors && (motherID.dirty || motherID.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherID.errors.required">
+                              Mother Username is required !
+                            </div>
+                            <div *ngIf="userMExists">
+                                Mother Username already Exists.
+                            </div>
+                        </div>                        
+                        <div *ngIf="userMExists" class="alert alert-danger">
+                            Mother Username already Exists.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mother Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.motherEmail" #motherEmail="ngModel" name="motherEmail" placeholder="Mother Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  required>
+                        <div *ngIf="motherEmail.errors && (motherEmail.dirty || motherEmail.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherEmail.errors.required">
+                              Mother email is required !
+                            </div>
+                            <div [hidden]="!motherEmail.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mother Mobile No.</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" [(ngModel)]="model.motherMobile" #motherMobile="ngModel" name="motherMobile" placeholder="Mother Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10" required>
+                        <div *ngIf="motherMobile.errors && (motherMobile.dirty || motherMobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherMobile.errors.required">
+                              Mother mobile number is required !
+                            </div>
+                            <div [hidden]="!motherMobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!motherMobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="addStudent(content)" [disabled]="!StudentForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<button class="btn btn-md btn-outline-primary" (click)="open(content)"><i class="fa fa-plus"></i>&nbsp;Student</button>

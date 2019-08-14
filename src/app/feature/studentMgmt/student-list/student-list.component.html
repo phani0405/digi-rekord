@@ -1,0 +1,358 @@
+<app-compose #composeModal></app-compose>
+<!-- <app-fee #feeModal></app-fee> -->
+<!-- <app-settings #settingsModal></app-settings> -->
+<nb-card>
+    <nb-card-header>
+        <div class="row" *ngIf="pagedItems">
+            <div class="col-sm-6">Student list</div>
+            <div class="col-sm-6 text-right">
+                <app-add-student (add)='getAllStudents()'></app-add-student>
+            </div>
+        </div>
+        <div class="row" *ngIf="!pagedItems">
+            <div class="col-sm-6">Fetching students, please wait...</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="panel-body" *ngIf="pagedItems">
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <select [ngModel]="selectedClassObj" class="form-control" (ngModelChange)="onChangeClass($event, 'filter')" name="sel3">
+                            <option [ngValue]="class" *ngFor="let class of classesForSort">{{class.className}}</option>
+                        </select>
+                </div>
+                <div class="form-group col-sm-4 offset-sm-6">
+                    <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search for name or roll number or class name...">
+                </div>
+            </div>
+            <div class="alert alert-danger" *ngIf="pagedItems && pagedItems.length === 0">
+                You have 0 students, Please create...
+            </div>
+            <div class="table-responsive" *ngIf="pagedItems && pagedItems.length > 0">
+                <table class="table table-bordered table-striped" *ngIf="students && students.length">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Student Name</th>
+                            <th>Student Role No</th>
+                            <th>Student Class</th>
+                            <th class="min-width-130">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of pagedItems | StudentFilter : searchText: students; index as i ">
+                            <td>{{i+1}}</td>
+                            <td>{{student.studentName}}</td>
+                            <td>{{student.studentRollNo}}</td>
+                            <td>{{student.className}}</td>
+                            <td>
+                                <span class="fa fa-eye fa-1x clickable" (click)="openModelWithDetail(content, student)" title="View"></span>&nbsp;&nbsp;
+                                <span class="fa fa-edit fa-1x clickable" (click)="open(editContentModel, student)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" (click)="openDeleteModel(deleteModel, student)" title="Delete"></span>&nbsp;&nbsp;
+                                <span *ngIf="showTimeline" class="fa fa-envelope fa-1x clickable" style="color: blue;" (click)="composeModal.open(composeModal, student)" title="Send Message"></span>&nbsp;&nbsp;
+                                <span *ngIf="showFees"><app-fee [student]='student' (fee)='getAllStudents()'></app-fee>&nbsp;&nbsp;
+                                <app-settings [student]='student' (settings)='getAllStudents()'></app-settings>&nbsp;&nbsp;
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <nav aria-label="Page navigation example text-center" *ngIf="pager.pages && pager.pages.length && selectedClassObj && selectedClassObj.classID ==='All' && !searchText">
+                <ul class="pagination  justify-content-center">
+                    <li [ngClass]="{'disabled':pager.currentPage === 1}" class="active">
+                        <a class="page-link" (click)="setPage(pager.currentPage - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{'active':pager.currentPage === page}">
+                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a class="page-link" (click)="setPage(pager.currentPage + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </nb-card-body>
+</nb-card>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Student Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered" *ngIf="selectedStudentDetail">
+            <tbody>
+                <tr *ngIf="selectedStudentDetail.url">
+                    <td>Photo</td>
+                    <td><img [src]="selectedStudentDetail.url" class="photoHW"></td>
+                </tr>
+                <tr>
+                    <td>Student Name</td>
+                    <td>{{selectedStudentDetail.userName}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.studentRollNo">
+                    <td>Student RollNo</td>
+                    <td>{{selectedStudentDetail.studentRollNo}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.gender">
+                    <td>Gender</td>
+                    <td>{{selectedStudentDetail.gender}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.className">
+                    <td>Class</td>
+                    <td>{{selectedStudentDetail.className}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.schoolName">
+                    <td>School Name</td>
+                    <td>{{selectedStudentDetail.schoolName}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.fatherName">
+                    <td>Father Name</td>
+                    <td>{{selectedStudentDetail.fatherName}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.fatherID">
+                    <td>Father Username</td>
+                    <td>{{selectedStudentDetail.fatherID}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.fatherEmail">
+                    <td>Father EmailID</td>
+                    <td>{{selectedStudentDetail.fatherEmail}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.fatherMobile">
+                    <td>Father Mobile</td>
+                    <td>{{selectedStudentDetail.fatherMobile}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.motherName">
+                    <td>Mother Name</td>
+                    <td>{{selectedStudentDetail.motherName}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.motherID">
+                    <td>Mother Username</td>
+                    <td>{{selectedStudentDetail.motherID}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.motherEmail">
+                    <td>Mother EmailID</td>
+                    <td>{{selectedStudentDetail.motherEmail}}</td>
+                </tr>
+                <tr *ngIf="selectedStudentDetail.motherMobile">
+                    <td>Mother Mobile</td>
+                    <td>{{selectedStudentDetail.motherMobile}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #editContentModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Edit Student</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- [(ngModel)]="model.studentID" -->
+    <div class="modal-body">
+        <form novalidate name="form" #StudentEditForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row container col-sm-8">
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Student Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-row">
+                            <label for="photo">Photo : </label>
+                            <label for="file-upload" class="custom-file-upload margin-photo"
+                                [ngClass]="{greenColor: model.url || model.photo}">
+                                <i class="fa fa-cloud-upload"></i> {{model.url || model.photo ? 'Update Photo' : 'Upload Photo'}}
+                            </label>
+                        </div>
+                        <div>
+                            <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+                            <div class="row photoHW" *ngIf="(model.url || model.photo) && !uploadingImageLoading">
+                                <img class="photoImg" [src]="model.url || model.photo">
+                                <span class="fa-stack fa-lg clickable remove-photo-icon" (click)="model.url = ''; model.photo = ''">
+                                    <i class="fa fa-circle fa-stack-2x icon-background" title="Remove photo"></i>
+                                    <i class="fa fa-times fa-stack-1x"></i>
+                                </span>
+                            </div>
+                            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" placeholder="Name" required>
+                            <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                                <div [hidden]="!userName.errors.required">
+                                    Student name is required !
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Roll Number</label>
+                            <input type="text" readonly class="form-control" [(ngModel)]="model.studentRollNo" #studentRollNo="ngModel" name="studentRollNo" placeholder="Roll Number" required>
+                            <div *ngIf="studentRollNo.errors && (studentRollNo.dirty || studentRollNo.touched)" class="alert alert-danger">
+                                <div [hidden]="!studentRollNo.errors.required">
+                                    Student roll number is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-6">
+                        <label>Gender</label><br>
+                        <span class="radio " *ngFor="let gender of genders">
+                            <input type="radio" name="gender" [(ngModel)]="model.gender" [value]="gender.value" required> {{gender.display}}
+                        </span>
+                        <!-- <div *ngIf="gender.errors && (gender.dirty || gender.touched)" class="alert alert-danger">
+                            <div [hidden]="!gender.errors.required">
+                              Student name is required !
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="form-group col-md-6" *ngIf="selectedUserClass">
+                        <label>Class</label>
+                        <select [ngModel]="selectedUserClass" [compareWith]="byId" class="form-control" (ngModelChange)="onChangeClass($event, 'update')" name="sel4" required>
+                            <option *ngFor="let c of classes" [ngValue]="c">{{c.className}}</option>
+                        </select>
+                        <!-- <div *ngIf="studentClass.errors && (studentClass.dirty || studentClass.touched)" class="alert alert-danger">
+                            <div [hidden]="!studentClass.errors.required">
+                              Class is required !
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <hr>
+                <div>Parents Details</div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Father Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.fatherName" #fatherName="ngModel" name="fatherName" placeholder="Father Name" required>
+                        <div *ngIf="fatherName.errors && (fatherName.dirty || fatherName.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherName.errors.required">
+                                Father name is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Father Username</label>
+                        <input type="text" readonly class="form-control" [(ngModel)]="model.fatherID" #fatherID="ngModel" name="fatherID" placeholder="Father Username" required>
+                        <div *ngIf="fatherID.errors && (fatherID.dirty || fatherID.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherID.errors.required">
+                                Father Username is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Father Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.fatherEmail" #fatherEmail="ngModel" name="fatherEmail" placeholder="Father Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                        <div *ngIf="fatherEmail.errors && (fatherEmail.dirty || fatherEmail.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherEmail.errors.required">
+                                Father email is required !
+                            </div>
+                            <div [hidden]="!fatherEmail.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Father Mobile No.</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" [(ngModel)]="model.fatherMobile" #fatherMobile="ngModel" name="fatherMobile" placeholder="Father Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10" required>
+                        <div *ngIf="fatherMobile.errors && (fatherMobile.dirty || fatherMobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!fatherMobile.errors.required">
+                                Father mobile number is required !
+                            </div>
+                            <div [hidden]="!fatherMobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!fatherMobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mother Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.motherName" #motherName="ngModel" name="motherName" placeholder="Mother Name" required>
+                        <div *ngIf="motherName.errors && (motherName.dirty || motherName.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherName.errors.required">
+                                Mother name is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mother Username</label>
+                        <input type="text" readonly class="form-control" [(ngModel)]="model.motherID" #motherID="ngModel" name="motherID" placeholder="Mother Username" required>
+                        <div *ngIf="motherID.errors && (motherID.dirty || motherID.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherID.errors.required">
+                                Mother Username is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mother Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.motherEmail" #motherEmail="ngModel" name="motherEmail" placeholder="Mother Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                        <div *ngIf="motherEmail.errors && (motherEmail.dirty || motherEmail.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherEmail.errors.required">
+                                Mother email is required !
+                            </div>
+                            <div [hidden]="!motherEmail.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mother Mobile No.</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" [(ngModel)]="model.motherMobile" #motherMobile="ngModel" name="motherMobile" placeholder="Mother Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10" required>
+                        <div *ngIf="motherMobile.errors && (motherMobile.dirty || motherMobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!motherMobile.errors.required">
+                                Mother mobile number is required !
+                            </div>
+                            <div [hidden]="!motherMobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!motherMobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="updateStudent(editContentModel)" [disabled]="!StudentEditForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #deleteModel let-c="close" let-d="dismiss" class="modal"> 
+    <div class="modal-header"> 
+        <h4 class="modal-title modalHeaderColor">Delete Student</h4> 
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')"> 
+          <span aria-hidden="true">&times;</span> 
+        </button> 
+    </div> 
+    <div class="modal-body"> 
+      <p>Are you sure to delete this student?</p> 
+    </div> 
+    <div class="modal-footer"> 
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">No</button> 
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="deleteStudent(selectedStudentDetail)">Yes</button> 
+    </div> 
+</ng-template>

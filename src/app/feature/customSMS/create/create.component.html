@@ -1,0 +1,90 @@
+<ng-template #smsModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Send Bulk SMS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="form" #ComposeSMS="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="message">Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.smsTitle" name="title" placeholder="Type your SMS Title" required/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Upload Excel File</label>
+                        <br>
+                        <label for="file-upload" class="custom-file-upload attachment" 
+                            [ngClass]="{greenColor: fileUrl ? true : false}">
+                            <i class="fa fa-cloud-upload" ></i> {{fileUrl ? 'File Uploaded' : 'Upload File'}}
+                        </label>
+                        <input id="file-upload" type="file" (change)="fileuploaderFileChange($event, 1);" accept=".xlsx"
+                        required/>
+                    </div>
+                    <div class="form-group col-md-6 pull-right">
+                        <label>Sample Template</label>
+                        <br>
+                        <button class="btn btn-sm btn-outline-primary" (click)="onNavigate()"><i class="fa fa-download" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-6">
+                        <label>Message Content</label>
+                        <textarea type="text" class="form-control" [(ngModel)]="model.smsContent" name="message" placeholder="Type your message" required></textarea>
+                    </div>
+                    <div class="form-group  col-md-6" *ngIf="excelAttributes && excelAttributes.length>0">
+                        <label>Message Attributes</label>
+                        <div>
+                            <span *ngFor="let item of excelAttributes"><button class="btn btn-sm btn-outline-primary" (click)="appendData(item)">{{item}}</button></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Mobile No.</label>
+                        <select [ngModel]="model.mobileNo" class="form-control" (ngModelChange)="onSelectMobile($event)" #mobileNo="ngModel" name="mobileNo">
+                            <option [ngValue]="undefined" disabled selected>--Select Mobile No.--</option>
+                            <option [ngValue]="mobile" *ngFor="let mobile of excelAttributes">{{mobile}}</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+        <div *ngIf="previewSMS">
+            <div class="form-row">
+                <div class="form-group" *ngIf="previewSMS && previewSMS.length > 0">
+                    <label>SMS Preview</label>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Mobile No.</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{previewSMS[0].name}}</td>
+                                <td>{{previewSMS[0].mobileNo}}</td>
+                                <td>{{previewSMS[0].message}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" *ngIf="!previewSMS || previewSMS.length==0" class="btn btn-lg btn-outline-primary center" (click)="getPreviewSMS(content)" [disabled]="!ComposeSMS.form.valid || disableAddAttachmentButton">Preview & Send</button>
+        <button type="button" *ngIf="previewSMS && previewSMS.length>0" class="btn btn-lg btn-outline-primary center" (click)="sendSMS(content)" [disabled]="!ComposeSMS.form.valid || disableAddAttachmentButton">Send</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<button class="btn btn-md btn-outline-primary" (click)="openSMSModel(smsModel)"><i class="fa fa-plus"></i>&nbsp;SMS</button>

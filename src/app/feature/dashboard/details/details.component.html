@@ -1,0 +1,142 @@
+<div class="row" *ngIf="isInstituteAdminUser">
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3">
+    <ngx-status-card [title]="model.schoolCount" type="withoutHeader" color="#907fff">
+      <i style="font-size: 2.4rem;" class="fa fa-university"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3">
+    <ngx-status-card [title]="model.studentCount" type="withoutHeader" color="#f0ad1a">
+      <i class="nb-person"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3">
+    <ngx-status-card [title]="model.staffCount" type="withoutHeader" color="#6cdd8c">
+      <i class="nb-person"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3">
+    <ngx-status-card [title]="model.msgCount" type="withoutHeader" color="#907fff">
+      <i class="nb-email"></i>
+    </ngx-status-card>
+  </div>
+</div>
+<div class="row" *ngIf="isSchoolAdminUser || isPrincipalUser">
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3" (click)="studentsPage()">
+    <ngx-status-card [title]="model.studentCount" type="withoutHeader" color="#6cdd8c">
+      <i class="nb-person"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3" (click)="staffPage()">
+    <ngx-status-card [title]="model.staffCount" type="withoutHeader" color="#907fff">
+      <i class="nb-person"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3" (click)="timelinePage()">
+    <ngx-status-card [title]="model.msgCount" title="Total Messages sent" type="withoutHeader" color="#f0ad1a">
+      <i class="nb-email"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-3 col-md-6 col-sm-6 col-lg-3">
+    <ngx-status-card [title]="model.smsCount" title="SMS Credits" type="withoutHeader" color="#ef15fd">
+      <i class="nb-email"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4" *ngIf="showFees && model.feeDetails && model.feeDetails.totalFee" (click)="feeReportsPage()">
+    <ngx-status-card [title]="model.feeDetails.totalFee" type="withoutHeader" color="#f0ad1a">
+      <i class="fa fa-rupee"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4" *ngIf="showFees && model.feeDetails && model.feeDetails.collectedFee" (click)="feeReportsPage()">
+    <ngx-status-card [title]="model.feeDetails.collectedFee" type="withoutHeader" color="#6cdd8c">
+      <i class="fa fa-rupee"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4" *ngIf="showFees && model.feeDetails && model.feeDetails.balanceFee" (click)="feeReportsPage()">
+    <ngx-status-card [title]="model.feeDetails.balanceFee" type="withoutHeader" color="#ff0000">
+      <i class="fa fa-rupee"></i>
+    </ngx-status-card>
+  </div>
+</div> 
+<div class="row" *ngIf="isTeachingStaffUser">
+  <div class="col-xxxl-12 col-md-12 col-sm-12 col-lg-12">
+    <nb-card [ngStyle]="{'text-align': 'center'}">
+      <nb-card-header [ngStyle]="{'background-color': '#907fff'}">
+        <div>Class Teacher</div>
+      </nb-card-header>
+      <nb-card-body>
+        <div>
+          <span *ngFor="let c of model.classTeacherDetails">
+            {{c.className}}&nbsp;&nbsp;
+          </span>
+        </div>
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header [ngStyle]="{'background-color': '#f0ad1a', 'text-align': 'center'}">
+        <div>Subject Teacher</div>
+      </nb-card-header>
+      <nb-card-body>
+        <table class="table table-bordered" *ngIf="model.subjects && model.subjects.length > 0">
+          <thead>
+            <tr [ngStyle]="{'background-color': '#6cdd8c'}">
+              <th class="width-10rem">Subject</th>
+              <th>Classes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subject of model.subjects">
+              <td>{{subject.subjectName}}</td>
+              <td>
+                <span *ngFor="let class of subject.classDetails; index as i">
+                  {{class.className}}
+                  <span *ngIf="i !== subject.classDetails.length - 1">,&nbsp;</span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row" *ngIf="isParentUser && model.studentDetail">
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4">
+    <ngx-status-card [title]="model.studentDetail.studentName" header="Child Name" type="withHeader" color="#907fff">
+      <i class="nb-person" title="Child Name"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4">
+    <ngx-status-card [title]="model.studentDetail.studentRollNo" header="Roll Number" type="withHeader" color="#f0ad1a">
+      <i class="nb-person" title="Roll Number"></i>
+    </ngx-status-card>
+  </div>
+  <div class="col-xxxl-4 col-md-6 col-sm-6 col-lg-4">
+    <ngx-status-card [title]="model.studentDetail.className" header="Class" type="withHeader" color="#6cdd8c">
+      <i class="nb-person" title="Class"></i>
+    </ngx-status-card>
+  </div>
+  <!-- <div class="col-xxxl-12 col-md-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="row" style="font-size: x-large">
+          <div class="col-xxxl-8 col-md-8">
+            Child Name: {{model.studentDetail.studentName}}
+          </div>
+          <div class="col-xxxl-4 col-md-4">
+            Class: {{model.studentDetail.className}}
+          </div>
+        </div>
+        <div class="row" *ngIf="model.studentDetail.studentRollNo" style="font-size: x-large">
+          <div class="col-xxxl-12 col-md-12">
+            Roll No.: {{model.studentDetail.studentRollNo}}
+          </div>
+        </div>
+        <div class="row" *ngIf="model.studentDetail.classTeachers" style="font-size: x-large">
+          <div class="col-xxxl-12 col-md-12">
+            class Teacher: {{model.studentDetail.classTeachers}}
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div> -->
+</div>

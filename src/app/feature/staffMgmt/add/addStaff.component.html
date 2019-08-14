@@ -1,0 +1,258 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Add Staff</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- [(ngModel)]="model.staffID" -->
+    <div class="modal-body">
+        <form novalidate name="form" #StaffForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row container col-sm-8">
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Staff Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-row">
+                            <label for="instituteLogo">Photo : </label>
+                            <label for="file-upload" class="custom-file-upload margin-photo"
+                                [ngClass]="{greenColor: model.url || model.photo}">
+                                <i class="fa fa-cloud-upload"></i> {{model.url || model.photo ? 'Update Photo' : 'Upload Photo'}}
+                            </label>
+                        </div>
+                        <div>
+                            <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+                            <div class="row photoHW" *ngIf="(model.url || model.photo) && !uploadingImageLoading">
+                                <img class="photoImg" [src]="model.url || model.photo">
+                                <span class="fa-stack fa-lg clickable remove-photo-icon" (click)="model.url = '';model.photo = '';">
+                                    <i class="fa fa-circle fa-stack-2x icon-background" title="Remove photo"></i>
+                                    <i class="fa fa-times fa-stack-1x"></i>
+                                </span>
+                            </div>
+                            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" placeholder="Name"
+                                required>
+                            <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                                <div [hidden]="!userName.errors.required">
+                                    Staff name is required !
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" [(ngModel)]="model.userID" #userID="ngModel" name="userID" placeholder="Username" (input)="checkUserId($event.target.value)"
+                                required>
+                            <div *ngIf="userID.errors && (userID.dirty || userID.touched)" class="alert alert-danger">
+                                <div [hidden]="!userID.errors.required">
+                                    Staff Username is required !
+                                </div>
+                            </div>                                
+                            <div *ngIf="userExists" class="alert alert-danger">
+                                Username already Exists.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.email" #email="ngModel" name="email"
+                            placeholder="Email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                        <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                            <div [hidden]="!email.errors.required">
+                                Staff email is required !
+                            </div>
+                            <div [hidden]="!email.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mobile No.</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" autocomplete="new-password" class="form-control" [(ngModel)]="model.mobile"
+                            #mobile="ngModel" name="mobile" placeholder="Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10"
+                            required>
+                        <div *ngIf="mobile.errors && (mobile.dirty || mobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!mobile.errors.required">
+                                Staff mobile number is required !
+                            </div>
+                            <div [hidden]="!mobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!mobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-6">
+                        <label>Gender</label>
+                        <br>
+                        <span class="radio " *ngFor="let gender of genders">
+                            <input type="radio" name="gender" [(ngModel)]="model.gender" [value]="gender.value" required> {{gender.display}}
+                        </span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Staff Role</label>
+                        <!-- <input type="text" class="form-control" name="staffRole" [(ngModel)]="model.staffRole" #staffRole="ngModel" required placeholder="Staff Role"> -->
+                        <select [(ngModel)]="model.staffRole" class="form-control" #staffRole="ngModel" name="staffRole">
+                            <option [ngValue]="null" [disabled]="true">--Select Role--</option>
+                            <option [ngValue]="role" *ngFor="let role of roles">{{role}}</option>
+                        </select>
+
+                        <div *ngIf="staffRole.errors && (staffRole.dirty || staffRole.touched)" class="alert alert-danger">
+                            <div [hidden]="!staffRole.errors.required">
+                                Staff role is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-6">
+                        <label>Qualification</label>
+                        <br>
+                        <input type="text" (keypress)="util.onlyAlphabetKeyWithDot($event)" class="form-control" name="qualification" [(ngModel)]="model.qualification"
+                            #qualification="ngModel" required placeholder="Qualification">
+                        <div *ngIf="qualification.errors && (qualification.dirty || qualification.touched)" class="alert alert-danger">
+                            <div [hidden]="!qualification.errors.required">
+                                Staff qualification is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Year Of Passing</label>
+                        <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" name="yearOfPassing" [(ngModel)]="model.yearOfPassing"
+                            #yearOfPassing="ngModel" pattern="[0-9]*" minlength="4" maxlength="4" required placeholder="Year Of Passing">
+                        <div *ngIf="yearOfPassing.errors && (yearOfPassing.dirty || yearOfPassing.touched)" class="alert alert-danger">
+                            <div [hidden]="!yearOfPassing.errors.required">
+                                Staff year of passing is required !
+                            </div>
+                            <div [hidden]="!yearOfPassing.errors.minlength">Year of passing should be 4 digit</div>
+                            <div [hidden]="!yearOfPassing.errors.pattern">Year of passing should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="staffAddress">Address</label>
+                        <textarea type="text" class="form-control addressHeight" name="staffAddress" [(ngModel)]="model.staffAddress" #staffAddress="ngModel"
+                            placeholder="Staff Address" required></textarea>
+                        <div *ngIf="staffAddress.errors && (staffAddress.dirty || staffAddress.touched)" class="alert alert-danger">
+                            <div [hidden]="!staffAddress.errors.required">
+                                Staff address is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="staffPinCode">Pincode</label>
+                            <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" name="staffPinCode" [(ngModel)]="model.staffPinCode"
+                                #staffPinCode="ngModel" placeholder="Pincode" pattern="[0-9]*" minlength="6" maxlength="6" required>
+                            <div *ngIf="staffPinCode.errors && (staffPinCode.dirty || staffPinCode.touched)" class="alert alert-danger">
+                                <div [hidden]="!staffPinCode.errors.required">
+                                    Staff pin code is required !
+                                </div>
+                                <div [hidden]="!staffPinCode.errors.minlength">Pincode should be 6 digit</div>
+                                <div [hidden]="!staffPinCode.errors.pattern">Pincode should be only numbers</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-group" for="staffCity">City</label>
+                            <input type="text" class="form-group form-control" [(ngModel)]="model.staffCity" #staffCity="ngModel" name="staffCity" placeholder="City"
+                                required>
+                            <div *ngIf="staffCity.errors && (staffCity.dirty || staffCity.touched)" class="alert alert-danger">
+                                <div [hidden]="!staffCity.errors.required">
+                                    Staff city is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="staffState">State</label>
+                        <input list="states" type="text" class="form-control" [(ngModel)]="model.staffState" #staffState="ngModel" name="staffState"
+                            placeholder="State" required>
+                        <datalist id="states">
+                            <option *ngFor="let state of states" value="{{state.stateName}}">{{state.stateName}}</option>
+                        </datalist>
+                        <div *ngIf="staffState.errors && (staffState.dirty || staffState.touched)" class="alert alert-danger">
+                            <div [hidden]="!staffState.errors.required">
+                                Staff state is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="staffDistrict">District</label>
+                        <input [disabled]="!model.staffState" list="districts" type="text" class="form-control" [(ngModel)]="model.staffDistrict"
+                            #staffDistrict="ngModel" name="staffDistrict" placeholder="District" required>
+                        <datalist id="districts">
+                            <option *ngFor="let district of states | districtFilter : model.staffState : states;" value="{{district}}">{{district}}</option>
+                        </datalist>
+                        <div *ngIf="staffDistrict.errors && (staffDistrict.dirty || staffDistrict.touched)" class="alert alert-danger">
+                            <div [hidden]="!staffDistrict.errors.required">
+                                Staff district is required !
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+        <hr>
+        <div class="form-row">
+            <h5 class="underline">Attachments</h5>
+            <button type="button" (click)="addNewRow()" class="btn btn-primary attachment-botton-align">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
+        <form [formGroup]="attachmentForms">
+            <div formArrayName="itemRows">
+                <div *ngFor="let itemrow of attachmentForms.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                    <hr>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label>File Name</label>
+                            <input type="text" formControlName="fileName" class="form-control" placeholder="File Name">
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label>Select File</label>
+                            <br>
+                            <label for="file-upload+{{i}}" *ngIf="!itemrow.fileUrl" class="custom-file-upload attachment" 
+                                [ngClass]="{greenColor: itemrow && itemrow.value && itemrow.value.fileUrl ? true : false}">
+                                <i class="fa fa-cloud-upload" ></i> {{itemrow && itemrow.value && itemrow.value.fileUrl ? 'Update File' : 'Upload File'}}
+                            </label>
+                            <input id="file-upload+{{i}}" type="file" (change)="fileuploaderFileChange($event, i);" />
+                        </div>
+                        <div class="form-group col-md-1 margin-2rem">
+                            <label>&nbsp;</label>
+                            <i *ngIf="model.selectedFileIndex === i && model.loading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group col-md-1" *ngIf="attachmentForms.controls.itemRows.controls.length > 1">
+                            <label>&nbsp;</label>
+                            <span (click)="deleteRow(i)" class="btn btn-danger trash-icon-padding form-control">
+                                <i class="fa fa-trash"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="addStaff(content)" [disabled]="!StaffForm.form.valid || disableAddAttachmentButton">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<button class="btn btn-md btn-outline-primary" (click)="open(content)">
+    <i class="fa fa-plus"></i>&nbsp;Staff
+</button>

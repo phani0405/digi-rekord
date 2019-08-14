@@ -1,0 +1,54 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- [(ngModel)]="model.staffID" -->
+    <div class="modal-body">
+        <div *ngIf="classTeacherMap">
+            <h5>Choose Classes</h5>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span *ngFor="let class of classTeacherMap; index as i">
+                                <input type="checkbox" name="options" value="{{class.className}}" [(ngModel)]="class.checked" /> {{class.className}}
+                                <span *ngIf="i !== classTeacherMap.length - 1">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="subjects">
+            <h5>Choose Subjects</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Subject</th>
+                        <th>Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subject of classSubjectMap; index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{subject.subjectName}}</td>
+                        <td>
+                            <span *ngFor="let class of subject.classDetails; index as i">
+                                <input type="checkbox" name="options" value="{{class.className}}" [(ngModel)]="class.checked" /> {{class.className}}
+                                <span *ngIf="i !== subject.classDetails.length - 1">&nbsp;|&nbsp;</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="saveSubject(content)">Save</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<span class="fa fa-tasks fa-1x clickable" title="Assign class" (click)="open(content)"></span>

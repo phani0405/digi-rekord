@@ -1,0 +1,19 @@
+<nb-card *ngIf="type === 'withoutHeader'" [ngStyle]="{'background-color': color}">
+  <div class="icon-container">
+    <div class="icon">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="title">{{ title }}</div>
+  </div>
+</nb-card>
+<nb-card *ngIf="type === 'withHeader' " [ngStyle]="{'background-color': color}">
+  <nb-card>
+    <div class="header">{{header}}</div>
+  </nb-card>
+  <div class="details padding-top-2rem" style="margin: auto;">
+    <div class="title">{{ title }}</div>
+  </div>
+</nb-card>

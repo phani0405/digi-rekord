@@ -1,0 +1,59 @@
+<nb-card *ngIf="subjects">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Add subjects</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Class</th>
+                    <th class="min-width-400">Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let class of classSubjectMap; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{class.className}}</td>
+                    <td>
+                        <span *ngFor="let subject of class.subjectDetails; index as i">
+                            <input type="checkbox" name="options" value="{{subject.subjectName}}" [(ngModel)]="subject.checked" /> {{subject.subjectName}}
+                            <span *ngIf="i !== class.subjectDetails.length - 1">&nbsp;|&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-sm btn-outline-primary" (click)="saveSubject()">Save</button>
+        </div>
+    </nb-card-body>
+</nb-card>
+<nb-card *ngIf="terms">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Add Terms</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <td>
+                        <span *ngFor="let term of terms; index as i">
+                            <input type="checkbox" name="options" value="{{term.termName}}" [(ngModel)]="term.checked" /> {{term.termName}}
+                            <span *ngIf="i !== terms.length - 1">&nbsp;|&nbsp;</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-sm btn-outline-primary" (click)="saveTerms()">Save</button>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,18 @@
+<div class="row" *ngIf="!isInstituteAdminUser">
+    <div class="col-sm-10 col-md-7 col-lg-8">
+        <div><app-dashboard-detail></app-dashboard-detail></div>
+        <div *ngIf="isChartAccess"><app-dashboard-chartjs></app-dashboard-chartjs></div>
+    </div>
+    <div class="col-sm-10 col-md-5 col-lg-4">
+        <nb-card *ngIf="isGalleryAccess">
+            <app-dashboard-gallery></app-dashboard-gallery>
+        </nb-card>
+    </div>
+</div>
+
+<div class="row" *ngIf="isInstituteAdminUser">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div><app-dashboard-detail></app-dashboard-detail></div>
+        <div><app-dashboard-chartjs></app-dashboard-chartjs></div>
+    </div>
+</div>

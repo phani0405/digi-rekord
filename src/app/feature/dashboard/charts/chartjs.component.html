@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <nb-card>
+      <nb-card-header>OverAll Attendance</nb-card-header>
+      <nb-card-header *ngIf="isAccessDropDownHeader">
+        <div class="form-group">
+          <select name="school" class="form-control" (ngModelChange)="onChangeSchool($event, 'pie')" [(ngModel)]="model.selectedSchoolForPieChart">
+              <option [ngValue]="undefined" disabled selected>--Select School--</option>
+            <option *ngFor="let m of schools" [value]="m.schoolID">{{m.schoolName}}</option>
+          </select>
+        </div>
+      </nb-card-header>
+      <nb-card-body (click)="attendanceReportsPage()">
+        <app-dashboard-chartjs-pie></app-dashboard-chartjs-pie>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <nb-card>
+      <nb-card-header>Month Wise Attendance</nb-card-header>
+      <nb-card-header *ngIf="isAccessDropDownHeader">
+        <div class="form-group">
+          <select name="school" class="form-control" (ngModelChange)="onChangeSchool($event, 'bar')" [(ngModel)]="model.selectedSchoolForBarChart">
+              <option [ngValue]="undefined" [disabled]="true">--Select School--</option>
+            <option *ngFor="let m of schools" [value]="m.schoolID">{{m.schoolName}}</option>
+          </select>
+        </div>
+      </nb-card-header>
+      <nb-card-body (click)="attendanceReportsPage()">
+        <app-dashboard-chartjs-bar></app-dashboard-chartjs-bar>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

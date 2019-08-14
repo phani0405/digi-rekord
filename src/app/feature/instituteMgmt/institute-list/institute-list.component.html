@@ -1,0 +1,445 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Intitutes list</div>
+            <div class="col-sm-6 text-right">
+                <app-add-institute (add)='getAllInstitute()'></app-add-institute>
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="alert alert-danger" *ngIf="institutes && institutes.length === 0">
+            You have 0 institute, Please create...
+        </div>
+        <div class="panel-body">
+            <div class="row" *ngIf="institutes && institutes.length">
+                <div class="form-group col-sm-2">
+                    <label for="year">Select Year</label>
+                    <select [ngModel]="selectedYear" class="form-control" (ngModelChange)="onChangeClass($event, 'year')" name="year">
+                        <option [ngValue]="year" *ngFor="let year of years">{{year}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="year">Select Month</label>
+                    <select [ngModel]="selectedMonth" class="form-control" (ngModelChange)="onChangeClass($event, 'month')" name="month">
+                        <option [ngValue]="month" *ngFor="let month of months">{{month.value}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-4 offset-sm-4">
+                    <label for="search">Search for name or code</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.searchText" placeholder="Search for name or code...">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" *ngIf="institutes && institutes.length">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Institute Name</th>
+                            <th class="width-200">Institute Code</th>
+                            <th class="width-200">Institute Address</th>
+                            <th class="width-200">Institute Registeration Date</th>
+                            <th class="width-200">Schools Registered</th>
+                            <th class="width-200 min-width-100">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let institute of pagedItems | instituteFilter : model.searchText: institutes; index as i ">
+                            <td>{{i+1}}</td>
+                            <td>{{institute.instituteName}}</td>
+                            <td>{{institute.instituteCode}}</td>
+                            <td *ngIf="institute.instituteAddress && institute.instituteAddress.address">{{util.limitToText(institute.instituteAddress.address, 15)}}</td>
+                            <td *ngIf="!institute.instituteAddress || !institute.instituteAddress.address"></td>
+                            <td>{{util.formatDate(institute.createdDate)}}</td>
+                            <td>{{institute.schoolsRegisteredCount}}</td>
+                            <td>
+                                <span class="fa fa-eye fa-1x clickable" (click)="openModelWithDetail(content, institute)" title="View"></span>&nbsp;&nbsp;
+                                <span class="fa fa-edit fa-1x clickable" (click)="open(editContentModel, institute)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" (click)="openDeleteModel(deleteModel, institute)" title="Delete"></span>&nbsp;&nbsp;
+                                <app-sms-account [institute]='institute' (smsaccount)='getAllInstitute()'></app-sms-account>
+                                <!-- <app-sms [institute]='institute' (sms)='getAllInstitute()'></app-sms> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <nav aria-label="Page navigation example text-center" *ngIf="pager.pages && pager.pages.length  && !model.searchText && institutes.length > 10">
+                <ul class="pagination  justify-content-center">
+                    <li [ngClass]="{'disabled':pager.currentPage === 1}" class="active">
+                        <a class="page-link" (click)="setPage(pager.currentPage - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{'active':pager.currentPage === page}">
+                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a class="page-link" (click)="setPage(pager.currentPage + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+    </nb-card-body>
+</nb-card>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Institute Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered" *ngIf="selectedInstituteDetail">
+            <tbody>
+                <tr *ngIf="selectedInstituteDetail.instituteLogo">
+                    <td>Institute Logo</td>
+                    <td>
+                        <img [src]="selectedInstituteDetail.instituteLogo" class="logoHeightWidth">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Institute Code</td>
+                    <td>{{selectedInstituteDetail.instituteCode}}</td>
+                </tr>
+                <tr>
+                    <td>Institute Name</td>
+                    <td>{{selectedInstituteDetail.instituteName}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.userID">
+                    <td>User ID</td>
+                    <td>{{selectedInstituteDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.schoolsRegistered">
+                    <td>Registered Schools</td>
+                    <td>{{selectedInstituteDetail.schoolsRegistered.length}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.address">
+                    <td>Address</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.address}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.city">
+                    <td>City</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.city}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.district">
+                    <td>District</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.district}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.state">
+                    <td>State</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.state}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.pincode">
+                    <td>Pincode</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.pincode}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.instituteAddress && selectedInstituteDetail.instituteAddress.country">
+                    <td>Country</td>
+                    <td>{{selectedInstituteDetail.instituteAddress.country}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.adminEmailID">
+                    <td>Admin EmailID</td>
+                    <td>{{selectedInstituteDetail.adminEmailID}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.adminName">
+                    <td>Admin Name</td>
+                    <td>{{selectedInstituteDetail.adminName}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.userID">
+                    <td>Admin userName</td>
+                    <td>{{selectedInstituteDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.adminMobile">
+                    <td>Admin Mobile</td>
+                    <td>{{selectedInstituteDetail.adminMobile}}</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.timeZone">
+                    <td>Timezone</td>
+                    <td>{{selectedInstituteDetail.timeZone.timeZone}} ({{selectedInstituteDetail.timeZone.symbol}}{{selectedInstituteDetail.timeZone.zoneTime}})</td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.features">
+                    <td>Features</td>
+                    <td><span *ngFor="let item of selectedInstituteDetail.features"><span *ngIf="item.selected">{{item.featureName}} <span *ngIf="i !== selectedInstituteDetail.features.length - 1">&nbsp;|&nbsp;</span></span></span></td>
+                </tr>
+                <tr *ngIf="selectedInstituteDetail.sms">
+                    <td>SMS Subscription</td>
+                    <td>{{selectedInstituteDetail.sms==true?'Yes':'No'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #editContentModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Edit Institute</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- [(ngModel)]="model.instituteID" -->
+    <div class="modal-body">
+        <form novalidate name="form" #InstituteEditForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row container col-sm-8">
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Institute Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-row">
+                            <label for="instituteLogo">Institute Logo</label>
+                            <label for="file-upload" [ngClass]="{greenColor: model.url || model.instituteLogo}" class="custom-file-upload margin-photo">
+                                <i class="fa fa-cloud-upload"></i> {{model.url || model.instituteLogo ? 'Update Logo' : 'Upload Logo'}}
+                            </label>
+                        </div>
+                        <div>
+                            <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+                            <div class="row logoHeightWidth" *ngIf="(model.url || model.instituteLogo) && !uploadingImageLoading">
+                                <img class="photoImg" [src]="model.url || model.instituteLogo">
+                                <span class="fa-stack fa-lg clickable remove-photo-icon" (click)="model.url = ''; model.instituteLogo = ''">
+                                    <i class="fa fa-circle fa-stack-2x icon-background" title="Remove photo"></i>
+                                    <i class="fa fa-times fa-stack-1x"></i>
+                                </span>
+                            </div>
+                            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="instituteName">Institute Name</label>
+                            <input type="text" class="form-control" name="instituteName" [(ngModel)]="model.instituteName" #instituteName="ngModel" pattern="^[a-zA-Z].*"
+                                required placeholder="Institute Name">
+                            <div *ngIf="instituteName.errors && (instituteName.dirty || instituteName.touched)" class="alert alert-danger">
+                                <div [hidden]="!instituteName.errors.required">
+                                    Institute name is required !
+                                </div>
+                                <div [hidden]="!instituteName.errors.pattern">First letter should be albhabetic !</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="instituteCode">Institute Code</label>
+                            <input readonly type="text" class="form-control" name="instituteCode" [(ngModel)]="model.instituteCode" #instituteCode="ngModel"
+                                placeholder="Institute Code" required>
+                            <div *ngIf="instituteCode.errors && (instituteCode.dirty || instituteCode.touched)" class="alert alert-danger">
+                                <div [hidden]="!instituteCode.errors.required">
+                                    Institute code is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="instituteAddress">Address</label>
+                        <textarea type="text" class="form-control addressHeight" name="instituteAddress" [(ngModel)]="model.instituteAddress" #instituteAddress="ngModel"
+                            placeholder="Institute Address" required></textarea>
+                        <div *ngIf="instituteAddress.errors && (instituteAddress.dirty || instituteAddress.touched)" class="alert alert-danger">
+                            <div [hidden]="!instituteAddress.errors.required">
+                                Institute address is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="institutePinCode">Pincode</label>
+                            <input type="text" (keypress)="onlyNumberKey($event)" class="form-control" name="institutePinCode" [(ngModel)]="model.institutePinCode"
+                                #institutePinCode="ngModel" placeholder="Pincode" pattern="[0-9]*" minlength="6" maxlength="6"
+                                required>
+                            <div *ngIf="institutePinCode.errors && (institutePinCode.dirty || institutePinCode.touched)" class="alert alert-danger">
+                                <div [hidden]="!institutePinCode.errors.required">
+                                    Institute pin code is required !
+                                </div>
+                                <div [hidden]="!institutePinCode.errors.minlength">Pincode should be 6 digit</div>
+                                <div [hidden]="!institutePinCode.errors.pattern">Pincode should be only numbers</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-group" for="instituteCity">City</label>
+                            <input type="text" class="form-group form-control" (keypress)="onlyAlphabetKey($event)" [(ngModel)]="model.instituteCity"
+                                #instituteCity="ngModel" name="instituteCity" placeholder="City" maxlength="45" required>
+                            <div *ngIf="instituteCity.errors && (instituteCity.dirty || instituteCity.touched)" class="alert alert-danger">
+                                <div [hidden]="!instituteCity.errors.required">
+                                    Institute city is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="instituteState">State</label>
+                        <input list="states" type="text" (keypress)="onlyAlphabetKey($event)" class="form-control" [(ngModel)]="model.instituteState"
+                            #instituteState="ngModel" name="instituteState" placeholder="State" required>
+                        <datalist id="states">
+                            <option *ngFor="let state of states" value="{{state.stateName}}">{{state.stateName}}</option>
+                        </datalist>
+                        <div *ngIf="instituteState.errors && (instituteState.dirty || instituteState.touched)" class="alert alert-danger">
+                            <div [hidden]="!instituteState.errors.required">
+                                Institute state is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="instituteDistrict">District</label>
+                        <input [disabled]="!model.instituteState" list="districts" type="text" (keypress)="onlyAlphabetKey($event)" class="form-control"
+                            [(ngModel)]="model.instituteDistrict" #instituteDistrict="ngModel" name="instituteDistrict" placeholder="District"
+                            required>
+                        <datalist id="districts">
+                            <option *ngFor="let district of states | districtFilter : model.instituteState : states;" value="{{district}}">{{district}}</option>
+                        </datalist>
+                        <div *ngIf="instituteDistrict.errors && (instituteDistrict.dirty || instituteDistrict.touched)" class="alert alert-danger">
+                            <div [hidden]="!instituteDistrict.errors.required">
+                                Institute district is required !
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="form-row">
+                    <h5 class="underline">Admin Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" placeholder="Name"
+                            pattern="^[a-zA-Z].*" required>
+                        <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                            <div [hidden]="!userName.errors.required">
+                                Institute admin name is required !
+                            </div>
+                            <div [hidden]="!userName.errors.pattern">First letter should be albhabetic !</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Username</label>
+                        <input readonly type="text" class="form-control" [(ngModel)]="model.userID" #userID="ngModel" name="userID" placeholder="Username"
+                            required>
+                        <div *ngIf="userID.errors && (userID.dirty || userID.touched)" class="alert alert-danger">
+                            <div [hidden]="!userID.errors.required">
+                                Institute admin username is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.email" #email="ngModel" name="email"
+                            placeholder="Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                        <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                            <div [hidden]="!email.errors.required">
+                                Institute admin email is required !
+                            </div>
+                            <div [hidden]="!email.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mobile No.</label>
+                        <input type="text" (keypress)="onlyNumberKey($event)" autocomplete="new-password" class="form-control" [(ngModel)]="model.mobile"
+                            #mobile="ngModel" name="mobile" placeholder="Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10"
+                            required>
+                        <div *ngIf="mobile.errors && (mobile.dirty || mobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!mobile.errors.required">
+                                Institute admin mobile number is required !
+                            </div>
+                            <div [hidden]="!mobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!mobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>              
+                <hr>
+                <div class="form-row">
+                    <h5 class="underline">Timezone</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                  <div class="form-group col-md-6" *ngIf="timeZones">
+                    <label>Choose your Timezone</label>
+                    <select [(ngModel)]="model.timeZone" class="form-control" name="type">
+                      <option [ngValue]="undefined" disabled selected>--Select--</option>
+                        <option [ngValue]="time" *ngFor="let time of timeZones">{{time.timeZone}} ({{time.symbol}}{{time.zoneTime}})</option>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <h5 class="underline">Features</h5>
+                </div>
+                <hr>
+                <div class="form-row" *ngIf="model.features">
+                    <div class="form-group col-md-4" *ngFor="let feature of model.features; index as i">
+                            <input type="checkbox" name="{{feature.featureID}}" value="{{feature.selected}}" [(ngModel)]="feature.selected" /> {{feature.featureName}}
+                            <!-- <span *ngIf="i !== allFeatures.length - 1">&nbsp;|&nbsp;</span> -->
+                    </div>
+                    <!-- <div class="form-group col-md-6">
+                        <label>Username</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.userID" #userID="ngModel" name="userID" placeholder="Username"
+                            required>
+                        <div *ngIf="userID.errors && (userID.dirty || userID.touched)" class="alert alert-danger">
+                            <div [hidden]="!userID.errors.required">
+                                Institute admin username is required !
+                            </div>
+                        </div>
+                    </div> -->
+                </div>               
+                <hr>
+                <div class="form-row">
+                    <h5 class="underline">Subscriptions</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label>SMS</label>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="radio" name="sms" [(ngModel)]="model.sms" [value]="true"/> Yes
+                        <input type="radio" name="sms" [(ngModel)]="model.sms" [value]="false"/> No
+                        <!-- <input type="radio" name="price" [checked]="true" value=true [(ngModel)]="model.sms"> Yes
+                        <input type="radio" name="price" [checked]="false" value=false [(ngModel)]="model.sms"> No -->
+                        <!-- <input type="radio" name="radiogroup" [checked]="model.sms === true" [(ngModel)]="model.sms"/> Yes
+                        <input type="radio" name="radiogroup" [checked]="model.sms === false" [(ngModel)]="model.sms"/> No -->
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="updateInstitute(editContentModel)" [disabled]="!InstituteEditForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Delete Institute</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure to delete this institute?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">No</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="deleteInstitute(selectedInstituteDetail)">Yes</button>
+    </div>
+</ng-template>

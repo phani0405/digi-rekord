@@ -1,0 +1,512 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Fee Collections</div>              
+            <!-- <div class="col-sm-6 text-right" (click)="exportFeeDetails()">
+                <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+            </div> -->
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="panel-body hidden-print">
+            <div class="row"> 
+                <div class="form-group col-md-3">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Class</label>
+                    <select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+                        <option [ngValue]="null" disabled selected>--Select Class--</option>
+                        <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Student</label>
+                    <select [disabled]="!model.selectedClass" [ngModel]="model.selectedStudent" class="form-control" (ngModelChange)="onChangeStudent($event)"
+                     #student="ngModel" name="students" required>
+                        <option [ngValue]="undefined" selected>--Select Student--</option>
+                        <option [ngValue]="student" *ngFor="let student of students">{{student.studentName}}</option>
+                    </select>
+                </div> 
+            </div>    
+            <hr>
+            <div class="row text-center" *ngIf="model.selectedStudent && model.selectedStudent.studentName">
+                <div class="col-md-12">
+                   <h1>{{model.selectedStudent.studentName}}</h1>
+                </div>
+            </div> 
+            <div class="row" *ngIf="fees && fees.length > 0">
+                <div class="col-md-3">
+                   <div class="card">
+                        <div class="card-header" style="text-align:center;background: blue;color:white;">
+                            Total Fee
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{getTotal(fees)}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center;background: green;color:white;">
+                            Fee Paid
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{getPaid(fees)}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center;background: grey;color:white;">
+                            Discount
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{getDiscount(fees)}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center;background: red;color:white;">
+                            Balance Amount
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{getBalance(fees)}}/-
+                        </div>
+                   </div>
+               </div>          
+            </div>
+            <hr>
+            <div class="row">
+                <!-- <div class="form-group col-sm-5 offset-sm-6" *ngIf="fees && fees.length">
+                    <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search for name or roll number">
+                </div>   -->             
+               <!--  <div class="col-sm-1 text-right" (click)="exportFeeDetails()" *ngIf="students && students.length">
+                    <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+                </div>    -->
+                <div *ngIf="model.selectedClass && model.selectedClass.classID && model.selectedStudent &&model.selectedStudent.studentID">
+                    <h2>Fees to Collect</h2>
+                </div>          
+                    <br/>
+                <div class="alert alert-danger" *ngIf="model.selectedClass && model.selectedClass.classID && model.selectedStudent &&model.selectedStudent.studentID &&  fees && fees.length === 0">
+                    The selected student has 0 fees to collect , Please assign...
+                </div>
+                <div class="table-responsive" *ngIf="fees && fees.length">
+                    <table class="table table-bordered table-striped" *ngIf="fees && fees.length">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>S.No.</th>
+                                <th>Fee</th>
+                                <th>Fee type</th>
+                                <th>Fee term</th>
+                                <th>Start Date</th>
+                                <th>Due Date</th>
+                                <th>Total Amount (Rs.)</th>
+                                <th>Discount (Rs.)</th>
+                                <th>Paid Amount</th>
+                                <th>Balance (Rs.)</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let fee of fees; index as i ">
+                                <td><input type="checkbox" name="options" value="{{fee.studentFeeDueID}}" [(ngModel)]="fee.checked" /></td>
+                                <td>{{i+1}}</td>
+                                <td>{{fee.feeTitle}}</td>
+                                <td>{{fee.feeTypeName}}</td>
+                                <td>{{fee.feeTerm}}</td>
+                                <td>{{fee.startDate | date: medium}}</td>
+                                <td>{{fee.dueDate | date: medium}}</td>
+                                <td style="color: blue;">{{fee.amount}}<span *ngIf="fee.amount">/-</span></td>
+                                <td>{{fee.discount}}<span *ngIf="fee.discount">/-</span></td>
+                                <td style="color: green;">{{fee.paidAmount}}<span *ngIf="fee.paidAmount">/-</span></td>
+                                <td style="color: red;">{{fee.balance==null?fee.amount:fee.balance}}<span *ngIf="fee.balance">/-</span></td>
+                                <td>{{fee.paymentStatus=='p'?'Paid':'Unpaid'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="openCollectFee(collectFeeModel)">Collect</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-body>
+        <div class="panel-body hidden-print">            
+            <div class="row">               
+                <div style="text-align: center;" *ngIf="model.selectedClass && model.selectedClass.classID && model.selectedStudent &&model.selectedStudent.studentID">
+                    <h2>Fee Payment Histroy</h2>
+                </div>      
+                    <br/>
+                <div class="alert alert-danger" *ngIf="model.selectedClass && model.selectedClass.classID && model.selectedStudent &&model.selectedStudent.studentID &&  feePayments && feePayments.length === 0">x
+                    The selected student has 0 fee payments to show , Please collect...
+                </div>
+                <div class="table-responsive" *ngIf="feePayments && feePayments.length">
+                    <table class="table table-bordered table-striped" *ngIf="feePayments && feePayments.length">
+                        <thead>
+                            <tr style="background: blue!important;">
+                                <th>S.No.</th>
+                                <th>Receipt No.</th>
+                                <th>Receipt Date</th>
+                                <th>Mode of payment</th>
+                                <th>Reference No.</th>
+                                <th>Total Amount (Rs.)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let fee of feePayments; index as i ">
+                                <td>{{i+1}}</td>
+                                <td>{{fee.receiptNo}}</td>
+                                <td>{{fee.receiptDate | date: medium}}</td>
+                                <td>{{fee.modeOfPayment}}</td>
+                                <td>{{fee.referenceNo}}</td>
+                                <td>{{fee.totalAmount}}</td>
+                                <td><button type="button" class="btn btn-xs btn-outline-primary center" (click)="openReceipt(feeReceiptsModel, fee)">receipt</button></td>
+                                <!-- <td>{{fee.paymentStatus=='p'?'Paid':'Unpaid'}}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #collectFeeModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header ">
+        <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="form" #CollectFeeForm="ngForm" (keyup.enter)="collectFee()" autocomplete="off">
+            <div class="form-group row">
+                <table class="table table-bordered table-striped" *ngIf="model.collection && model.collection.length">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Fee</th>
+                            <th>Total Amount (Rs.)</th>
+                            <th>Discount (Rs.)</th>
+                            <th>Paid Amount</th>
+                            <th>Balance (Rs.)</th>
+                            <th>Amount to pay (Rs.)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fee of model.collection; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{fee.feeTitle}}</td>
+                            <td>{{fee.amount}}</td>
+                            <td>{{fee.discount}}</td>
+                            <td style="color: green;">{{fee.paidAmount}}<span *ngIf="fee.paidAmount">/-</span></td>
+                            <td>{{fee.balance}}</td>
+                            <td><input type="number" class="form-control" name="{{fee.studentFeeDueID}}" value="{{fee.studentFeeDueID}}" [(ngModel)]="fee.amountToPay" (ngModelChange)="calculateTotalAmount()" required/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Amount</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" [(ngModel)]="model.amount" #amount="ngModel" name="amount" placeholder="Amount" pattern="[0-9]+(?:\.[0-9]{0,2})?" autofocus="autofocus" disabled required>
+                    <!-- <div *ngIf="amount.errors && (amount.dirty || amount.touched)  && !message" class="alert alert-danger">
+                        <div [hidden]="!amount.errors.required">
+                           Amount is required !
+                        </div>
+                        <div [hidden]="!amount.errors.pattern">Only numbers allowed !</div>
+                    </div> -->
+                </div>
+            </div>
+            <!-- <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Mode of payment</label>
+                <div class="col-8">
+                    <select [(ngModel)]="model.modeOfPayment" class="form-control" #modeOfPayment="ngModel" name="modeOfPayment">
+                        <option [ngValue]="null" [disabled]="true">--Select--</option>
+                        <option [ngValue]="Cash">Cash</option>
+                        <option [ngValue]="Check">Check</option>
+                        <option [ngValue]="Deposite">Deposite</option>
+                        <option [ngValue]="DD">DD</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Mode of payment</label>
+                <div class="col-8">
+                    <select [(ngModel)]="model.modeOfPayment" class="form-control" #modeOfPayment="ngModel" name="modeOfPayment">
+                        <option [ngValue]="null" [disabled]="true">--Select Fee term--</option>
+                        <option [ngValue]="ft" *ngFor="let ft of MOP">{{ft}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Reference No.</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" [(ngModel)]="model.referenceNo" #referenceNo="ngModel" name="referenceNo" placeholder="Reference No." autofocus="autofocus" required="model.modeOfPayment!='Cash'">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Paid By</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" [(ngModel)]="model.paidBy" #paidBy="ngModel" name="paidBy" placeholder="Paid By"  autofocus="autofocus" required>
+                    <!-- <div *ngIf="amount.errors && (amount.dirty || amount.touched)  && !message" class="alert alert-danger">
+                        <div [hidden]="!amount.errors.required">
+                           Amount is required !
+                        </div>
+                        <div [hidden]="!amount.errors.pattern">Only numbers allowed !</div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Mobile No.</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" [(ngModel)]="model.mobile" #mobile="ngModel" name="mobile" placeholder="Mobile" pattern="[0-9]+(?:\.[0-9]{0,2})?" autofocus="autofocus" required>
+                    <!-- <div *ngIf="amount.errors && (amount.dirty || amount.touched)  && !message" class="alert alert-danger">
+                        <div [hidden]="!amount.errors.required">
+                           Amount is required !
+                        </div>
+                        <div [hidden]="!amount.errors.pattern">Only numbers allowed !</div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-4 col-form-label">Remarks</label>
+                <div class="col-8">
+                    <textarea class="form-control" [(ngModel)]="model.remarks" #remarks="ngModel" name="remarks" placeholder="Remarks" autofocus="autofocus"></textarea>
+                    <!-- <div *ngIf="amount.errors && (amount.dirty || amount.touched)  && !message" class="alert alert-danger">
+                        <div [hidden]="!amount.errors.required">
+                           Amount is required !
+                        </div>
+                        <div [hidden]="!amount.errors.pattern">Only numbers allowed !</div>
+                    </div> -->
+                </div>
+            </div>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <button type="button" class="btn btn-lg btn-outline-primary center" (click)="collectFee()">Submit</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #feeReceiptsModel let-c="close" let-d="dismiss" class="modal">
+        <div class="modal-content">
+            <div class="modal-header hidden-print">
+                <h4 class="modal-title modalHeaderColor">Fee Receipt</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+          <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12 p-0 p-t-20">
+                  <div class="row" >
+                      <div class="panel panel-default col-md-12 col-xs-12 col-sm-12">
+                        <div class="panel-body">
+                            <table class="table-time table table-bordered">
+                              <thead>
+                                 <tr>
+                                    <th colspan="3">
+                                      <div class="col-sm-12 col-xs-12 p-0">
+                                      <div class="col-sm-3 col-xs-2">
+                                         <img src="{{logo}}" class="img-responsive" style="align-content: center!important; width: 100px;padding-top:10px;">
+                                      </div>
+                                      <div class="col-sm-12 col-xs-12">
+                                         <h3>{{auth._schoolDetail.schoolName}}</h3>
+                                         <h5>{{auth._schoolDetail.schoolAddress.address}}, {{auth._schoolDetail.schoolAddress.city}}, {{auth._schoolDetail.schoolAddress.district}}, {{auth._schoolDetail.schoolAddress.state}} - {{auth._schoolDetail.schoolAddress.pincode}}</h5>
+                                         <h5><strong>Fee Receipt</strong></h5>
+                                      </div>
+                                      <div class="col-sm-3 col-xs-3">
+                                      </div>
+                                     </div>
+                                    </th>
+                                    </tr>
+                                    <tr>
+                                    <th colspan="3">
+                                        <div class="row" style="margin:10px;">
+                                            <table class="table table-bordered table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Student Name:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{model.selectedStudent.studentName}}
+                                                        </td>
+                                                        <td>
+                                                            <b>Class Name:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{model.selectedClass.className}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Student ID:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{model.selectedStudent.studentRollNo}}
+                                                        </td>
+                                                        <td>
+                                                            <b>Receipt No.:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{fee.receiptNo}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Mode of payment:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{fee.modeOfPayment}}
+                                                        </td>
+                                                        <td>
+                                                            <b>Payment Date:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{fee.receiptDate | date: mediumDate}}
+                                                        </td>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Reference No.:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{fee.referenceNo}}
+                                                        </td>
+                                                        <td>
+                                                            <b>Paid By:</b>
+                                                        </td>
+                                                        <td>
+                                                            {{fee.paidBy}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0" style="text-align: left !important;">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                   <label><b>Student Name</b></label>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{model.selectedStudent.studentName}}</p>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                   <label><b>Student Class</b></label>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{model.selectedClass.className}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 p-0" style="text-align: left !important;">
+                                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                                   <label><b>Student ID</b></label>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{model.selectedStudent.studentRollNo}}</p>
+                                                </div>
+                                                 <div class="col-sm-3 col-xs-3">
+                                                   <label><b>Receipt No.</b></label>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{fee.receiptNo}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 p-0" style="text-align: left !important;">
+                                                <div class="col-sm-3 col-xs-3">
+                                                   <label><b>Mode of Payment</b></label>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{fee.modeOfPayment}}</p>
+                                                </div>
+                                                 <div class="col-sm-3 col-xs-3">
+                                                   <label><b>Date</b></label>
+                                                </div>
+                                                 <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{fee.receiptDate | date: mediumDate}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 p-0" style="text-align: left !important;">
+                                                <div class="col-sm-3 col-xs-3">
+                                                   <label><b>Reference No.</b></label>
+                                                </div>
+                                                <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{fee.referenceNo}}</p>
+                                                </div>
+                                                 <div class="col-sm-3 col-xs-3">
+                                                   <label><b>Paid By</b></label>
+                                                </div>
+                                                 <div class="col-sm-3 col-xs-3">
+                                                  <p><span class="p-r-10">:</span>{{fee.paidBy}}</p>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </th>
+                                    </tr>
+                                    <tr class="bgm-navy">
+                                      <th class="text-center"><strong>S.No</strong></th>
+                                      <th class="text-center"><strong>Fee Name</strong></th>
+                                      <th class="text-center"><strong>Amount</strong></th>
+                                    </tr>
+                              </thead>
+                              <tbody *ngIf="feeTransactions && feeTransactions.length">
+                                <tr *ngFor="let pr of feeTransactions; index as i">
+                                  <td>{{i+1}}</td>
+                                  <td class="text-left">{{pr.feeTitle}}</td>
+                                  <td class="text-right">{{pr.amount}}</td>
+                                </tr>
+                                <!-- <tr>
+                                  <td colspan="2" style="text-align: right!important;"><strong>Discount</strong></td>
+                                  <td class="text-right">0</td>
+                                </tr> -->
+                                <tr>
+                                  <td colspan="2" style="text-align: right!important;"><strong>Total</strong></td>
+                                  <td class="text-right" print>{{fee.totalAmount}}</td>
+                                </tr>
+                                <tr>
+                                  <td colspan="3">
+                                    <div class="col-sm-12 col-xs-12 p-0" style="text-align: left !important;">
+                                      <div class="col-sm-12 col-xs-12 p-t-5">
+                                          <label><b>Amount in words:</b> {{fee.amountInWords}} <span>Rupees Only.</span></label>
+                                      </div>
+                                      <div class="col-sm-12 col-xs-12 p-t-5">
+                                          <label><strong>Payment Mode: </strong> {{fee.modeOfPayment}}</label>
+                                      </div>
+                                      <div class="col-sm-12 col-xs-12">
+                                        <div class="col-sm-6 col-xs-6 p-0 p-t-25">
+                                            <p class="hidden-sm hidden-lg hidden-sm"><strong>Receipt Generated Date: </strong> {{fee.today | date:'d MMM, y h:mm:ss a'}}</p>
+                                        </div>
+                                        <div class="col-md-12 col-sm-6 col-xs-6 p-0">
+                                           <p><strong><h5 class="pull-right">Authorised Signature</h5></strong></p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="row hidden-print" style=" margin:0px !important;">
+                    <div class="col-xs-12">
+                      <div class="text-right hidden-print">      
+                          <button class="btn btn-lg btn-outline-primary center" onClick="window.print()">Print</button>
+                          <button type="button" class="btn btn-lg btn-outline-secondary center" (click)="c('Close click')">Close</button>
+                      </div>
+                    </div>
+                  </div>
+             </div>
+            </div>  
+          </div>  
+        </div>
+</ng-template>

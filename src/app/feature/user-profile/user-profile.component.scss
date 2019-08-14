@@ -1,0 +1,28 @@
+.profile-image-container{
+    height: 150px;
+    margin-bottom: 20px;
+    .fa-spinner{
+        margin-top: 35%;
+    }
+}
+.circle-profile-image{
+    border-radius: 50%;
+    width: 150px;
+    height: 100%;
+}
+.label-file-upload {
+    width: 100%;
+    border: 1px solid #ccc; 
+    display: inline-block; 
+    padding: 8px 12px; 
+    cursor: pointer;
+    text-align: center;
+    color: blue;
+    background-color: #ffffff; 
+    border: 2px solid #dadfe6; 
+    font-family: Roboto; 
+    border-radius: 0.375rem; 
+}
+.photo-button{
+    width:100%;
+}

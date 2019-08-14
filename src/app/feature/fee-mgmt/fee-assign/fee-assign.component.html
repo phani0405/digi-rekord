@@ -1,0 +1,112 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Fee Assignments</div>              
+            <!-- <div class="col-sm-6 text-right" (click)="exportFeeDetails()">
+                <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+            </div> -->
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="panel-body">
+            <div class="row"> 
+                <div class="form-group col-md-3">
+                    <label>Class</label>
+                    <select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+                        <option [ngValue]="null" disabled selected>--Select Class--</option>
+                        <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                    </select>
+                </div><!-- 
+                <div class="form-group col-md-2">
+                    <label>Subject</label>
+                    <select [disabled]="!model.selectedClass" [ngModel]="model.selectedSubject" class="form-control" (ngModelChange)="onChangeSubject($event)"
+                     #subject="ngModel" name="subjects" required>
+                        <option [ngValue]="undefined" disabled selected>--Select Subject--</option>
+                        <option [ngValue]="subject" *ngFor="let subject of subjects">{{subject.subjectName}}</option>
+                    </select>
+                </div>  -->
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6 offset-sm-6 pull-right" *ngIf="students && students.length">
+                    <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search for name or roll number">
+                </div>               
+                <!-- <div class="col-sm-1 text-right" (click)="exportFeeDetails()" *ngIf="students && students.length">
+                    <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+                </div>     -->         
+                <div class="alert alert-danger" *ngIf="students && students.length === 0">
+                    You have 0 students, Please create...
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" *ngIf="students && students.length">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Student Name</th>
+                                <th>Student Role No.</th>
+                                <th>Gender</th>
+                                <th>Class</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let student of students | StudentFilter : searchText: students; index as i ">
+                                <td>{{i+1}}</td>
+                                <td>{{student.studentName}}</td>
+                                <td>{{student.studentRollNo}}</td>
+                                <td>{{student.gender}}</td>
+                                <td>{{student.className}}</td>
+                                <td><span class="fa fa-cog fa-1x clickable pull-right" (click)="open(studentAssign, student)" title="Assign"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #studentAssign let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="form" #CollectFeeForm="ngForm" (keyup.enter)="collectFee()" autocomplete="off">
+            <div class="form-group row">
+                <table class="table table-bordered table-striped" *ngIf="fees && fees.length">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Fee</th>
+                            <th>Total Amount (Rs.)</th>
+                            <th>Discount (Rs.)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fee of fees; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{fee.feeTitle}}</td>
+                            <td><input type="number" class="form-control" name="{{fee.studentFeeDueID+1}}" value="{{fee.studentFeeDueID+1}}" [(ngModel)]="fee.amount" disabled required/></td>                            
+                            <td><input type="number" class="form-control" name="{{fee.studentFeeDueID+2}}" value="{{fee.studentFeeDueID+2}}" [(ngModel)]="fee.discount" required/></td>
+                            <td> 
+                                <button type="button" class="btn btn-sm btn-outline-primary center" (click)="assignFee(fee)">Save</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <button type="button" class="btn btn-lg btn-outline-warning center" (click)="c('Close click')">Close</button>
+        </div>
+    </div>
+</ng-template>

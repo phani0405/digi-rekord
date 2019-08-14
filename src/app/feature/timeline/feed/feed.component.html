@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-compose (add)='getAllMessages()'></app-compose>
+    </div>
+</div>
+<br>
+<nb-card *ngIf="posts && posts.length==0">
+    <nb-card-body>
+        <div class="alert alert-danger">
+            You have 0 posts...
+        </div>
+    </nb-card-body>
+</nb-card>
+<nb-card *ngFor="let post of posts; index as i">
+    <nb-card-header>
+        <section class="post-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="media">
+                        <div class="media-left">
+                            <a>
+                                <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="40" height="40" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <a class="anchor-username">
+                                <h4 class="media-heading text-capitalize">{{post.createdBy}}</h4>
+                            </a>
+                            <a class="anchor-role text-capitalize">{{post.createdRole}} </a>
+                            <a class="anchor-time">{{getLocalDate(post.createdDate) | date: 'dd MMM y HH:mm:ss'}}</a>
+                            <!-- <a class="anchor-time">{{util.convertDateIntoDMYHMS(getLocalDate(post.createdDate))}}</a> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-1">
+                   <a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+               </div> -->
+            </div>
+        </section>
+    </nb-card-header>
+    <nb-card-body>
+        <section class="post-body">
+            <p *ngIf="post.content">{{post.content}}</p>
+            <div class="row margin_32px">
+                <div *ngFor="let at of post.attachments">
+                  <div *ngIf="at.fileUrl"  class="col-sm-1">
+                      <div *ngIf="at.fileUrl" class="padding-top-0">
+                          <span *ngIf="at.fileUrl && at.mimeType === 'image'"><a href="" data-izimodal-open="#modal-vimeo"><img class="previewHW"  src="{{at.fileUrl}}" (click)="playVideo(at, 'image')"></a></span>
+                          <span *ngIf="at.fileUrl && at.mimeType === 'video'"><a href="" data-izimodal-open="#modal-vimeo"><img class="previewHW"  src="assets/images/video.png" (click)="playVideo(at, 'video')"></a></span>
+                          <span *ngIf="at.fileUrl && at.mimeType === 'audio'"><a href="" data-izimodal-open="#modal-vimeo"><img class="previewHW"  src="assets/images/video.png" (click)="playVideo(at, 'video')"></a></span>
+                          <span *ngIf="at.fileUrl && at.mimeType === 'raw'"><a target="_blank" href="{{at.fileUrl}}"><img class="previewHW" src="assets/images/raw-file.png"></a></span>
+                          <span *ngIf="at.fileUrl && !at.mimeType"><a  href="{{at.fileUrl}}"><img class="previewHW"  src="{{at.fileUrl}}"></a></span>
+                      </div>
+                      <div *ngIf="at.fileUrl" class="attachments-tile"><span>{{at.fileName}}</span></div><br>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </nb-card-body>
+    <nb-card-footer>
+        <section class="post-footer">
+            <div class="post-footer-option">
+                <ul class="list-unstyled">
+                    <!-- <li><a><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
+                    <li><a><i class="glyphicon glyphicon-comment"></i> Comment</a></li> -->
+                </ul>
+            </div>
+            <span class="fa fa-eye fa-1x clickable float-right" (click)="openModelWithDetail(postModel, post)" title="Info"></span>&nbsp;&nbsp;
+            <div class="post-footer-comment-wrapper">
+                <div class="comment-form">
+
+                </div>
+                <!-- <div class="comment">
+                   <div class="media">
+                     <div class="media-left">
+                       <a href="#">
+                         <img class="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width="32" height="32" alt="...">
+                       </a>
+                     </div>
+                     <div class="media-body">
+                       <a href="#" class="anchor-username"><h4 class="media-heading">Media heading</h4></a>
+                       <a href="#" class="anchor-time">51 mins</a>
+                     </div>
+                   </div>
+              </div> -->
+            </div>
+        </section>
+    </nb-card-footer>
+</nb-card>
+<div id="modal-vimeo" class="modais" data-izimodal-transitionin="fadeInUp"></div>
+
+<ng-template #postModel let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title modalHeaderColor">Assign to</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            {{selectedPost.assignedTo.join(', ')}}
+        </div>
+    </ng-template>

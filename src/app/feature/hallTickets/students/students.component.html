@@ -1,0 +1,141 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Hall Tickets: Students</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<form novalidate name="form" #hallTicket="ngForm" autocomplete="off">
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<label>Class</label>
+						<select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #class="ngModel" name="class">
+							<option [ngValue]="null" [disabled]="true">--Select Class--</option>
+							<option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+						</select>
+					</div>
+				</div>
+				<div *ngIf="students && model.selectedClass">
+					<div class="form-row">
+						<div class="alert alert-danger" *ngIf="students.length === 0">You have 0 students in this class...</div>
+						<table class="table table-bordered table-striped" *ngIf="students && students.length > 0">
+							<thead>
+								<tr>
+									<th>S.No.</th>
+									<th>Student RollNumber</th>
+									<th>Student Name</th>
+									<th class="width-200">Marks Card</th>
+								</tr>
+							</thead>
+							<tbody>
+									<tr *ngFor="let student of students; index as i">
+											<td>{{i+1}}</td>
+											<td>{{student.studentRollNo}}</td>
+											<td>{{student.studentName}}</td>
+									<td style="min-width: 600px;">
+										<div class="row">
+											<span *ngFor="let t of terms; index as i">
+													&nbsp;&nbsp;<button type="button" [ngClass]="{'btn-outline-primary':i%3 === 0, 'btn-outline-warning': i%3 === 1, 'btn-outline-success': i%3 === 2}"  class="btn btn-lg center" (click)="open(content,t,student)">{{t.termName}}</button>&nbsp;&nbsp;
+											</span>
+											<!-- <span *ngFor="let t of terms; index as i">
+													&nbsp;&nbsp;<button type="button" [ngClass]="{'btn-outline-primary':i%3 === 0, 'btn-outline-warning': i%3 === 1, 'btn-outline-success': i%3 === 2}"  class="btn btn-lg center" (click)="getAllSubjectDivision(student.studentID, t.termID)">{{t.termName}}</button>&nbsp;&nbsp;
+											</span> -->
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</nb-card-body>
+</nb-card>
+<ng-template #content let-c="close" let-d="dismiss">
+	<div  style="border:2px solid #f0ad1a; border-radius: 10px;">
+    <div class="modal-header" style="background: #f0ad1a;">
+        <h4 class="modal-title modalHeaderColor">Hall Ticket</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+     <div class="modal-body">
+     	<div class="form-row">
+     		<div class="form-group col-md-2 col-sm-2">
+     			<img  alt="..." class="media-object photo-profile" style="border-radius: 5px;" height="80" src="{{registeredDetails.schoolLogo}}" width="80">
+     		</div>
+     		<div class="form-group col-md-8 col-sm-8" style="text-align: center;">
+     			 <h4 class="modal-title modalHeaderColor" style="color: #3dcc6d;">{{registeredDetails.schoolName}}</h4>
+        		 <!-- <span class="modal-title">{{registeredDetails.schoolAddress.address}}, {{registeredDetails.schoolAddress.city}}, {{registeredDetails.schoolAddress.district}}, {{registeredDetails.schoolAddress.state}} - {{registeredDetails.schoolAddress.pincode}}</span> -->
+        		 <h5 class="modal-title modalHeaderColor" style="color: #f0ad1a;">{{studentDetails.termName}}</h5>
+     		</div>
+     		<div class="form-group col-md-2 col-sm-2">
+     			<img  alt="..." class="media-object photo-profile" height="120" style="border-radius: 5px;" src="{{studentDetails.photo?studentDetails.photo:studentDetails.photo}}" width="100">
+     		</div>
+    	 </div>
+   		<hr/>
+
+   		<div class="form-row">
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h5>Student Name:</h5>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h6>{{studentDetails.studentName}}</h6>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h5>Student RollNo.:</h5>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h6>{{studentDetails.studentRollNo}}</h6>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h5>Class:</h5>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h6>{{studentDetails.className}}</h6>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h5>Parent Name:</h5>
+     		</div>
+     		<div class="form-group col-md-3 col-sm-3">
+     			<h6>{{studentDetails.parentIDs[0].parentName}}</h6>
+     		</div>
+    	 </div>
+    	 <hr/>
+
+     	 <div class="form-row" *ngIf="hallTicketDetails && hallTicketDetails.subjectDetails && hallTicketDetails.subjectDetails.length>0">
+			<div class="form-group col-md-12">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>S.No.</th>
+		                    <th>Subject</th>
+		                    <th>Exam Date</th>
+		                    <th>Start Time</th>
+		                    <th>End Time</th>
+		                    <th>Invigilator 1</th>
+		                    <th>Invigilator 2</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr  *ngFor="let item of hallTicketDetails.subjectDetails; index as i">
+		                    <td>{{i+1}}</td>					
+							<td><span>{{item.subjectName}}</span></td>				
+							<td><span>{{item.examDate}}</span></td>
+							<td><span>{{item.startTime}}</span></td>				
+							<td><span>{{item.endTime}}</span></td>				
+							<td><span></span></td>				
+							<td><span></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+    	 </div> 
+	</div>
+    <div class="modal-footer" style="background: #f0ad1a;">
+      <!-- <yoi class="fa fa-print fa-3x" (click)="printHallTicket()"></i> -->
+    </div>
+   </div>
+</ng-template>

@@ -1,0 +1,225 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Add Subject Division</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<form novalidate name="form" #marksCard="ngForm" autocomplete="off">
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<label>Terms</label>
+
+						<select [ngModel]="model.selectedTerm" class="form-control" (ngModelChange)="onChangeTerm($event)" #term="ngModel" name="terms">
+							<option [ngValue]="undefined" disabled selected>--Select Term--</option>
+							<option [ngValue]="term" *ngFor="let term of terms">{{term.termName}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>Class</label>
+						<select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+							<option [ngValue]="null" disabled selected>--Select Class--</option>
+							<option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>Subject</label>
+						<select [disabled]="!model.selectedClass" [ngModel]="model.selectedSubject" class="form-control" (ngModelChange)="onChangeSubject($event)"
+						 #subject="ngModel" name="subjects" required>
+							<option [ngValue]="undefined" disabled selected>--Select Subject--</option>
+							<option [ngValue]="subject" *ngFor="let subject of subjects">{{subject.subjectName}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<br>
+						<button type="button" [disabled]="!model.selectedTerm || ! model.selectedClass || !model.selectedSubject" class="btn btn-md btn-outline-primary center"
+						 (click)="openSubDivisionModel(subDivision, null)">
+							<i class="fa fa-plus"></i>&nbsp;Subject Division</button>
+					</div>
+				</div>
+				<div *ngIf="students">
+					<div class="form-row">
+						<div class="alert alert-danger" *ngIf="students.length === 0">You have 0 subject division...</div>
+						<table class="table table-bordered table-striped" *ngIf="students && students.length > 0">
+							<thead>
+								<tr>
+									<th>S.No.</th>
+									<th>Subject Division</th>
+									<th>Minimum Marks</th>
+									<th>Maximum Marks</th>
+									<th>Grades</th>
+									<th class="width-200 min-width-100">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let student of students; index as i">
+									<td *ngIf="student && student.subjectDivisions">{{i+1}}</td>
+									<td *ngIf="student && student.subjectDivisions">{{student.subjectDivisions.subjectDivisionName}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Marks'">{{student.subjectDivisions.minMarks}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Grades'">{{'-'}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Marks'">{{student.subjectDivisions.maxMarks}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Grades'">{{'-'}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Grades'">{{student.subjectDivisions.grades}}</td>
+									<td *ngIf="student && student.subjectDivisions && student.subjectDivisions.subjectDivisionType === 'Marks'">{{'-'}}</td>
+									<td *ngIf="student && student.subjectDivisions">
+										<span class="fa fa-eye fa-1x clickable" (click)="openModelWithDetail(divisionDetail, student)" title="View"></span>&nbsp;&nbsp;
+										<span class="fa fa-edit fa-1x clickable" (click)="openSubDivisionModel(subDivision, student)" title="Edit"></span>&nbsp;&nbsp;
+										<span class="fa fa-trash fa-1x clickable" (click)="openDeleteDivisionModel(deleteModel, student)" title="Delete"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</nb-card-body>
+</nb-card>
+
+<ng-template #subDivision let-c="close" let-d="dismiss" class="modal">
+	<div class="modal-header">
+		<h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form novalidate name="form" #divisionForm="ngForm" autocomplete="off">
+			<div class="form-group row">
+				<label for="example-text-input" class="col-sm-4 col-form-label">Subject Division</label>
+				<input type="text" class="col-sm-8 form-control" [(ngModel)]="subjectDivisions.subjectDivisionName" #divisionName="ngModel"
+				 name="divisionName" placeholder="Division Name" pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+				<div *ngIf="divisionName.errors && (divisionName.dirty || divisionName.touched) && !message" class="alert alert-danger">
+					<div [hidden]="!divisionName.errors.required">
+						Name is required !
+					</div>
+					<div [hidden]="!divisionName.errors.pattern">First letter should be albhabetic !</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="sdType" class="col-sm-4 col-form-label">Marks OR Grades</label>
+				<select [(ngModel)]="subjectDivisions.subjectDivisionType" class="col-sm-8 form-control" #sdType="ngModel" name="sdType"
+				 required>
+					<option [ngValue]="sdType" *ngFor="let sdType of sdTypes">{{sdType}}</option>
+				</select>
+				<div *ngIf="sdType.errors && (sdType.dirty || sdType.touched) && !message" class="alert alert-danger">
+					<div [hidden]="!sdType.errors.required">
+						Subject Division is required !
+					</div>
+				</div>
+			</div>
+			<div *ngIf="subjectDivisions.subjectDivisionType === 'Grades'">
+				<div class="form-group row">
+					<label for="example-text-input" class="col-sm-4 col-form-label">Grades(Ex: A,B,C)</label>
+					<input type="text" class="col-sm-8 form-control" [(ngModel)]="subjectDivisions.grades" #grade="ngModel" name="grade" placeholder="Grades Name"
+					 pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+					<div *ngIf="grade.errors && (grade.dirty || grade.touched)" class="alert alert-danger">
+						<div [hidden]="!grade.errors.required">
+							Grades is required !
+						</div>
+						<div [hidden]="!grade.errors.pattern">First letter should be albhabetic !</div>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="subjectDivisions.subjectDivisionType === 'Marks'">
+				<div class="form-group row">
+					<label for="example-text-input" class="col-sm-4 col-form-label">Min Marks</label>
+					<input type="number" class="col-sm-8 form-control" [(ngModel)]="subjectDivisions.minMarks" #minMarks="ngModel" name="minMarks"
+					 placeholder="Minimum Marks" pattern="^[0-9].*" autofocus="autofocus" required>
+					<div *ngIf="minMarks.errors && (minMarks.dirty || minMarks.touched)" class="alert alert-danger">
+						<div [hidden]="!minMarks.errors.required">
+							Minimum marks is required !
+						</div>
+						<div [hidden]="!minMarks.errors.pattern">Min marks should be number !</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="example-text-input" class="col-sm-4 col-form-label">Max Marks</label>
+					<input type="number" class="col-sm-8 form-control" [(ngModel)]="subjectDivisions.maxMarks" #maxMarks="ngModel" name="maxMarks"
+					 placeholder="Maximum Marks" pattern="^[0-9].*" autofocus="autofocus" required>
+					<div *ngIf="maxMarks.errors && (maxMarks.dirty || maxMarks.touched)" class="alert alert-danger">
+						<div [hidden]="!maxMarks.errors.required">
+							Maximum marks is required !
+						</div>
+						<div [hidden]="!divisionName.errors.pattern">Max marks should be number !</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="alert alert-danger" *ngIf="message">
+			<strong>Error! </strong>{{message}}
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!divisionForm.form.valid" (click)="submitSubDivision()">Submit</button>&nbsp;&nbsp;
+			<button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #divisionDetail let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title modalHeaderColor">Subject Division Detail</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<table class="table table-bordered" *ngIf="selectedSubjectDivision">
+			<tbody>
+				<tr>
+					<td>Term Name</td>
+					<td>{{selectedSubjectDivision.termName}}</td>
+				</tr>
+				<tr>
+					<td>Class Name</td>
+					<td>{{selectedSubjectDivision.className}}</td>
+				</tr>
+				<tr>
+					<td>Subject Name</td>
+					<td>{{selectedSubjectDivision.subjectName}}</td>
+				</tr>
+				<tr *ngIf="selectedSubjectDivision.subjectDivisions">
+					<td>Subject Division Name</td>
+					<td>{{selectedSubjectDivision.subjectDivisions.subjectDivisionName}}</td>
+				</tr>
+				<tr *ngIf="selectedSubjectDivision.subjectDivisions && selectedSubjectDivision.subjectDivisions.subjectDivisionType">
+					<td>Subject Division Type</td>
+					<td>{{selectedSubjectDivision.subjectDivisions.subjectDivisionType}}</td>
+				</tr>
+				<tr *ngIf="selectedSubjectDivision.subjectDivisions && selectedSubjectDivision.subjectDivisions.grades">
+					<td>Grades</td>
+					<td>{{selectedSubjectDivision.subjectDivisions.grades}}</td>
+				</tr>
+				<tr *ngIf="selectedSubjectDivision.subjectDivisions && selectedSubjectDivision.subjectDivisions.minMarks">
+					<td>Minimum Marks</td>
+					<td>{{selectedSubjectDivision.subjectDivisions.minMarks}}</td>
+				</tr>
+				<tr *ngIf="selectedSubjectDivision.subjectDivisions && selectedSubjectDivision.subjectDivisions.maxMarks">
+					<td>Maximum Marks</td>
+					<td>{{selectedSubjectDivision.subjectDivisions.maxMarks}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</ng-template>
+
+<ng-template #deleteModel let-c="close" let-d="dismiss" class="modal">
+	<div class="modal-header">
+		<h4 class="modal-title modalHeaderColor">Delete Division</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<p>Are you sure to delete this subject division?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">No</button>
+		<button type="button" class="btn btn-lg btn-outline-primary center" (click)="deleteSubjectDivision(selectedSubjectDivision)">Yes</button>
+	</div>
+</ng-template>

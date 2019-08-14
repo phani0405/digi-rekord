@@ -1,0 +1,58 @@
+<nb-card *ngIf="classes">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Classes</div>
+            <div class="col-sm-6 text-right">
+                <button class="btn btn-sm btn-outline-primary" (click)="openClassModel(classModel)"><i class="fa fa-plus fa-sm"></i>&nbsp;Class</button>
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Class</th>
+                    <th class="width-200">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let class of classes; index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{class.className}}</td>
+                    <td>
+                        <span class="fa fa-edit fa-1x clickable" (click)="openClassModel(classModel, class)" title="Edit"></span>&nbsp;&nbsp;
+                        <span class="fa fa-trash fa-1x clickable" title="Delete"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #classModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="form" #f="ngForm" autocomplete="off">
+            <div class="form-group row">
+                <label for="example-text-input" class="col-2 col-form-label">Class</label>
+                <div class="col-10">
+                    <input type="text" class="form-control" [(ngModel)]="model.className" #className="ngModel" name="className" placeholder="Class Name">
+                </div>
+            </div>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!model.className" (click)="submitClass()">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>

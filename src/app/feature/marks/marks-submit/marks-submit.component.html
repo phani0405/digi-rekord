@@ -1,0 +1,109 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Submit Marks</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<form novalidate name="form" #marksCard="ngForm" autocomplete="off">
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<label>Terms</label>
+						<select [ngModel]="model.selectedTerm" class="form-control" (ngModelChange)="onChangeTerm($event)" #term="ngModel" name="terms">
+							<option [ngValue]="undefined" disabled selected>--Select Term--</option>
+							<option [ngValue]="term" *ngFor="let term of terms">{{term.termName}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>Class</label>
+						<select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+							<option [ngValue]="null" disabled selected>--Select Class--</option>
+							<option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>Subject</label>
+						<select [disabled]="!model.selectedClass" [ngModel]="model.selectedSubject" class="form-control" (ngModelChange)="onChangeSubject($event)"
+						 #subject="ngModel" name="subjects" required>
+							<option [ngValue]="undefined" disabled selected>--Select Subject--</option>
+							<option [ngValue]="subject" *ngFor="let subject of subjects">{{subject.subjectName}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<br>
+						<button type="button" [disabled]="!model.selectedTerm || ! model.selectedClass || !model.selectedSubject" class="btn btn-md btn-outline-primary center"
+						 (click)="getAllSubjectDivision()">
+							&nbsp;Show Students</button>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="alert alert-danger" *ngIf="message">{{message}}</div>
+				</div>
+				<div *ngIf="marksReportDetails">
+					<div class="form-row">
+						<div class="alert alert-danger" *ngIf="marksReportDetails.students && marksReportDetails.students &&marksReportDetails.students.length === 0">You have 0 students...</div>
+						<table class="table table-bordered table-striped center-align" *ngIf="marksReportDetails && marksReportDetails.students && marksReportDetails.students.length > 0">
+							<thead>
+								<tr>
+									<th rowspan="2">S.No.</th>
+									<th rowspan="2">Student Name</th>
+									<th rowspan="2">Student RollNumber</th>
+									<th [attr.colspan]="termSubjectDetails.subjects.subjectDivisions.length">{{model.selectedSubject && model.selectedSubject.subjectName || 'Subject Name'}}</th>
+									<th rowspan="2">Percentage</th>
+								</tr>
+								<tr>
+									<th *ngFor="let h of termSubjectDetails.subjects.subjectDivisions">{{h.subjectDivisionName}} ({{h.maxMarks}})</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let student of marksReportDetails.students; index as i">
+									<td>{{i+1}}</td>
+									<td>{{student.studentName}}</td>
+									<td>{{student.studentRollNo}}</td>
+									<td *ngFor="let sd of student.subjects && student.subjects.subjectDivisions ; index as j">
+										<div *ngFor="let h of termSubjectDetails.subjects.subjectDivisions">
+											<div *ngIf="h.subjectDivisionType === 'Marks'">
+												<div class="col-sm-12">
+													<div *ngIf="h.subjectDivisionID === sd.subjectDivisionID">
+														<input (keypress)="onlyNumberKey($event)" class="form-control inputTypePadding" [(ngModel)]="sd.obtainedMarks" name="marks-{{i}}-{{j}}"
+														 id="marks{{i}}{{j}}" #marks="ngModel" placeholder="Enter Marks {{h.maxMarks}}" [lte]="sd.maxMarks" required>
+														<p class="alert alert-danger" *ngIf="marks.errors?.lte">Max Marks is {{sd.maxMarks}}</p>
+														<p class="alert alert-danger" *ngIf="marks.errors?.required">Marks is required</p>
+													</div>
+												</div>
+											</div>
+											<div *ngIf="h.subjectDivisionType === 'Grades'">
+												<div class="col-sm-10">
+													<div *ngIf="h.subjectDivisionID === sd.subjectDivisionID">
+														<select [(ngModel)]="sd.grade" class="form-control inputTypePadding" #grade="ngModel" name="grade-{{i}}-{{j}}">
+															<option [ngValue]="null" disabled selected>--Select Grades--</option>
+															<option [ngValue]="g" *ngFor="let g of h.grades">{{g}}</option>
+														</select>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</td>
+									<td>{{getPercentage(student)}}</td>
+									<td *ngIf="student && student.subjectDivisions">
+										<span class="fa fa-eye fa-1x clickable" (click)="openModelWithDetail(divisionDetail, student)" title="View"></span>&nbsp;&nbsp;
+										<span class="fa fa-edit fa-1x clickable" (click)="openSubDivisionModel(subDivision, student)" title="Edit"></span>&nbsp;&nbsp;
+										<span class="fa fa-trash fa-1x clickable" (click)="openDeleteDivisionModel(deleteModel, student)" title="Delete"></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="center-align" *ngIf="marksReportDetails && marksReportDetails.students">
+						<button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!marksCard.form.valid" (click)="submitMarks(marksReportDetails)">Submit</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</nb-card-body>
+</nb-card>

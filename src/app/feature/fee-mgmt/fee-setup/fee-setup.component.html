@@ -1,0 +1,309 @@
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <!-- <app-fee-types style="min-width:33%"></app-fee-types> -->
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                    <div class="col-sm-6">Fee types</div>
+                    <div class="col-sm-6 text-right">
+                        <button class="btn btn-sm btn-outline-primary" (click)="openFeeTypeModel(feeTypeModel,undefined)"><i class="fa fa-plus fa-sm"></i>&nbsp;Fee type</button>
+                    </div>
+                </div>
+            </nb-card-header>
+
+            <nb-card-body>
+                <div *ngIf="feeTypes && feeTypes.length === 0">You have 0 feeTypes, Please create...</div>
+                <table class="table table-bordered table-striped" *ngIf="feeTypes && feeTypes.length > 0">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Fee type</th>
+                            <th>Fee custom type</th>
+                            <th class="width-200">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let feetype of feeTypes; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{feetype.feeTypeName}}</td>
+                            <td>{{feetype.feeUserTypeName}}</td>
+                            <td>
+                                <span class="fa fa-edit fa-1x clickable" (click)="openFeeTypeModel(feeTypeModel, feetype)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" title="Delete"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-body>
+        </nb-card>
+
+        <ng-template #feeTypeModel let-c="close" let-d="dismiss" class="modal">
+            <div class="modal-header">
+                <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <form novalidate name="form" #FeeTypeForm="ngForm" (keyup.enter)="submitFeeType()" autocomplete="off">
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-sm-4 col-form-label">Fee type</label>
+                            <input type="text" class="col-sm-8 form-control" [(ngModel)]="model.feeTypeName" #feeTypeName="ngModel" name="feeTypeName" placeholder="Fee type" pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+                            <div *ngIf="feeTypeName.errors && (feeTypeName.dirty || feeTypeName.touched) && !message" class="alert alert-danger">
+                                <div [hidden]="!feeTypeName.errors.required">
+                                   Fee type is required !
+                                </div>
+                                <div [hidden]="!feeTypeName.errors.pattern">First letter should be albhabetic !</div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-sm-4 col-form-label">Fee custom type</label>
+                            <input type="text" class="col-sm-8 form-control" [(ngModel)]="model.feeUserTypeName" #feeUserTypeName="ngModel" name="feeUserTypeName" placeholder="Fee custom user type" pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+                            <div *ngIf="feeUserTypeName.errors && (feeUserTypeName.dirty || feeUserTypeName.touched) && !message" class="alert alert-danger">
+                                <div [hidden]="!feeUserTypeName.errors.required">
+                                   fee custom user type is required !
+                                </div>
+                                <div [hidden]="!feeUserTypeName.errors.pattern">First letter should be albhabetic !</div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label for="board" class="col-sm-2 col-form-label">Board</label>
+                        <select [(ngModel)]="model.board" class="col-sm-10 form-control" #board="ngModel" name="board" required>
+                                <option [ngValue]="undefined" disabled selected>--Select Board--</option>
+                                <option [ngValue]="board" *ngFor="let board of boards">{{board}}</option>
+                            </select>
+                        <div *ngIf="board.errors && (board.dirty || board.touched) && !message" class="alert alert-danger">
+                            <div [hidden]="!board.errors.required">
+                                Board is required !
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+                <div class="alert alert-danger" *ngIf="message">
+                    <strong>Error! </strong>{{message}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!FeeTypeForm.form.valid" (click)="submitFeeType()">Submit</button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <!-- <app-feetimes style="min-width:33%"></app-feetimes> -->
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                    <div class="col-sm-9">Fee terms</div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-sm btn-outline-primary" (click)="openFeeTermsModel(feeTermsModel,undefined)"><i class="fa fa-plus fa-sm"></i>&nbsp;Fee term</button>
+                    </div>
+                </div>
+            </nb-card-header>
+
+            <nb-card-body>
+                <div *ngIf="feeTerms && feeTerms.length === 0">You have 0 fee terms, Please create...</div>
+                <table class="table table-bordered table-striped" *ngIf="feeTerms && feeTerms.length > 0">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Fee term</th>
+                            <th class="width-200">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ft of feeTerms; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{ft.feeTerm}}</td>
+                            <td>
+                                <span class="fa fa-edit fa-1x clickable" (click)="openFeeTermsModel(feeTermsModel, ft)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" title="Delete"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-body>
+        </nb-card>
+
+        <ng-template #feeTermsModel let-c="close" let-d="dismiss" class="modal">
+            <div class="modal-header">
+                <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <form novalidate name="form" #FeeTermForm="ngForm" (keyup.enter)="submitFeeTerm(feeTerm.errors)" autocomplete="off">
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Fee</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" [(ngModel)]="model.feeTerm" #feeTerm="ngModel" name="Fee name" placeholder="Fee Name" pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+                            <div *ngIf="feeTerm.errors && (feeTerm.dirty || feeTerm.touched)  && !message" class="alert alert-danger">
+                                <div [hidden]="!feeTerm.errors.required">
+                                   Fee term is required !
+                                </div>
+                                <div [hidden]="!feeTerm.errors.pattern">First letter should be albhabetic !</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="alert alert-danger" *ngIf="message">
+                    <strong>Error! </strong>{{message}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!FeeTermForm.form.valid" (click)="submitFeeTerm()">Submit</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+            </div>
+        </ng-template>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <!-- <app-feetimes style="min-width:33%"></app-feetimes> -->
+        <nb-card>
+            <nb-card-header>
+                <div class="row">
+                    <div class="col-sm-9">Fees</div>
+                    <div class="col-sm-3 text-right">
+                        <button class="btn btn-sm btn-outline-primary" (click)="openFeesModel(feesModel,undefined)"><i class="fa fa-plus fa-sm"></i>&nbsp;Fee</button>
+                    </div>
+                </div>
+            </nb-card-header>
+
+            <nb-card-body>
+                <div *ngIf="fees && fees.length === 0">You have 0 fee, Please create...</div>
+                <table class="table table-bordered table-striped" *ngIf="fees && fees.length > 0">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Fee</th>
+                            <th>Fee type</th>
+                            <th>Fee term</th>
+                            <th>Amount</th>
+                            <th class="width-200">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fee of fees; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{fee.feeTitle}}</td>
+                            <td>{{fee.feeTypeName}}</td>
+                            <td>{{fee.feeTerm}}</td>
+                            <td>{{fee.amount}}</td>
+                            <td>
+                                <span class="fa fa-edit fa-1x clickable" (click)="openFeesModel(feesModel, fee)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" title="Delete"></span>&nbsp;&nbsp;
+                                <fee-setup-assign [fee]='fee' (assign)='getFees()'></fee-setup-assign>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </nb-card-body>
+        </nb-card>
+
+        <ng-template #feesModel let-c="close" let-d="dismiss" class="modal">
+            <div class="modal-header">
+                <h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <form novalidate name="form" #FeeForm="ngForm" (keyup.enter)="submitFee(feeName.errors)" autocomplete="off">
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Fee</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" [(ngModel)]="model.feeTitle" #feeName="ngModel" name="Fee name" placeholder="Fee Name" pattern="^[a-zA-Z].*" autofocus="autofocus" required>
+                            <div *ngIf="feeName.errors && (feeName.dirty || feeName.touched)  && !message" class="alert alert-danger">
+                                <div [hidden]="!feeName.errors.required">
+                                   Fee name is required !
+                                </div>
+                                <div [hidden]="!feeName.errors.pattern">First letter should be albhabetic !</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Choose Fee Type</label>
+                        <div class="col-8">
+                            <select [(ngModel)]="model.feeTypeID" class="form-control" #feeTypeID="ngModel" name="feetype">
+                                <option [ngValue]="null" [disabled]="true">--Select Fee type--</option>
+                                <option [ngValue]="ft.feeTypeID" *ngFor="let ft of feeTypes">{{ft.feeTypeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Choose Fee Term</label>
+                        <div class="col-8">
+                            <select [(ngModel)]="model.feeTermID" class="form-control" #feeTermID="ngModel" name="feeterm">
+                                <option [ngValue]="null" [disabled]="true">--Select Fee term--</option>
+                                <option [ngValue]="ft.feeTermID" *ngFor="let ft of feeTerms">{{ft.feeTerm}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Start Date</label>
+                        <div class="col-8 input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" #startDate="ngModel" [(ngModel)]="model.startDate" ngbDatepicker #startDatepicker="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="startDatepicker.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="startDate.errors && (startDate.dirty || startDate.touched)" class="alert alert-danger">
+                            <div [hidden]="!startDate.errors.required">
+                                Start Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Due Date</label>
+                        <div class="col-8 input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="dueDate" #dueDate="ngModel" [(ngModel)]="model.dueDate" ngbDatepicker #dueDatepicker="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="dueDatepicker.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="dueDate.errors && (dueDate.dirty || dueDate.touched)" class="alert alert-danger">
+                            <div [hidden]="!dueDate.errors.required">
+                                Due Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Late Fee Date</label>
+                        <div class="col-8 input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="lateFeeDate" #lateFeeDate="ngModel" [(ngModel)]="model.lateFeeDate" ngbDatepicker #lateFeeDatepicker="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="lateFeeDatepicker.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="lateFeeDate.errors && (lateFeeDate.dirty || lateFeeDate.touched)" class="alert alert-danger">
+                            <div [hidden]="!lateFeeDate.errors.required">
+                                Late Fee Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-4 col-form-label">Amount</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" [(ngModel)]="model.amount" #amount="ngModel" name="amount" placeholder="Amount" pattern="[0-9]+(?:\.[0-9]{0,2})?" autofocus="autofocus" required>
+                            <div *ngIf="amount.errors && (amount.dirty || amount.touched)  && !message" class="alert alert-danger">
+                                <div [hidden]="!amount.errors.required">
+                                   Amount is required !
+                                </div>
+                                <div [hidden]="!amount.errors.pattern">Only numbers allowed !</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="alert alert-danger" *ngIf="message">
+                    <strong>Error! </strong>{{message}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!FeeForm.form.valid" (click)="submitFee()">Submit</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+            </div>
+        </ng-template>
+    </div>
+</div>

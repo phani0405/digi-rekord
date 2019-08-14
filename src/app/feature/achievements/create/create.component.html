@@ -1,0 +1,80 @@
+<ng-template #achievementModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Add News $ Achievement</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form novalidate name="form" #AchievementForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Title</label>
+                        <input type="title" autocomplete="new-title" class="form-control" [(ngModel)]="model.title" #title="ngModel" name="title"
+                            placeholder="Ttile" required>
+                        <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger">
+                            <div [hidden]="!title.errors.required">
+                                Title is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Description</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.description"
+                            #description="ngModel" name="description" placeholder="Description"
+                            required>
+                        <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+                            <div [hidden]="!description.errors.required">
+                                Description is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Attachments</h5>
+                    <button type="button" (click)="addNewRow()" class="btn btn-primary attachment-botton-align">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <form [formGroup]="attachmentForms">
+                    <div formArrayName="itemRows">
+                        <div *ngFor="let itemrow of attachmentForms.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label>File Name</label>
+                                    <input type="text" formControlName="fileName" class="form-control" placeholder="File Name">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label>Select File</label><br>
+                                    <label for="file-upload+{{i}}" *ngIf="!itemrow.fileUrl" class="custom-file-upload attachment" 
+                                        [ngClass]="{greenColor: itemrow && itemrow.value && itemrow.value.fileUrl ? true : false}">
+                                        <i class="fa fa-cloud-upload" ></i> {{itemrow && itemrow.value && itemrow.value.fileUrl ? 'Update File' : 'Upload File'}}
+                                    </label>
+                                    <input id="file-upload+{{i}}" type="file" (change)="fileuploaderFileChange($event, i);" />
+                                </div>
+                                <div class="form-group col-md-1 margin-2rem">
+                                    <label>&nbsp;</label>
+                                    <i *ngIf="model.selectedFileIndex === i && model.loading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <div class="form-group col-md-1" *ngIf="attachmentForms.controls.itemRows.controls.length > 0">
+                                    <label>&nbsp;</label>
+                                    <span (click)="deleteRow(i)" class="btn btn-danger trash-icon-padding form-control"><i class="fa fa-trash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="alert alert-danger" *ngIf="message">
+                    <strong>Error! </strong>{{message}}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!AchievementForm.form.valid || disableAddAttachmentButton" (click)="addAchievement(achievementModel)">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<button class="btn btn-md btn-outline-primary" (click)="openAchievementModel(achievementModel)"><i class="fa fa-plus"></i>&nbsp;News & Achievement</button>

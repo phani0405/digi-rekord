@@ -1,0 +1,1501 @@
+{
+  "institutes": [
+    {
+      "id": 1,
+      "firstName": "Mark",
+      "lastName": "Otto",
+      "username": "@mdo",
+      "email": "mdo@gmail.com",
+      "age": "28"
+    },
+    {
+      "id": 2,
+      "firstName": "Jacob",
+      "lastName": "Thornton",
+      "username": "@fat",
+      "email": "fat@yandex.ru",
+      "age": "45"
+    },
+    {
+      "id": 3,
+      "firstName": "Larry",
+      "lastName": "Bird",
+      "username": "@twitter",
+      "email": "twitter@outlook.com",
+      "age": "18"
+    },
+    {
+      "id": 4,
+      "firstName": "John",
+      "lastName": "Snow",
+      "username": "@snow",
+      "email": "snow@gmail.com",
+      "age": "20"
+    },
+    {
+      "id": 5,
+      "firstName": "Jack",
+      "lastName": "Sparrow",
+      "username": "@jack",
+      "email": "jack@yandex.ru",
+      "age": "30"
+    },
+    {
+      "id": 6,
+      "firstName": "Ann",
+      "lastName": "Smith",
+      "username": "@ann",
+      "email": "ann@gmail.com",
+      "age": "21"
+    },
+    {
+      "id": 7,
+      "firstName": "Barbara",
+      "lastName": "Black",
+      "username": "@barbara",
+      "email": "barbara@yandex.ru",
+      "age": "43"
+    },
+    {
+      "id": 8,
+      "firstName": "Sevan",
+      "lastName": "Bagrat",
+      "username": "@sevan",
+      "email": "sevan@outlook.com",
+      "age": "13"
+    },
+    {
+      "id": 9,
+      "firstName": "Ruben",
+      "lastName": "Vardan",
+      "username": "@ruben",
+      "email": "ruben@gmail.com",
+      "age": "22"
+    },
+    {
+      "id": 10,
+      "firstName": "Karen",
+      "lastName": "Sevan",
+      "username": "@karen",
+      "email": "karen@yandex.ru",
+      "age": "33"
+    },
+    {
+      "id": 11,
+      "firstName": "Mark",
+      "lastName": "Otto",
+      "username": "@mark",
+      "email": "mark@gmail.com",
+      "age": "38"
+    },
+    {
+      "id": 12,
+      "firstName": "Jacob",
+      "lastName": "Thornton",
+      "username": "@jacob",
+      "email": "jacob@yandex.ru",
+      "age": "48"
+    },
+    {
+      "id": 13,
+      "firstName": "Haik",
+      "lastName": "Hakob",
+      "username": "@haik",
+      "email": "haik@outlook.com",
+      "age": "48"
+    },
+    {
+      "id": 14,
+      "firstName": "Garegin",
+      "lastName": "Jirair",
+      "username": "@garegin",
+      "email": "garegin@gmail.com",
+      "age": "40"
+    },
+    {
+      "id": 15,
+      "firstName": "Krikor",
+      "lastName": "Bedros",
+      "username": "@krikor",
+      "email": "krikor@yandex.ru",
+      "age": "32"
+    },
+    {
+      "id": 16,
+      "firstName": "Francisca",
+      "lastName": "Brady",
+      "username": "@Gibson",
+      "email": "franciscagibson@comtours.com",
+      "age": 11
+    },
+    {
+      "id": 17,
+      "firstName": "Tillman",
+      "lastName": "Figueroa",
+      "username": "@Snow",
+      "email": "tillmansnow@comtours.com",
+      "age": 34
+    },
+    {
+      "id": 18,
+      "firstName": "Jimenez",
+      "lastName": "Morris",
+      "username": "@Bryant",
+      "email": "jimenezbryant@comtours.com",
+      "age": 45
+    },
+    {
+      "id": 19,
+      "firstName": "Sandoval",
+      "lastName": "Jacobson",
+      "username": "@Mcbride",
+      "email": "sandovalmcbride@comtours.com",
+      "age": 32
+    },
+    {
+      "id": 20,
+      "firstName": "Griffin",
+      "lastName": "Torres",
+      "username": "@Charles",
+      "email": "griffincharles@comtours.com",
+      "age": 19
+    },
+    {
+      "id": 21,
+      "firstName": "Cora",
+      "lastName": "Parker",
+      "username": "@Caldwell",
+      "email": "coracaldwell@comtours.com",
+      "age": 27
+    },
+    {
+      "id": 22,
+      "firstName": "Cindy",
+      "lastName": "Bond",
+      "username": "@Velez",
+      "email": "cindyvelez@comtours.com",
+      "age": 24
+    },
+    {
+      "id": 23,
+      "firstName": "Frieda",
+      "lastName": "Tyson",
+      "username": "@Craig",
+      "email": "friedacraig@comtours.com",
+      "age": 45
+    },
+    {
+      "id": 24,
+      "firstName": "Cote",
+      "lastName": "Holcomb",
+      "username": "@Rowe",
+      "email": "coterowe@comtours.com",
+      "age": 20
+    },
+    {
+      "id": 25,
+      "firstName": "Trujillo",
+      "lastName": "Mejia",
+      "username": "@Valenzuela",
+      "email": "trujillovalenzuela@comtours.com",
+      "age": 16
+    },
+    {
+      "id": 26,
+      "firstName": "Pruitt",
+      "lastName": "Shepard",
+      "username": "@Sloan",
+      "email": "pruittsloan@comtours.com",
+      "age": 44
+    },
+    {
+      "id": 27,
+      "firstName": "Sutton",
+      "lastName": "Ortega",
+      "username": "@Black",
+      "email": "suttonblack@comtours.com",
+      "age": 42
+    },
+    {
+      "id": 28,
+      "firstName": "Marion",
+      "lastName": "Heath",
+      "username": "@Espinoza",
+      "email": "marionespinoza@comtours.com",
+      "age": 47
+    },
+    {
+      "id": 29,
+      "firstName": "Newman",
+      "lastName": "Hicks",
+      "username": "@Keith",
+      "email": "newmankeith@comtours.com",
+      "age": 15
+    },
+    {
+      "id": 30,
+      "firstName": "Boyle",
+      "lastName": "Larson",
+      "username": "@Summers",
+      "email": "boylesummers@comtours.com",
+      "age": 32
+    },
+    {
+      "id": 31,
+      "firstName": "Haynes",
+      "lastName": "Vinson",
+      "username": "@Mckenzie",
+      "email": "haynesmckenzie@comtours.com",
+      "age": 15
+    },
+    {
+      "id": 32,
+      "firstName": "Miller",
+      "lastName": "Acosta",
+      "username": "@Young",
+      "email": "milleryoung@comtours.com",
+      "age": 55
+    },
+    {
+      "id": 33,
+      "firstName": "Johnston",
+      "lastName": "Brown",
+      "username": "@Knight",
+      "email": "johnstonknight@comtours.com",
+      "age": 29
+    },
+    {
+      "id": 34,
+      "firstName": "Lena",
+      "lastName": "Pitts",
+      "username": "@Forbes",
+      "email": "lenaforbes@comtours.com",
+      "age": 25
+    },
+    {
+      "id": 35,
+      "firstName": "Terrie",
+      "lastName": "Kennedy",
+      "username": "@Branch",
+      "email": "terriebranch@comtours.com",
+      "age": 37
+    },
+    {
+      "id": 36,
+      "firstName": "Louise",
+      "lastName": "Aguirre",
+      "username": "@Kirby",
+      "email": "louisekirby@comtours.com",
+      "age": 44
+    },
+    {
+      "id": 37,
+      "firstName": "David",
+      "lastName": "Patton",
+      "username": "@Sanders",
+      "email": "davidsanders@comtours.com",
+      "age": 26
+    },
+    {
+      "id": 38,
+      "firstName": "Holden",
+      "lastName": "Barlow",
+      "username": "@Mckinney",
+      "email": "holdenmckinney@comtours.com",
+      "age": 11
+    },
+    {
+      "id": 39,
+      "firstName": "Baker",
+      "lastName": "Rivera",
+      "username": "@Montoya",
+      "email": "bakermontoya@comtours.com",
+      "age": 47
+    },
+    {
+      "id": 40,
+      "firstName": "Belinda",
+      "lastName": "Lloyd",
+      "username": "@Calderon",
+      "email": "belindacalderon@comtours.com",
+      "age": 21
+    },
+    {
+      "id": 41,
+      "firstName": "Pearson",
+      "lastName": "Patrick",
+      "username": "@Clements",
+      "email": "pearsonclements@comtours.com",
+      "age": 42
+    },
+    {
+      "id": 42,
+      "firstName": "Alyce",
+      "lastName": "Mckee",
+      "username": "@Daugherty",
+      "email": "alycedaugherty@comtours.com",
+      "age": 55
+    },
+    {
+      "id": 43,
+      "firstName": "Valencia",
+      "lastName": "Spence",
+      "username": "@Olsen",
+      "email": "valenciaolsen@comtours.com",
+      "age": 20
+    },
+    {
+      "id": 44,
+      "firstName": "Leach",
+      "lastName": "Holcomb",
+      "username": "@Humphrey",
+      "email": "leachhumphrey@comtours.com",
+      "age": 28
+    }
+  ],
+  "login": [
+    {
+      "username": "superadmin",
+      "password": "password",
+      "role": "SuperAdmin"
+    },
+    {
+      "username": "admin",
+      "password": "password",
+      "role": "Admin"
+    },
+    {
+      "username": "teacher",
+      "password": "password",
+      "role": "Teacher"
+    },
+    {
+      "username": "student",
+      "password": "password",
+      "role": "Student"
+    }
+  ],
+  "getSchools": [
+    {
+      "__v": 0,
+      "schoolCode": "velangani103",
+      "schoolName": "Velangani English 123",
+      "instituteID": "d32fb700-c573-11e7-866a-e12a642af953",
+      "createdRole": "schoolAdmin",
+      "userID": "Manoj793",
+      "createdDate": "2017-11-09T17:44:10.894Z",
+      "createdBy": "Manoj793",
+      "schoolID": "97eee1f0-c575-11e7-a411-d39e57358436",
+      "_id": "5a0493ea2aa6ef1bb4ae5f3f",
+      "schoolAddress": {
+        "address": "dargamitta",
+        "landmark": "KVR",
+        "city": "Nellore",
+        "state": "AP",
+        "pincode": "524003",
+        "landlineNo": [
+          {
+            "code": "861",
+            "phone": 2313087
+          }
+        ]
+      }
+    },
+    {
+      "__v": 0,
+      "schoolCode": "velangani103",
+      "schoolName": "Velangani English 123",
+      "instituteID": "d32fb700-c573-11e7-866a-e12a642af953",
+      "createdRole": "schoolAdmin",
+      "userID": "Manoj793",
+      "createdDate": "2017-11-09T17:44:10.894Z",
+      "createdBy": "Manoj793",
+      "schoolID": "97eee1f0-c575-11e7-a411-d39e57358436",
+      "_id": "5a0493ea2aa6ef1bb4ae5f3f",
+      "schoolAddress": {
+        "address": "dargamitta",
+        "addressLine2": "KVR Petrol Bunk",
+        "addressLine3": "KVR",
+        "landmark": "KVR",
+        "city": "Nellore",
+        "state": "AP",
+        "pincode": "524003",
+        "landlineNo": [
+          {
+            "code": "861",
+            "phone": 2313087
+          }
+        ]
+      }
+    },
+    {
+      "schoolName": "this.currentUser.apiKey update",
+      "schoolAddress": {
+        "address": "v"
+      },
+      "id": 1
+    },
+    {
+      "schoolName": "Name",
+      "schoolAddress": {
+        "address": "3",
+        "city": "s",
+        "district": "s",
+        "state": "s"
+      },
+      "id": 4
+    },
+    {
+      "schoolCode": "dfs",
+      "schoolName": "afs",
+      "schoolAddress": {
+        "address": "asdfsasd"
+      },
+      "id": 5
+    },
+    {
+      "id": 6,
+      "schoolCode": "asda",
+      "schoolName": "assd",
+      "createdRole": "instituteAdmin",
+      "createdBy": "anuj12",
+      "schoolAddress": {}
+    }
+  ],
+  "getStaffs": [
+    {
+      "id": 2,
+      "schoolID": "74debae0-c61b-11e7-8679-bff749ecba90",
+      "createdBy": "LoggedIn userID",
+      "createdRole": "loggedIn userRole",
+      "userID": "anuj1233",
+      "staffName": "Radha Krishna",
+      "gender": "Male",
+      "staffRole": "Principal",
+      "staffEmail": "XXXX@xxxx.com",
+      "staffMobile": "9066479047",
+      "createdDate": "2017-11-17T17:07:38.259Z",
+      "staffAddress": {
+        "address": "dargamitta",
+        "city": "Nellore",
+        "district": "AP",
+        "state": "AP",
+        "pincode": "524003",
+        "phoneNo": []
+      }
+    },
+    {
+      "id": 2,
+      "schoolID": "74debae0-c61b-11e7-8679-bff749ecba90",
+      "createdBy": "LoggedIn userID",
+      "createdRole": "loggedIn userRole",
+      "userID": "anuj1233",
+      "staffName": "Radha Krishna",
+      "gender": "Male",
+      "staffRole": "Principal",
+      "staffEmail": "XXXX@xxxx.com",
+      "staffMobile": "9066479047",
+      "createdDate": "2017-11-16T17:07:38.259Z",
+      "staffAddress": {
+        "address": "dargamitta",
+        "city": "Nellore",
+        "district": "AP",
+        "state": "AP",
+        "pincode": "524003",
+        "phoneNo": []
+      }
+    },
+    {
+      "id": 3,
+      "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+      "staffName": "staff",
+      "userID": "staff1",
+      "staffEmail": "email",
+      "gender": "Gender",
+      "staffRole": "Role",
+      "updatedRole": "schoolAdmin",
+      "updatedBy": "anujs16",
+      "staffAddress": {
+        "address": "Address staff",
+        "city": "c",
+        "district": "d",
+        "state": "s",
+        "pincode": 123123
+      }
+    },
+    {
+      "id": 4,
+      "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+      "staffName": "staff2",
+      "userID": "staff2",
+      "staffEmail": "staff2",
+      "gender": "Male",
+      "staffRole": "Principal",
+      "updatedRole": "schoolAdmin",
+      "updatedBy": "anujs16",
+      "staffAddress": {}
+    },
+    {
+      "id": 5,
+      "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+      "staffName": "staff3 update",
+      "userID": "staff3",
+      "staffEmail": "staff3",
+      "staffMobile": 312312312,
+      "gender": "Female",
+      "staffRole": "Principal",
+      "updatedRole": "schoolAdmin",
+      "updatedBy": "anujs16",
+      "staffAddress": {
+        "address": "staff3",
+        "city": "staff3",
+        "district": "staff3",
+        "state": "staff3",
+        "pincode": 123123
+      }
+    },
+    {
+      "id": 6,
+      "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+      "createdRole": "schoolAdmin",
+      "createdBy": "anujs16",
+      "staffName": "staff7",
+      "gender": "Female",
+      "staffRole": "Principal",
+      "userID": "staff7",
+      "staffEmail": "staff7",
+      "staffMobile": 7,
+      "staffAddress": {
+        "address": "staff7",
+        "city": "staff7",
+        "district": "staff7",
+        "state": "staff7"
+      }
+    }
+  ],
+  "getStudent": [
+    {
+      "id": 1,
+      "studentName": "Anuj ",
+      "studentID": "anuj",
+      "gender": "Male",
+      "studentClass": {
+        "subjectDetails": [
+          {
+            "subjectName": "Maths",
+            "subjectID": "56bd9440-c9c3-11e7-8524-f3f32d005378"
+          },
+          {
+            "subjectName": "Science1",
+            "subjectID": "dc521050-c9c7-11e7-902d-d71387e7a000"
+          }
+        ],
+        "classID": "5cc9bbf0-ca3d-11e7-96a9-f3a712cd7a08",
+        "className": "First-A"
+      },
+      "fatherName": "Anil gupta",
+      "fatherID": "anil",
+      "fatherEmail": "anil@gmail.com",
+      "fatherMobile": "1231231231",
+      "motherName": "Mamta",
+      "motherID": "mamta",
+      "motherEmail": "mamta@gmail.com",
+      "motherMobile": "1231231231"
+    },
+    {
+      "id": 2,
+      "studentName": "Alok",
+      "studentID": "Alok",
+      "gender": "Male",
+      "studentClass": {
+        "subjectDetails": [
+          {
+            "subjectName": "Science1",
+            "subjectID": "dc521050-c9c7-11e7-902d-d71387e7a000"
+          }
+        ],
+        "classID": "86e0f8a0-cbd6-11e7-8e09-a95afaef075e",
+        "className": "Second-6"
+      },
+      "fatherName": "Alok",
+      "fatherID": "Alok",
+      "fatherEmail": "Alok",
+      "fatherMobile": 2323423,
+      "motherName": "Alok singh",
+      "motherID": "Alok",
+      "motherEmail": "Alok",
+      "motherMobile": 4323423
+    },
+    {
+      "id": 3,
+      "studentName": "Krishna",
+      "studentID": "Krishna",
+      "gender": "Male",
+      "studentClass": {
+        "classID": "5cc9bbf0-ca3d-11e7-96a9-f3a712cd7a08",
+        "className": "First-A"
+      },
+      "fatherName": "Father"
+    }
+  ],
+  "gallery": [
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/bgm.jpg",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "test1",
+          "photoUrl": "/assets/images/bgm.jpg",
+          "message": "Test",
+          "created": "5 min ago"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/kitten-default.png",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "test2",
+          "photoUrl": "/assets/images/bgm.jpg",
+          "message": "Test",
+          "created": "5 min ago"
+        },
+        {
+          "userId": "12",
+          "userName": "test3",
+          "photoUrl": "/assets/images/logo.jpg",
+          "message": "Test",
+          "created": "5 min ago"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/logo.jpg",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "test4",
+          "photoUrl": "/assets/images/bgm.jpg",
+          "message": "Test",
+          "created": "5 min ago"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/raw-file.png",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "test6",
+          "photoUrl": "/assets/images/logo.jpg",
+          "message": "Test",
+          "created": "5 min ago"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/bgm.jpg",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "test7",
+          "photoUrl": "/assets/images/bgm.jpg",
+          "message": "Test",
+          "createdDate": "5 min ago"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd",
+          "createdDate": "5 min ago"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/kitten-default.png",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "32",
+          "photoUrl": "12"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/logo.jpg",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "32",
+          "photoUrl": "12"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    },
+    {
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "instituteID": "941f3de0-e596-11e7-b360-17699f9bea68",
+      "imageName": "1",
+      "imageUrl": "/assets/images/raw-file.png",
+      "albumName": "1",
+      "comments": [
+        {
+          "userId": "12",
+          "userName": "32",
+          "photoUrl": "12"
+        }
+      ],
+      "likes": [
+        {
+          "userId": "ee",
+          "userName": "sfd",
+          "photoUrl": "vfgsd"
+        }
+      ]
+    }
+  ],
+  "achivements": [
+    {
+      "_id": "5a5c46e55a70cc420eff7bc1",
+      "createdDate": "2018-01-15T06:15:01.110Z",
+      "acheivementID": "6b37a960-f9bb-11e7-8574-759eecbc208f",
+      "schoolID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "title": "String",
+      "description": "String",
+      "attachments": [
+        {
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2F57e3e4d60af121142e7d691d7d48d8d7_zindagi-na-milegi-dobara-movie-zindagi-na-milegi-dobara-quotes-in-hindi_478-478%20(1).jpeg?alt=media&token=33fdb5f8-5a8c-4421-85ec-927446dec8e4",
+          "fileName": "Name 1",
+          "mimeType": "image"
+        },
+        {
+          "fileName": "Test audio",
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2FKrishna%20Beautiful%20Song.mp3?alt=media&token=be1ac4c1-c8f1-4272-b5ee-792d251b9246",
+          "mimeType": "video"
+        }
+      ],
+      "likes": [
+        {
+          "createdDate": "2018-01-17T17:37:17.407Z",
+          "likeID": "0ffa5ef0-fbad-11e7-9f6c-35c060209c0f",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "likeID": "024061f0-fd34-11e7-a1c2-178ee0b6fa2f",
+          "createdDate": "2018-01-19T16:15:47.599Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "david",
+          "userId": "david"
+        }
+      ],
+      "comments": [
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "message": "Test",
+          "commentID": "15288320-fbad-11e7-9f6c-35c060209c0f",
+          "createdDate": "2018-01-17T17:37:26.098Z"
+        },
+        {
+          "commentID": "e2012a90-fc2b-11e7-9f6c-35c060209c0f",
+          "message": "Hai",
+          "createdDate": "2018-01-18T08:45:06.361Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-19T15:38:17.576Z",
+          "message": "Hello test!",
+          "commentID": "c5221e80-fd2e-11e7-a1c2-178ee0b6fa2f"
+        }
+      ],
+      "updatedBy": "david",
+      "updatedDate": "2018-01-19T16:15:47.599Z"
+    },
+    {
+      "_id": "5a6061502c45e307a77d3849",
+      "createdDate": "2018-01-18T08:56:48.872Z",
+      "acheivementID": "84bbd680-fc2d-11e7-9f6c-35c060209c0f",
+      "title": "String",
+      "description": "String",
+      "attachments": [
+        {
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2F57e3e4d60af121142e7d691d7d48d8d7_zindagi-na-milegi-dobara-movie-zindagi-na-milegi-dobara-quotes-in-hindi_478-478%20(1).jpeg?alt=media&token=33fdb5f8-5a8c-4421-85ec-927446dec8e4",
+          "fileName": "Name 1",
+          "mimeType": "image"
+        },
+        {
+          "fileName": "Test audio",
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2FKrishna%20Beautiful%20Song.mp3?alt=media&token=be1ac4c1-c8f1-4272-b5ee-792d251b9246",
+          "mimeType": "video"
+        }
+      ],
+      "schoolID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "createdBy": "dev2",
+      "likes": [
+        {
+          "likeID": "889b81b0-fc2d-11e7-9f6c-35c060209c0f",
+          "createdDate": "2018-01-18T08:56:55.371Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "likeID": "266f8920-fd34-11e7-8619-5f6e78073e35",
+          "createdDate": "2018-01-19T16:16:48.306Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "david",
+          "userId": "david"
+        }
+      ],
+      "comments": [
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-18T08:57:10.894Z",
+          "message": "Hello !",
+          "commentID": "91dc20e0-fc2d-11e7-9f6c-35c060209c0f"
+        }
+      ],
+      "updatedBy": "david",
+      "updatedDate": "2018-01-19T16:16:48.306Z"
+    },
+    {
+      "_id": "5a6218076619d55c3ca87d48",
+      "createdDate": "2018-01-19T16:08:39.380Z",
+      "acheivementID": "03035941-fd33-11e7-a1c2-178ee0b6fa2f",
+      "title": "String",
+      "description": "String",
+      "attachments": [
+        {
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2F57e3e4d60af121142e7d691d7d48d8d7_zindagi-na-milegi-dobara-movie-zindagi-na-milegi-dobara-quotes-in-hindi_478-478%20(1).jpeg?alt=media&token=33fdb5f8-5a8c-4421-85ec-927446dec8e4",
+          "fileName": "Name 1",
+          "mimeType": "image"
+        },
+        {
+          "fileName": "Test audio",
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2FKrishna%20Beautiful%20Song.mp3?alt=media&token=be1ac4c1-c8f1-4272-b5ee-792d251b9246",
+          "mimeType": "video"
+        }
+      ],
+      "schoolID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "createdBy": "dev2",
+      "likes": [
+        {
+          "likeID": "47e869f0-fd34-11e7-b510-59f331e9f8c2",
+          "createdDate": "2018-01-19T16:17:44.463Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "userId": "david",
+          "userName": "david",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-19T16:19:37.351Z",
+          "likeID": "8b31c170-fd34-11e7-b9a6-01acd0799347"
+        },
+        {
+          "likeID": "b989da10-fd36-11e7-b617-e35c0f77b5ff",
+          "createdDate": "2018-01-19T16:35:14.097Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-19T16:39:10.551Z",
+          "likeID": "4679de70-fd37-11e7-8908-958f695aacf3"
+        },
+        {
+          "likeID": "c2655960-fd37-11e7-9bec-0dfed45569d4",
+          "createdDate": "2018-01-19T16:42:38.455Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        }
+      ],
+      "comments": [],
+      "updatedBy": "dev2",
+      "updatedDate": "2018-01-19T16:42:38.455Z"
+    },
+    {
+      "_id": "5a5c458c5a70cc420eff7bbf",
+      "createdDate": "2018-01-15T06:09:16.507Z",
+      "acheivementID": "9dd143a0-f9ba-11e7-8574-759eecbc208f",
+      "title": "String",
+      "description": "String",
+      "attachments": [
+        {
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2F57e3e4d60af121142e7d691d7d48d8d7_zindagi-na-milegi-dobara-movie-zindagi-na-milegi-dobara-quotes-in-hindi_478-478%20(1).jpeg?alt=media&token=33fdb5f8-5a8c-4421-85ec-927446dec8e4",
+          "fileName": "Name 1",
+          "mimeType": "image"
+        },
+        {
+          "fileName": "Test audio",
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2FKrishna%20Beautiful%20Song.mp3?alt=media&token=be1ac4c1-c8f1-4272-b5ee-792d251b9246",
+          "mimeType": "video"
+        }
+      ],
+      "albumName": "gallery",
+      "schoolID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "likes": [
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "likeID": "6dc89ca0-fbac-11e7-9f6c-35c060209c0f",
+          "createdDate": "2018-01-17T17:32:45.290Z"
+        },
+        {
+          "userId": "david",
+          "userName": "david",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-19T16:46:33.445Z",
+          "likeID": "4e762150-fd38-11e7-aca3-97fb1f16feda"
+        },
+        {
+          "likeID": "c7e18ed0-fd3d-11e7-85a8-d3f928774d20",
+          "createdDate": "2018-01-19T17:25:44.637Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "Pan Singh",
+          "userId": "dhoniFather"
+        }
+      ],
+      "comments": [
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-17T18:56:06.350Z",
+          "message": "sdfsdfsdf",
+          "commentID": "12a5a7d0-fbb8-11e7-9f6c-35c060209c0f"
+        },
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-17T18:57:57.773Z",
+          "message": "dfsdfsdfs",
+          "commentID": "550f9bd0-fbb8-11e7-9f6c-35c060209c0f"
+        },
+        {
+          "commentID": "fde53260-fbb8-11e7-9f6c-35c060209c0f",
+          "message": "asasdasda",
+          "createdDate": "2018-01-17T19:02:41.030Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        },
+        {
+          "userId": "dev2",
+          "userName": "dev2",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-17T19:03:12.771Z",
+          "message": "sdasdfsdf",
+          "commentID": "10d07d30-fbb9-11e7-9f6c-35c060209c0f"
+        },
+        {
+          "commentID": "d5a14e80-fd32-11e7-a1c2-178ee0b6fa2f",
+          "message": "test",
+          "createdDate": "2018-01-19T16:07:23.240Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "dev2",
+          "userId": "dev2"
+        }
+      ],
+      "updatedBy": "dhoniFather",
+      "updatedDate": "2018-01-19T17:25:44.637Z"
+    },
+    {
+      "_id": "5a6218076619d55c3ca87d47",
+      "createdDate": "2018-01-19T16:08:39.380Z",
+      "acheivementID": "03035940-fd33-11e7-a1c2-178ee0b6fa2f",
+      "title": "String",
+      "description": "String",
+      "attachments": [
+        {
+          "fileUrl": "https://firebasestorage.googleapis.com/v0/b/maviba-web.appspot.com/o/uploads%2F57e3e4d60af121142e7d691d7d48d8d7_zindagi-na-milegi-dobara-movie-zindagi-na-milegi-dobara-quotes-in-hindi_478-478%20(1).jpeg?alt=media&token=33fdb5f8-5a8c-4421-85ec-927446dec8e4",
+          "fileName": "Name 1",
+          "mimeType": "image"
+        }
+      ],
+      "schoolID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "createdBy": "dev2",
+      "likes": [
+        {
+          "likeID": "10d3c450-fd34-11e7-b7c0-dd4009e66e02",
+          "createdDate": "2018-01-19T16:16:12.053Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "david",
+          "userId": "david"
+        },
+        {
+          "userId": "david",
+          "userName": "david",
+          "photoUrl": "assets/images/userlogo.png",
+          "createdDate": "2018-01-19T16:17:13.233Z",
+          "likeID": "354af100-fd34-11e7-96e7-e13c4caf659a"
+        }
+      ],
+      "comments": [
+        {
+          "commentID": "7d63c660-fd3e-11e7-85a8-d3f928774d20",
+          "message": "test",
+          "createdDate": "2018-01-19T17:30:49.158Z",
+          "photoUrl": "assets/images/userlogo.png",
+          "userName": "david",
+          "userId": "david"
+        }
+      ],
+      "updatedBy": "david",
+      "updatedDate": "2018-01-19T17:30:49.158Z"
+    }
+  ],
+  "studentCount": {
+    "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+    "studentsCount": 700
+  },
+  "staffCount": {
+    "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+    "staffCount": 100
+  },
+  "smsCount": {
+    "schoolID": "6a9d5e60-cbca-11e7-b849-1f4d67171d48",
+    "smsCount": 7000
+  },
+  "attendanceOverall": [
+    {
+      "daysPresent": 56.666666666666664,
+      "daysAbsent": 43.333333333333336,
+      "attendanceTaken": 30,
+      "schoolID": "c47c8640-e5a1-11e7-b360-17699f9bea68",
+      "schoolName": "School1"
+    }
+  ],
+  "attendanceMonthwise": {
+    "schholID": "03035941-fd33-11e7-a1c2-178ee0b6fa2f",
+    "schoolName": "03035941-fd33-11e7-a1c2-178ee0b6fa2f",
+    "monthsWise": [
+      {
+        "month": 1,
+        "year": 2017,
+        "daysAbsent": 10.25,
+        "daysPresent": 89.75
+      },
+      {
+        "month": 2,
+        "year": 2017,
+        "daysAbsent": 14.25,
+        "daysPresent": 85.75
+      },
+      {
+        "month": 4,
+        "year": 2017,
+        "daysAbsent": 2.25,
+        "daysPresent": 97.75
+      },
+      {
+        "month": 7,
+        "year": 2017,
+        "daysAbsent": 19.25,
+        "daysPresent": 70.75
+      },
+      {
+        "month": 8,
+        "year": 2017,
+        "daysAbsent": 10.25,
+        "daysPresent": 89.75
+      },
+      {
+        "month": 9,
+        "year": 2017,
+        "daysAbsent": 15.25,
+        "daysPresent": 74.75
+      },
+      {
+        "month": 10,
+        "year": 2017,
+        "daysAbsent": 10,
+        "daysPresent": 90
+      },
+      {
+        "month": 5,
+        "year": 2017,
+        "daysAbsent": 40.5,
+        "daysPresent": 59.5
+      }
+    ]
+  },
+  "SchoolsCountresponse": [
+    {
+      "id": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "count": 4,
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteName": "Global India International School",
+      "collection": "schools"
+    },
+    {
+      "id": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "count": 9000,
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteName": "Global India International School",
+      "collection": "students"
+    },
+    {
+      "id": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "count": 200,
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteName": "Global India International School",
+      "collection": "staffs"
+    },
+    {
+      "id": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "count": 4,
+      "instituteID": "6d238b60-e5a5-11e7-b360-17699f9bea68",
+      "instituteName": "Global India International School",
+      "collection": "messages"
+    }
+  ],
+  "remarks": [
+    {
+      "id": 1,
+      "studentName": "Krishna",
+      "studentRollNo": "Krishna"
+    },
+    {
+      "id": 2,
+      "studentName": "Anuj",
+      "studentRollNo": "Anuj"
+    },
+    {
+      "id": 3,
+      "studentName": "Dev",
+      "studentRollNo": "Dev"
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "studentName": "Krishna",
+      "studentRollNo": "Krishna"
+    },
+    {
+      "id": 2,
+      "studentName": "Anuj",
+      "studentRollNo": "Anuj"
+    },
+    {
+      "id": 3,
+      "studentName": "Dev",
+      "studentRollNo": "Dev"
+    }
+  ],
+  "division": [
+    {
+      "id": 4,
+      "schoolID": "6956b780-06b8-11e8-bfcf-57e603f4e7b0",
+      "instituteID": "153f76f0-06b8-11e8-bfcf-57e603f4e7b0",
+      "termInstituteID": "ec56be20-090e-11e8-93eb-b1e990801a1f",
+      "termName": "Test2",
+      "createdBy": "Test2",
+      "classID": "84368560-091c-11e8-93eb-b1e990801a1f",
+      "className": "Second",
+      "subjectID": "8a360350-091c-11e8-93eb-b1e990801a1f",
+      "subjectName": "Eng",
+      "subjectDivisions": {
+        "subjectDivisionName": "Test",
+        "subjectDivisionType": "Marks",
+        "minMarks": 10,
+        "maxMarks": 60
+      }
+    },
+    {
+      "id": 3,
+      "schoolID": "6956b780-06b8-11e8-bfcf-57e603f4e7b0",
+      "instituteID": "153f76f0-06b8-11e8-bfcf-57e603f4e7b0",
+      "termInstituteID": "8e3d0ca0-091c-11e8-93eb-b1e990801a1f",
+      "termName": "Test3",
+      "createdBy": "nps_school1",
+      "classID": "84368560-091c-11e8-93eb-b1e990801a1f",
+      "className": "Second",
+      "subjectID": "7318c640-06b9-11e8-bfcf-57e603f4e7b0",
+      "subjectName": "maths",
+      "subjectDivisions": {
+        "subjectDivisionName": "Test",
+        "subjectDivisionType": "Grades",
+        "grades": [
+          "A"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "schoolID": "6956b780-06b8-11e8-bfcf-57e603f4e7b0",
+      "instituteID": "153f76f0-06b8-11e8-bfcf-57e603f4e7b0",
+      "termInstituteID": "ec56be20-090e-11e8-93eb-b1e990801a1f",
+      "termName": "Test2",
+      "createdBy": "nps_school1",
+      "classID": "2fe0a110-090f-11e8-93eb-b1e990801a1f",
+      "className": "First",
+      "subjectID": "8a360350-091c-11e8-93eb-b1e990801a1f",
+      "subjectName": "Eng",
+      "subjectDivisions": {
+        "subjectDivisionName": "Ex",
+        "subjectDivisionType": "Marks",
+        "minMarks": 1,
+        "maxMarks": 10
+      }
+    }
+  ],
+  "marksSubmit": {
+    "marksReportDetails": {
+      "students": [
+        {
+          "markReportID": "bf0a4250-0bef-11e8-bfd9-67ddb9ca9849",
+          "studentID": "bdce3fe0-0bef-11e8-bfd9-67ddb9ca9849",
+          "studentRollNo": "Student143",
+          "studentName": "Student 143",
+          "subjects": {
+            "subjectID": "7318c640-06b9-11e8-bfcf-57e603f4e7b0",
+            "subjectName": "maths",
+            "totalObtainedMarks": 0,
+            "totalMinMarks": 0,
+            "totalMaxMarks": 0,
+            "overAllGrade": "",
+            "divisionsType": "",
+            "subjectDivisions": [
+              {
+                "subjectDivisionID": "0730aa11-0beb-11e8-b79b-59282c7f8652",
+                "subjectDivisionType": "Marks",
+                "subjectDivisionName": "Quiz2",
+                "obtainedMarks": 0,
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "grade": ""
+              },
+              {
+                "subjectDivisionID": "0f25dd80-0beb-11e8-b79b-59282c7f8652",
+                "subjectDivisionType": "Grades",
+                "subjectDivisionName": "Quiz1",
+                "obtainedMarks": 0,
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "grade": ""
+              },
+              {
+                "subjectDivisionName": "Marks",
+                "subjectDivisionType": "Marks",
+                "subjectDivisionID": "1253c4e0-0beb-11e8-b79b-59282c7f8652",
+                "obtainedMarks": 0,
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "grade": ""
+              }
+            ]
+          }
+        },
+        {
+          "markReportID": "25441bf0-0bef-11e8-bfd9-67ddb9ca9849",
+          "studentID": "23fa84f0-0bef-11e8-bfd9-67ddb9ca9849",
+          "studentRollNo": "Student13",
+          "studentName": "Student 13",
+          "subjects": {
+            "subjectID": "7318c640-06b9-11e8-bfcf-57e603f4e7b0",
+            "subjectName": "maths",
+            "totalObtainedMarks": 0,
+            "totalMinMarks": 0,
+            "totalMaxMarks": 0,
+            "overAllGrade": "",
+            "divisionsType": "",
+            "subjectDivisions": [
+              {
+                "subjectDivisionID": "0730aa11-0beb-11e8-b79b-59282c7f8652",
+                "subjectDivisionType": "Marks",
+                "subjectDivisionName": "Quiz2",
+                "obtainedMarks": 0,
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "grade": ""
+              },
+              {
+                "subjectDivisionID": "0f25dd80-0beb-11e8-b79b-59282c7f8652",
+                "subjectDivisionType": "Grades",
+                "subjectDivisionName": "Quiz1",
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "obtainedMarks": 0,
+                "grade": ""
+              },
+              {
+                "subjectDivisionName": "Quiz3",
+                "subjectDivisionType": "Marks",
+                "subjectDivisionID": "1253c4e0-0beb-11e8-b79b-59282c7f8652",
+                "obtainedMarks": 0,
+                "grades": [
+                  "A",
+                  "B"
+                ],
+                "minMarks": 10,
+                "maxMarks": 80,
+                "grade": ""
+              }
+            ]
+          }
+        }
+      ],
+      "schoolID": "1a3353a0-ff99-11e7-b74a-d1309a8ac833",
+      "classID": "2fe0a110-090f-11e8-93eb-b1e990801a1f",
+      "instituteID": "153f76f0-06b8-11e8-bfcf-57e603f4e7b0",
+      "termID": "0730aa10-0beb-11e8-b79b-59282c7f8652",
+      "termInstituteID": "ec56be20-090e-11e8-93eb-b1e990801a1f",
+      "termName": "Test2"
+    },
+    "termSubjectDetails": {
+      "termName": "Test2",
+      "termInstituteID": "ec56be20-090e-11e8-93eb-b1e990801a1f",
+      "termID": "0730aa10-0beb-11e8-b79b-59282c7f8652",
+      "classID": "2fe0a110-090f-11e8-93eb-b1e990801a1f",
+      "className": "First",
+      "subjects": {
+        "subjectID": "7318c640-06b9-11e8-bfcf-57e603f4e7b0",
+        "subjectName": "maths",
+        "totalObtainedMarks": 0,
+        "totalMinMarks": 0,
+        "totalMaxMarks": 0,
+        "overAllGrade": "",
+        "divisionsType": "",
+        "subjectDivisions": [
+          {
+            "subjectDivisionID": "0730aa11-0beb-11e8-b79b-59282c7f8652",
+            "subjectDivisionType": "Quiz",
+            "subjectDivisionName": "Quiz2",
+            "obtainedMarks": 0,
+            "grade": ""
+          },
+          {
+            "subjectDivisionID": "0f25dd80-0beb-11e8-b79b-59282c7f8652",
+            "subjectDivisionType": "Quiz",
+            "subjectDivisionName": "Quiz1",
+            "obtainedMarks": 0,
+            "grade": ""
+          },
+          {
+            "subjectDivisionName": "Quiz3",
+            "subjectDivisionType": "Quiz",
+            "subjectDivisionID": "1253c4e0-0beb-11e8-b79b-59282c7f8652",
+            "obtainedMarks": 0,
+            "grade": ""
+          }
+        ]
+      }
+    }
+  }
+}

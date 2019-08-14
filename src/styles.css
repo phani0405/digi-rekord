@@ -1,0 +1,112 @@
+/*Override  bootstrap alert message css for all forms*/
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
+}
+.form-group .alert-danger{
+    background-color: transparent;
+
+}
+.form-group .alert{
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+}
+.fa-edit{
+    color: #8a7fff;
+}
+.fa-trash{
+    color: #a94442;/* red */
+}
+.fa-tasks{
+    color: darkorange;
+}
+.row-no-padding [class*="col-"]{
+      padding-left: 0 !important;
+      padding-right: 0 !important; 
+  }
+
+.mr10{
+    margin-right: 10px;
+}
+
+.gray-left-border{
+    border-left: 1px solid #eeeeee;
+}
+
+button {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+.form-group > input  {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+.input-group > input  {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+}
+
+.form-group > select  {
+    padding-top: .5rem !important;
+    padding-bottom: .5rem !important;
+    height: calc(2rem + 12px) !important;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.fa,.close,.nb-theme-default .btn.btn-outline-primary{
+    cursor: pointer;
+}
+
+.nb-theme-default .btn.btn-outline-primary:disabled{
+    cursor: default;
+}
+
+.ngb-tp-meridian > button {
+    padding: 0.5rem .65rem !important;
+}
+
+.ngb-tp-hour > input {
+    padding: 0.5rem .65rem !important;
+}
+
+.ngb-tp-minute > input {
+    padding: 0.5rem .65rem !important;
+}
+
+.min-width-100 {
+    min-width: 6rem;
+}
+
+.min-width-130 {
+    min-width: 8rem;
+}
+
+.min-width-400 {
+    min-width: 26rem;
+}
+
+.attachment-botton-align {
+    margin: -6px 3px -5px auto;
+    float: right;
+}
+
+.width-10rem {
+    width: 10rem;
+  }
+  
+.green-color {
+    color: #3dcc6d
+}

@@ -1,0 +1,138 @@
+
+<div class="row">
+  <div class="col-md-4">
+    <nb-card class="min-height-50">
+        <nb-card-body>
+          <div class="text-center profile-image-container">
+            <img class="circle-profile-image img-fluid" [src]="model.url" *ngIf="model.url && !uploadingImageLoading"/>
+            <img class="circle-profile-image img-fluid" *ngIf="!uploadingImageLoading && !model.url" src="assets/images/default_logo.png" />
+            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+                <label for="file-upload" class="label-file-upload text-center">
+                    <i class="fa fa-cloud-upload"></i> Change Photo
+                </label> 
+                <button type="button" class="btn btn-lg btn-outline-primary center photo-button" (click)="updateUserProfile(true)" [disabled]="!model.url">Update</button>
+                <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+            </div>
+          </div>
+          
+        </nb-card-body>
+      </nb-card>
+    <form novalidate name="form" #UserPasswordForm="ngForm" autocomplete="off">
+      <nb-card class="min-height-50">
+          <nb-card-body>
+            <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>Password</label>
+                  <input type="password" class="form-control" [(ngModel)]="model.userPassword" #userPassword="ngModel" name="userPassword" placeholder="Password" required>
+                  <div *ngIf="userPassword.errors && (userPassword.dirty || userPassword.touched)" class="alert alert-danger">
+                      <div [hidden]="!userPassword.errors.required">
+                        User password is required !
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>New Password</label>
+                  <input type="password" class="form-control" [(ngModel)]="model.userNewPassword" #userNewPassword="ngModel" name="userNewPassword" placeholder="New Password" required>
+                  <div *ngIf="userNewPassword.errors && (userNewPassword.dirty || userNewPassword.touched)" class="alert alert-danger">
+                      <div [hidden]="!userNewPassword.errors.required">
+                        New password is required !
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>Confirm Password</label>
+                  <input type="password" class="form-control" [(ngModel)]="model.userConPassword" #userConPassword="ngModel" name="userConPassword" placeholder="Confirm Password" required>
+                  <div *ngIf="userConPassword.errors && (userConPassword.dirty || userConPassword.touched)" class="alert alert-danger">
+                      <div [hidden]="!userConPassword.errors.required">
+                        Confirm password is required !
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-12 text-center">
+                  <button type="button" class="btn btn-lg btn-outline-primary center" (click)="updatePassword()" [disabled]="!UserPasswordForm.form.valid">Update</button>
+                </div>
+              </div>
+          </nb-card-body>
+        </nb-card>
+      </form>
+  </div>
+  <div class="col-md-8">
+    <form novalidate name="form" #UserProfileForm="ngForm" autocomplete="off">
+      <nb-card class="min-height-50">
+        <nb-card-body>
+          <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" placeholder="Name" required>
+                  <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                      <div [hidden]="!userName.errors.required">
+                        User name is required !
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>Email</label>
+                  <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.userEmail" #userEmail="ngModel" name="userEmail" placeholder="Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                  <div *ngIf="userEmail.errors && (userEmail.dirty || userEmail.touched)" class="alert alert-danger">
+                      <div [hidden]="!userEmail.errors.required">
+                        User email is required !
+                      </div>
+                      <div [hidden]="!userEmail.errors.pattern">
+                          Invalid email!
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-12">
+                  <label>Mobile</label>
+                  <input type="text" (keypress)="util.onlyNumberKey($event)" class="form-control" [(ngModel)]="model.userMobile" #userMobile="ngModel" name="userMobile" placeholder="Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10" required>
+                  <div *ngIf="userMobile.errors && (userMobile.dirty || userMobile.touched)" class="alert alert-danger">
+                      <div [hidden]="!userMobile.errors.required">
+                        User mobile number is required !
+                      </div>
+                      <div [hidden]="!userMobile.errors.minlength">Mobile should be 10 digit</div>
+                      <div [hidden]="!userMobile.errors.pattern">Mobile number should be only numbers</div>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-12">
+                <label for="userAddress">Address</label>
+                <textarea type="text" class="form-control addressHeight" name="Address" [(ngModel)]="model.userAddress" #userAddress="ngModel"
+                    placeholder="Address" required>
+                </textarea>
+                <div *ngIf="userAddress.errors && (userAddress.dirty || userAddress.touched)" class="alert alert-danger">
+                    <div [hidden]="!userAddress.errors.required">
+                        User address is required !
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm-12 text-center">
+                <button type="button" class="btn btn-lg btn-outline-primary center" (click)="updateUserProfile(true)" [disabled]="!UserProfileForm.form.valid">Update</button>
+              </div>
+            </div>
+        </nb-card-body>
+      </nb-card>  
+    </form>  
+  </div>
+</div>
+
+
+
+
+
+

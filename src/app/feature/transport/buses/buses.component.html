@@ -1,0 +1,33 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Buses</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<div *ngIf="lat && lng">
+		  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+		    <!-- <agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="iconUrl">
+		      <agm-info-window>
+		        <h3><strong>Bus1</strong></h3>
+		        <p>AP26 AB 1111</p>
+		        <p>AP26 AB 2222</p>
+		        <p>AP26 AB 3333</p>
+		        <p>AP26 AB 4444</p>
+		      </agm-info-window>
+		    </agm-marker> -->
+		    <agm-marker *ngFor="let i of latlngs" [latitude]="i.lat" [longitude]="i.lng" [iconUrl]="i.iconUrl">
+		      <agm-info-window>
+		        <h3><strong>{{i.bus}}</strong></h3>
+		        <p>Bus Number: {{i.bus_number}} <br/>
+		        Attendant: {{i.driver_name}} <br/>
+		        Phone No.: {{i.driver_no}}</p>
+		      </agm-info-window>
+		    </agm-marker>
+
+  			<agm-direction *ngFor="let i of dir" [origin]="i.origin" [destination]="i.destination"></agm-direction>
+		  </agm-map>
+		</div>
+	</nb-card-body>
+</nb-card>

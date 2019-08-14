@@ -1,0 +1,21 @@
+.min-height-50 {
+    min-height: 100%;
+}
+th{
+	background: lightgreen;
+	text-align: center;
+}
+td{
+	text-align: center;
+}
+.panel-body th{
+	background: white;
+	text-align: center;
+}
+@page { size: auto;  margin: 0mm; }
+
+.td-head{
+	padding:0px;
+	border:0px;
+	text-align: left;
+}

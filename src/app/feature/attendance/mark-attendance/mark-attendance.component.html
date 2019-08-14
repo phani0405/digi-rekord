@@ -1,0 +1,117 @@
+<nb-card class="min-height-50">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Take Attendance</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <form novalidate name="form" #takeAttendance="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label>Class</label>
+                        <select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #class="ngModel" name="class" required>
+                            <option [ngValue]="null" [disabled]="true">--Select Class--</option>
+                            <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                        </select>
+                        <div *ngIf="class.errors && (class.dirty || class.touched)" class="alert alert-danger">
+                            <div [hidden]="!class.errors.required">
+                                Class is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-3">
+                        <label for="reason">Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="date" #date="ngModel" [(ngModel)]="model.date" ngbDatepicker #d="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="d.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="date.errors && (date.dirty || date.touched)" class="alert alert-danger">
+                            <div [hidden]="!date.errors.required">
+                                Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>Session</label>
+                        <select [ngModel]="model.selectedSession" class="form-control" (ngModelChange)="onChangeSession($event)" #session="ngModel" name="session" required>
+                            <option [ngValue]="null" [disabled]="true">--Select Session--</option>
+                            <option [ngValue]="session" *ngFor="let session of sessions">{{session.value}}</option>
+                        </select>
+                        <div *ngIf="session.errors && (session.dirty || session.touched)" class="alert alert-danger">
+                            <div [hidden]="!session.errors.required">
+                                Session is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <!-- <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!takeAttendance.form.valid" (click)="getStudentsForAttendance()">Show Student</button> -->
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!takeAttendance.form.valid" (click)="getStudentsForAttendance()">Show Student</button>
+                        
+                    </div>
+                </div>
+                <div *ngIf="students">
+                    <div class="form-row">
+                        <div class="alert alert-danger" *ngIf="students.length === 0">You have 0 students in this class...</div>
+                        <table class="table table-bordered table-striped" *ngIf="students.attendanceReport && students.attendanceReport.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Student RollNumber</th>
+                                    <th>Student Name</th>
+                                    <th class="width-200">Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let student of students.attendanceReport; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{student.studentRollNo}}</td>
+                                    <td>{{student.studentName}}</td>
+                                    <td>
+                                        <input type="radio" name="{{i}}"
+                                            [checked]="student.present === true" 
+                                            [value]="student.present" 
+                                            (change)="onSelectionChange(entry, 'present', student)">Present  &nbsp;&nbsp;
+                                        <input type="radio" name="{{i}}"
+                                            [checked]="student.present === false" 
+                                            [value]="!student.present" 
+                                            (change)="onSelectionChange(entry, 'absent', student)">Absent
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-row" *ngIf="students.attendanceReport && students.attendanceReport.length > 0">
+                        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="openPreviewModel(previewModel)">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #previewModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Preview</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-group">
+        <li class="list-group-item">Class: {{this.model.selectedClass.className}}</li>
+        <li class="list-group-item">Total Students: {{model.totalStudent}}</li>
+        <li class="list-group-item">Student Present: {{model.studentPresent}}</li>
+        <li class="list-group-item">Student Absent: {{model.studentAbsent}}</li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="submitAttendance()">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>

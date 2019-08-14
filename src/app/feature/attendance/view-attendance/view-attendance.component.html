@@ -1,0 +1,120 @@
+<nb-card class="min-height-50">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">View Attendance</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <form novalidate name="form" #viewAttendance="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label>Class</label>
+                        <select [ngModel]="model.selectedClass" placeholder="Select Class" class="form-control" (ngModelChange)="onChangeClass($event)" #class="ngModel" name="class" required>
+                                <option [ngValue]="null" [disabled]="true">--Select Class--</option>
+                                <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                        </select>
+                        <div *ngIf="class.errors && (class.dirty || class.touched)" class="alert alert-danger">
+                            <div [hidden]="!class.errors.required">
+                                Class is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-3">
+                        <label for="reason">From Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="fromdate" #fromdate="ngModel" [(ngModel)]="model.fromDate" ngbDatepicker #fromdatepicker="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="fromdatepicker.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="fromdate.errors && (fromdate.dirty || fromdate.touched)" class="alert alert-danger">
+                            <div [hidden]="!fromdate.errors.required">
+                                From Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group  col-md-3">
+                        <label for="reason">To Date</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="todate" #todate="ngModel" [(ngModel)]="model.toDate" ngbDatepicker #toDatePicker="ngbDatepicker" required>
+                            <button class="input-group-addon" (click)="toDatePicker.toggle()" type="button">
+                                <i class="fa fa-calendar green-color"></i>
+                            </button>
+                        </div>
+                        <div *ngIf="todate.errors && (todate.dirty || todate.touched)" class="alert alert-danger">
+                            <div [hidden]="!todate.errors.required">
+                                To Date is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!viewAttendance.form.valid" (click)="getAttendance()">Show Attendance</button>
+                        <!-- <button type="button" class="btn btn-lg btn-outline-primary center margin-top-12"  (click)="getStudentsForAttendance()">Show Student</button> -->
+                    </div>
+                </div>
+                <div *ngIf="students">
+                    <div class="form-row">
+                        <div class="alert alert-danger" *ngIf="students.length === 0">No attendance record found in this class and date...</div>
+                        <table class="table table-bordered table-striped" *ngIf="students.attendanceReport && students.attendanceReport.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Student RollNumber</th>
+                                    <th>Student Name</th>
+                                    <th>Morning</th>
+                                    <th>Afternoon</th>
+                                    <th>Overall</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let student of students.attendanceReport; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{student.studentRollNo}}</td>
+                                    <td>{{student.studentName}}</td>
+                                    <td>{{getPeriodWiseDetail(student.periodWiseDetails, 1)}}</td>
+                                    <td>{{getPeriodWiseDetail(student.periodWiseDetails, 2)}}</td>
+                                    <td>{{getPeriodWiseDetail(student.periodWiseDetails, 3)}}</td>
+                                    <span class="fa fa-eye fa-1x clickable margin-12" (click)="openAttendanceDetailMedel(attendanceDetail, student)" title="Detail"></span>&nbsp;&nbsp;
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #attendanceDetail let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">{{attendanceDetails.studentName}} - {{attendanceDetails.studentRollNo}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div class="row center-align">
+        <table class="table table-bordered table-striped table-width table-margin" *ngFor="let t of attendanceDetails.details;">
+              <thead>
+                  <tr><th colspan="2">{{t.periodID}}</th></tr>
+                  <tr>
+                      <th>Date</th>
+                      <th>Attendance</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let p1 of t.dateWise; index as i">
+                      <td>{{p1.day}}-{{p1.month}}-{{p1.year}}</td>
+                      <td>{{p1.attendance}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+    </div>
+</ng-template>

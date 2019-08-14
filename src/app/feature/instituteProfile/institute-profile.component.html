@@ -1,0 +1,72 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row" *ngIf="instituteDetail">
+            <div class="col-sm-1" *ngIf="!instituteDetail.instituteLogo">
+                <img src="http://www.gravatar.com/avatar/{{hash}}" alt="Logo" />
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-1 text-center" *ngIf="instituteDetail.instituteLogo">
+                <img src="{{instituteDetail.instituteLogo}}"  class="instituteLogoHW" alt="Logo" />
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-8 text-center">{{instituteDetail.instituteName}}<br/>
+                <p *ngIf="instituteDetail.instituteAddress">{{instituteDetail.instituteCode}}<br/>
+                {{instituteDetail.instituteAddress.address}},&nbsp;{{instituteDetail.instituteAddress.city}}&nbsp;-&nbsp;{{instituteDetail.instituteAddress.pincode}}</p>
+            </div>
+
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <table class="table table-bordered" *ngIf="instituteDetail">
+            <tbody>
+                <tr *ngIf="instituteDetail.userID">
+                    <td>User ID</td>
+                    <td>{{instituteDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.schoolsRegistered">
+                    <td>Registered Schools</td>
+                    <td>{{instituteDetail.schoolsRegistered.length}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.address">
+                    <td>Address</td>
+                    <td>{{instituteDetail.instituteAddress.address}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.city">
+                    <td>City</td>
+                    <td>{{instituteDetail.instituteAddress.city}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.district">
+                    <td>District</td>
+                    <td>{{instituteDetail.instituteAddress.district}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.state">
+                    <td>State</td>
+                    <td>{{instituteDetail.instituteAddress.state}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.pincode">
+                    <td>Pincode</td>
+                    <td>{{instituteDetail.instituteAddress.pincode}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.instituteAddress && instituteDetail.instituteAddress.country">
+                    <td>Country</td>
+                    <td>{{instituteDetail.instituteAddress.country}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.adminEmailID">
+                    <td>Admin EmailID</td>
+                    <td>{{instituteDetail.adminEmailID}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.adminName">
+                    <td>Admin Name</td>
+                    <td>{{instituteDetail.adminName}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.userID">
+                    <td>Admin userName</td>
+                    <td>{{instituteDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="instituteDetail.adminMobile">
+                    <td>Admin Mobile</td>
+                    <td>{{instituteDetail.adminMobile}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </nb-card-body>
+</nb-card>

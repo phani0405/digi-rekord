@@ -1,0 +1,176 @@
+/*-- Global Selectors --*/
+
+// a {
+//     color: #47649F;
+// }
+// body {
+//     font-family: 'helvetica';
+// }
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
+// variables
+$card-width: 95%;
+$card-height: 250px;
+$h-color: #9CC9E3;
+$yellow: #D0BB57;
+$txt-color: #DCE3E7;
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body {
+    background: #323c41;
+}
+
+.blog-card {
+    width: $card-width;
+    height: $card-height;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, .5);
+    text-align: center;
+    .gradient-overlay {
+        /* bg-gradient: */
+        width: $card-width;
+        height: 15%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 15;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+    }
+}
+
+
+.utility-info {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    z-index: 20;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.utility-list {
+    list-style-type: none;
+    margin: 0 0 8px 0px;
+    padding: 0;
+    width: 100%;
+    li {
+        width: 20%;
+        display: inline-block;
+        color: $txt-color;
+        font-family: 'Roboto', sans-serif;
+    }
+}
+
+.detailBox {
+    width: 100%;
+}
+
+.commentBox {
+    padding: 10px;
+}
+
+.commentBox .form-group:first-child,
+.actionBox .form-group:first-child {
+    width: 80%;
+}
+
+.commentBox .form-group:nth-child(2),
+.actionBox .form-group:nth-child(2) {
+    width: 18%;
+}
+
+.actionBox .form-group * {
+    width: 100%;
+}
+
+.taskDescription {
+    margin-top: 10px 0;
+}
+
+.commentList {
+    padding: 0;
+    list-style: none;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.actionBox ul {
+    margin-top: -1rem;
+}
+
+.commentList li {
+    margin-bottom: 0px;
+}
+
+.commentList li>div {
+    display: table-cell;
+}
+
+.commenterImage {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    float: left;
+}
+
+.commenterImage img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.commentText p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.sub-text {
+    color: #999999;
+    font-family: verdana;
+    font-size: 12px;
+    margin-left: 35px;
+}
+
+.actionBox {
+    padding: 10px;
+}
+
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 1.5rem;
+    padding: 5px;
+    width: 670px;
+    margin: 10px 0;
+}
+
+.userName {
+    color: rgba(0, 0, 0, 1.4);
+    font-size: 16px;
+}
+
+.width-750 {
+    width: 750px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.scroll-body {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.row {
+    margin: 0px;
+}
+
+.alert {
+    padding: .75rem 1.25rem;
+}

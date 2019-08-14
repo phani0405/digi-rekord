@@ -1,0 +1,103 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Hall Tickets: Setup</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<form novalidate name="form" #marksCard="ngForm" autocomplete="off">
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<label>Terms/Exams</label>
+						<select [ngModel]="model.selectedTerm" class="form-control" (ngModelChange)="onChangeTerm($event)" #term="ngModel" name="terms">
+							<option [ngValue]="undefined" disabled selected>--Select Term/Exam--</option>
+							<option [ngValue]="term" *ngFor="let term of terms">{{term.termName}}</option>
+						</select>
+					</div>
+				</div>
+				<div *ngIf="model.selectedTerm">
+					<div class="form-row">
+						<div class="alert alert-danger" *ngIf="classes.length === 0">You have 0 classes...</div>
+						<table class="table table-bordered table-striped" *ngIf="classes && classes.length > 0">
+				            <thead>
+				                <tr>
+				                    <th>S.No.</th>
+				                    <th>Class</th>
+				                    <th class="width-200">Action</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr *ngFor="let class of classes; index as i">
+				                    <td>{{i+1}}</td>
+				                    <td>{{class.className}}</td>
+				                    <td>
+				                        <span style="color: blue;" class="fa fa-clipboard fa-1x clickable" (click)="openModelWithDetail(setupHTModel, class)" title="Setup"></span> Setup
+				                    </td>
+				                </tr>
+				            </tbody>
+				        </table>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</nb-card-body>
+</nb-card>
+
+<ng-template #setupHTModel let-c="close" let-d="dismiss" class="modal">
+	<div class="modal-header">
+		<h4 class="modal-title modalHeaderColor">{{titleText}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form novalidate name="form" #setupHTForm="ngForm" autocomplete="off">
+			<div class="form-row">
+				<div class="alert alert-danger" *ngIf="hallTicketDetails.length === 0">You have 0 subjects...</div>
+				<table class="table table-bordered table-striped" *ngIf="hallTicketDetails && hallTicketDetails.length > 0">
+		            <thead>
+		                <tr>
+		                    <th>S.No.</th>
+		                    <th>Subject</th>
+		                    <th>Exam Date</th>
+		                    <th>Start Time</th>
+		                    <th>End Time</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr *ngFor="let subject of hallTicketDetails; index as i">
+		                    <td>{{i+1}}</td>
+		                    <td>{{subject.subjectName}}</td>
+		                    <td>
+		                    	<div class="input-group">
+		                            <input class="form-control" placeholder="yyyy-mm-dd" name="{{subject.subjectID}}" #fromdate="ngModel" [(ngModel)]="subject.examDate" ngbDatepicker #fromdatepicker="ngbDatepicker" required>
+		                            <button class="input-group-addon" (click)="fromdatepicker.toggle()" type="button">
+		                                <i class="fa fa-calendar green-color"></i>
+		                            </button>
+		                        </div>
+		                    </td>
+		                    <td>
+		                    	<div class="input-group">
+									<input class="form-control inputTypePadding" [(ngModel)]="subject.startTime" name="{{subject.subjectID}}{{i+1}}" #startTime="ngModel" placeholder="Enter Start Time" required>
+								</div>
+		                    </td>
+		                    <td>
+		                    	<div class="input-group">
+									<input class="form-control inputTypePadding" [(ngModel)]="subject.endTime" name="{{subject.subjectID}}{{i+1+1}}" #endTime="ngModel" placeholder="Enter End Time" required>
+								</div>
+		                    </td>
+		                </tr>
+		            </tbody>
+		        </table>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-outline-primary center" [disabled]="!setupHTForm.form.valid" (click)="submitHTSetup()">Submit</button>&nbsp;&nbsp;
+			<button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+		</div>
+	</div>
+</ng-template>

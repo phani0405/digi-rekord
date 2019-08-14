@@ -1,0 +1,142 @@
+<nb-card>
+    <nb-card-header>
+      <div class="row" *ngIf="pagedItems">
+          <div class="col-sm-6">Leave list</div>
+          <div class="col-sm-6 text-right">
+              <app-apply [leaveApplyAllowd]='leaveApplyAllowd' (add)='getLeaves()'></app-apply>
+          </div>
+      </div>
+      <div class="row" *ngIf="!pagedItems">
+          <div class="col-sm-6">Fetching leaves, please wait...</div>
+      </div>
+  </nb-card-header>
+
+  <nb-card-body>
+      <div class="alert alert-danger" *ngIf="(pagedItems && pagedItems.length === 0) && (staffLeaves && staffLeaves.length === 0)">
+          No leaves is applied..
+      </div>
+      <div class="panel-body" *ngIf="!isParent && !showTwoTables && !showOneTable">
+          <div class="table-responsive">
+              <table class="table table-bordered" *ngIf="pagedItems && pagedItems.length > 0">
+                  <thead>
+                      <tr>
+                          <th>S.No.</th>
+                          <th>Staff Name</th>
+                          <th>Reason</th>
+                          <th>From Date</th>
+                          <th>To Date</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let leave of pagedItems;index as i ">
+                          <td>{{i+1}}</td>
+                          <td><span *ngIf="srole!='schooladmin'">{{leave.staffName}}</span><span *ngIf="srole=='schooladmin'">{{sName}}</span></td>
+                          <td>{{leave.leaveReason}}</td>
+                          <td>{{leave.fromDate}}</td>
+                          <td>{{leave.toDate}}</td>
+                          <td>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() === 'submitted' && !leaveApplyAllowd" >
+                                <button type="button" class="btn btn-sm btn-outline-success mr10" (click)= "approveLeave(leave,'Approved')">
+                                Approve
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)= "approveLeave(leave,'Rejected')">Reject</button>
+                            </span>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() === 'approved' || leaveApplyAllowd">{{leave.leaveStatus}}</span>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="panel-body" *ngIf="isParent || showTwoTables || showOneTable">
+          <div class="table-responsive">
+              <table class="table table-bordered" *ngIf="pagedItems && pagedItems.length > 0">
+                  <thead>
+                      <tr>
+                          <th>S.No.</th>
+                          <th>Student Name</th>
+                          <th>Reason</th>
+                          <th>From Date</th>
+                          <th>To Date</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let leave of pagedItems;index as i ">
+                          <td>{{i+1}}</td>
+                          <td>{{leave.studentName}}</td>
+                          <td>{{leave.leaveReason}}</td>
+                          <td>{{leave.fromDate}}</td>
+                          <td>{{leave.toDate}}</td>
+                          <td>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() === 'submitted' && !leaveApplyAllowd" >
+                                <button type="button" class="btn btn-sm btn-outline-success mr10" (click)= "approveLeave(leave,'Approved')">
+                                Approve
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)= "approveLeave(leave,'Rejected')">Reject</button>
+                            </span>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() === 'approved' || leaveApplyAllowd">{{leave.leaveStatus}}</span>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="panel-body" *ngIf="showTwoTables">
+          <div class="table-responsive">
+              <table class="table table-bordered" *ngIf="staffLeaves && staffLeaves.length > 0">
+                  <thead>
+                      <tr>
+                          <th>S.No.</th>
+                          <th>Staff Name</th>
+                          <th>Reason</th>
+                          <th>From Date</th>
+                          <th>To Date</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let leave of staffLeaves;index as i ">
+                          <td>{{i+1}}</td>
+                          <td>{{leave.staffName}}</td>
+                          <td>{{leave.leaveReason}}</td>
+                          <td>{{leave.fromDate}}</td>
+                          <td>{{leave.toDate}}</td>
+                          <td>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() === 'submitted'">
+                                <button type="button" class="btn btn-sm btn-outline-success mr10" (click)= "approveStaffLeave(leave,'Approved')">
+                                Approve
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)= "approveStaffLeave(leave,'Rejected')">Reject</button>
+                            </span>
+                            <span *ngIf="leave.leaveStatus.toLocaleLowerCase() !== 'submitted'">{{leave.leaveStatus}}</span>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div>
+          <nav aria-label="Page navigation example text-center" *ngIf="pager.pages && pager.pages.length && leaves.length > 10">
+              <ul class="pagination  justify-content-center">
+                  <li [ngClass]="{'disabled':pager.currentPage === 1}" class="active">
+                      <a class="page-link" (click)="setPage(pager.currentPage - 1)" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Previous</span>
+                      </a>
+                  </li>
+                  <li *ngFor="let page of pager.pages" [ngClass]="{'active':pager.currentPage === page}">
+                      <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                  </li>
+                  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a class="page-link" (click)="setPage(pager.currentPage + 1)" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </div>
+  </nb-card-body>
+</nb-card>

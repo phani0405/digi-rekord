@@ -1,0 +1,87 @@
+<nb-card class="min-height-50">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Visit Gallery</div>
+            <div class="col-sm-6 text-right" *ngIf="checkAccessToAddImage()">
+                <app-create-gallery (add)='getGalleryImages()'></app-create-gallery>
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="alert alert-info" *ngIf="!images">Fetching images, please wait...</div>
+        <div class="alert alert-primary" *ngIf="images && images.length === 0 ">You don't have any image in the gallery, Please add image.</div>
+        <div class="row" *ngFor="let img of images">
+            <div *ngFor="let i of img.image" class="col-sm-4" style="margin-bottom: 10px">
+                <div class="blog-card">
+                    <img [src]="i.imageUrl" style='height: 100%; width: 100%; object-fit: contain'>
+                    <div class="utility-info">
+                        <ul class="utility-list">
+                            <li><i (click)="increaseLike(i)" class="fa fa-thumbs-up" title="Like"></i>&nbsp; {{i.likes.length}}</li>
+                            <li><i (click)="openCommentModel(commentModel, i)" class="fa fa-comment" title="Comment"></i>&nbsp;{{i.comments.length}}</li>
+                            <li><i class="fa fa-eye clickable" data-izimodal-open="#gallery-image" (click)="openPreview(i, 'image')" title="Preview"></i>&nbsp;</li>
+                            <li><i *ngIf="checkAccessToAddImage()" class="fa fa-trash clickable" (click)="openDeleteModel(deleteModel, i, 'image')" title="Delete"></i>&nbsp;</li>
+                        </ul>
+                    </div>
+                    <div class="gradient-overlay"></div>
+                    <div class="color-overlay"></div>
+                </div>
+            </div>
+        </div>
+        <div id="gallery-image" style="margin: auto !important" class="gallery-model" data-izimodal-transitionin="fadeInUp"></div>
+    </nb-card-body>
+</nb-card>
+
+<ng-template #commentModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+
+    <div class="modal-body scroll-body">
+        <div *ngFor="let comment of model.selectedImageComments.comments">
+            <div class="detailBox actionBox">
+                <ul class="commentList">
+                    <li>
+                        <div class="commenterImage">
+                            <img *ngIf="comment.photoUrl" class="img-circle" [src]="comment.photoUrl" alt="Avatar">
+                            <img *ngIf="!comment.photoUrl" class="img-circle" src="/assets/images/logo.jpg" alt="Avatar">
+                        </div>
+                        <div class="commentText container">
+                            <p><span class="userName margin-right-10">{{comment.userName}}</span><span>{{comment.message}}</span></p>
+                        </div>
+                        <span class="date sub-text">{{convertDataInXTimeAgo(comment.createdDate)}}</span>
+                        <span *ngIf="userId==comment.userId || model.selectedImageComments.createdBy==userId" class="fa fa-trash fa-1x clickable" (click)="deleteComment(comment)" title="Delete"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <form class="form-inline width-750" novalidate name="form" #CommentForm="ngForm" role="form">
+            <div class="col-sm-10 form-group margin-right-10">
+                <textarea rows="1" class="form-control col-sm-12" type="text" [(ngModel)]="model.comment" name="comment" #comment="ngModel" placeholder="Your comment"></textarea>
+            </div>
+            <div class="col-sm-1 form-group">
+                <button [disabled]="!model.comment" (click)="addComment()" class="btn btn-lg btn-outline-primary center">Add</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #deleteModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Delete Image</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure to delete this Image?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">No</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="deleteImage(model.selectedImageToDelete)">Yes</button>
+    </div>
+</ng-template>

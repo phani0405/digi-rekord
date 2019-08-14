@@ -1,0 +1,152 @@
+<ng-template #composeMsg let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Compose</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button> 
+    </div>
+
+    <div class="modal-body">
+        <form novalidate name="form" #ComposeForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="message">Message</label>
+                    <textarea type="text" class="form-control" [(ngModel)]="model.content" name="message"  placeholder="Type your message" required></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">Attachments</h5>
+                    <button type="button" (click)="addNewRow()" class="btn btn-primary attachment-botton-align">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+                <form [formGroup]="attachmentForms">
+                    <div formArrayName="itemRows">
+                        <div *ngFor="let itemrow of attachmentForms.controls.itemRows.controls; let i=index" [formGroupName]="i">
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <label>File Name</label>
+                                    <input type="text" formControlName="fileName" class="form-control" placeholder="File Name">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label>Select File</label>
+                                    <br>
+                                    <label for="file-upload+{{i}}" *ngIf="!itemrow.fileUrl" class="custom-file-upload attachment" 
+                                        [ngClass]="{greenColor: itemrow && itemrow.value && itemrow.value.fileUrl ? true : false}">
+                                        <i class="fa fa-cloud-upload" ></i> {{itemrow && itemrow.value && itemrow.value.fileUrl ? 'Update File' : 'Upload File'}}
+                                    </label>
+                                    <input id="file-upload+{{i}}" type="file" (change)="fileuploaderFileChange($event, i);"
+                                    />
+                                </div>
+                                <div class="form-group col-md-1 margin-2rem">
+                                    <label>&nbsp;</label>
+                                    <i *ngIf="model.selectedFileIndex === i && model.loading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <div class="form-group col-md-1" *ngIf="attachmentForms.controls.itemRows.controls.length > 1">
+                                    <label>&nbsp;</label>
+                                    <span (click)="deleteRow(i)" class="btn btn-danger trash-icon-padding form-control">
+                                        <i class="fa fa-trash"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <div class="form-row">
+                  <div class="form-group  col-md-6">
+                    <label>Message Type</label>
+                    <select name="messageType" class="form-control" [(ngModel)]="model.messageType" required>
+                        <option [ngValue]="null" [disabled]="true">--Select MessageType--</option>
+                        <option *ngFor="let m of messageTypes"  [value]="m.messageID">{{m.messageType}}</option>
+                    </select>
+                  </div>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="composeMessage(composeMsg)" [disabled]="!ComposeForm.form.valid || disableAddAttachmentButton">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<!-- <button class="btn btn-md btn-outline-primary pull-right" (click)="open(content)"><i class="fa fa-plus"></i>&nbsp;Compose</button> -->
+<!-- <span class="fa fa-edit fa-1x clickable" (click)="open(composeMessage, student)" title="Compose"></span>&nbsp;&nbsp; -->
+<!-- <div id="composeModel" class="modal fade" role="dialog">
+  <div class="modal-dialog" [hidden]="loading">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title modalHeaderColor">Compose</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <span aria-hidden="true">&times;</span>
+        </button> 
+      </div>
+
+      <div class="modal-body">
+          <form novalidate name="form" #ComposeForm="ngForm" autocomplete="off">
+              <fieldset class="form-group">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="message">Message</label>
+                      <textarea type="text" class="form-control" [(ngModel)]="model.content" name="message"  placeholder="Type your message" required></textarea>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-11">
+                          <h5 class="underline">Attachments</h5>
+                      </div>
+                      <div>
+                          <button type="button" (click)="addNewRow()" class="btn btn-primary trash-icon-padding"><i class="fa fa-plus"></i></button>
+                      </div>
+                  </div>
+                  <form [formGroup]="attachmentForms">
+                      <div formArrayName="itemRows">
+                          <div *ngFor="let itemrow of attachmentForms.controls.itemRows.controls; index as i" [formGroupName]="i">
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <label>FileName</label>
+                                      <input type="text" formControlName="fileName" class="form-control" placeholder="File Name">
+                                  </div>
+                                  <div class="form-group col-md-5">
+                                      <label>Select File</label>
+                                      <file-uploader [allowMultiple]="false" [fileType]="'application/*'" (onSelection)="fileuploaderFileChange($event, i)" [required]="false"></file-uploader>
+                                  </div>
+                                  <div class="form-group col-md-1" *ngIf="attachmentForms.controls.itemRows.controls.length > 1">
+                                      <label>&nbsp;</label>
+                                      <span (click)="deleteRow(i)" class="btn btn-danger trash-icon-padding form-control"><i class="fa fa-trash"></i></span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+                  <hr>
+                  <div class="form-row">
+                    <div class="form-group  col-md-6">
+                      <label>Message Type</label>
+                      <select name="messageType" class="form-control" [(ngModel)]="model.messageType" required>
+                          <option *ngFor="let m of messageTypes"  [value]="m.messageID">{{m.messageType}}</option>
+                      </select>
+                    </div>
+                  </div>
+              </fieldset>
+          </form>
+
+          <div class="alert alert-danger" *ngIf="message">
+              <strong>Error! </strong>{{message}}
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-lg btn-outline-primary center" (click)="composeMessage(content)" [disabled]="!ComposeForm.form.valid">Submit</button>
+          <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- <button class="btn btn-md btn-outline-primary pull-right" (click)="open(content)"><i class="fa fa-plus"></i>&nbsp;Compose</button> -->
+<!-- <span class="fa fa-edit fa-1x clickable" (click)="open(composeMessage, student)" title="Compose"></span>&nbsp;&nbsp; -->

@@ -1,0 +1,64 @@
+<nb-card class="min-height-50">
+	<nb-card-header>
+		<div class="row">
+			<div class="col-sm-6">Add Remarks</div>
+		</div>
+	</nb-card-header>
+
+	<nb-card-body>
+		<form novalidate name="form" #marksCard="ngForm" autocomplete="off">
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<label>Terms</label>
+
+						<select [ngModel]="model.selectedTerm" class="form-control" (ngModelChange)="onChangeTerm($event)" #term="ngModel" name="class">
+							<option [ngValue]="null" [disabled]="true">--Select Term--</option>
+							<option [ngValue]="term" *ngFor="let term of terms">{{term.termName}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+						<label>Class</label>
+						<select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #class="ngModel" name="class">
+							<option [ngValue]="null" [disabled]="true">--Select Class--</option>
+							<option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+						</select>
+					</div>
+					<div class="form-group col-md-2">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><br>
+						<button type="button" [disabled]="!model.selectedTerm || ! model.selectedClass" class="btn btn-md btn-outline-primary center" (click)="getStudents()">Show Students</button>
+					</div>
+				</div>
+				<div *ngIf="students && model.selectedClass && model.selectedTerm">
+					<div class="form-row">
+							<div class="alert alert-danger" *ngIf="students && students.message">No details found for this terms</div>
+						<div class="alert alert-danger" *ngIf="students && students.students && students.students.length === 0">No details found for this terms</div>
+						<table class="table table-bordered table-striped" *ngIf="students && students.students && students.students.length > 0">
+							<thead>
+								<tr>
+									<th>S.No.</th>
+									<th>Student RollNumber</th>
+									<th>Student Name</th>
+									<th class="width-400">Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let student of students.students; index as i">
+									<td>{{i+1}}</td>
+									<td>{{student.studentRollNo}}</td>
+									<td>{{student.studentName}}</td>
+									<td>
+										<input type="text" class="form-control" [(ngModel)]="student.remarks" name="{{student.studentRollNo}}" placeholder="Enter Remarks" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="center-align" *ngIf="students && students.students && students.students.length > 0">
+						<button type="button" class="btn btn-lg btn-outline-primary center" (click)="submitRemarks(students)">Submit</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</nb-card-body>
+</nb-card>

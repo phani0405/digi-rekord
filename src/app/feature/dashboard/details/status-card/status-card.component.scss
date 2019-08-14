@@ -1,0 +1,82 @@
+@import '../../../../@theme/styles/themes';
+@import '~@nebular/theme/styles/global/bootstrap/hero-buttons';
+
+@include nb-install-component() {
+  nb-card {
+    flex-direction: row;
+    align-items: center;
+    height: 6rem;
+    overflow: visible;
+
+    $bevel: btn-hero-bevel(nb-theme(card-bg));
+    $shadow: nb-theme(btn-hero-shadow);
+    box-shadow: $bevel, $shadow;
+
+    .icon-container {
+      height: 100%;
+      padding: 0.625rem;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 4.75rem;
+      font-size: 3.50rem;
+      border-radius: nb-theme(card-border-radius);
+      transition: width 0.4s ease;
+      transform: translate3d(0, 0, 0);
+      -webkit-transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      color: nb-theme(color-white);
+
+      .title {
+        color: nb-theme(card-fg);
+      }
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      padding: 0 0.5rem 0 0.75rem;
+      border-left: 1px solid transparent;
+      text-align: justify;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: calc(1rem * 8 * 1.25);
+    }
+
+    .title {
+      font-family: nb-theme(font-secondary);
+      font-size: 1.25rem;
+      font-weight: nb-theme(font-weight-bold);
+      color: nb-theme(card-fg-heading);
+      text-align: justify;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: calc(1rem * 8 * 1.25);
+    }
+
+    .header {
+      position: absolute;
+      bottom: 76px;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #ffffff;
+      width: -webkit-fill-available;
+      margin: 0;
+      max-height: 70px;
+      padding-top: 14px;
+      padding-bottom: 10px;
+      text-align: center;
+      margin-left: 15px;
+      margin-right: 15px;
+
+    }
+  }
+  .padding-top-2rem {
+    padding-top: 2rem !important;
+  }
+}

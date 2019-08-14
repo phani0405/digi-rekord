@@ -1,0 +1,35 @@
+<ng-template #assign let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Assign Fee</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- [(ngModel)]="model.instituteID" -->
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="form-group col-md-12">
+                    <label>Select Students to assign the selected fee</label>
+                    <br>
+                    <ngb-accordion [closeOthers]="true" activeIds="static-0">
+                        <ngb-panel *ngFor="let class of classes; index as i" id="{{'static-' + i}}" title="{{class.className}}">
+                            <ng-template ngbPanelContent>
+                                <div class="pull-right"><a style="color:blue;" (click)="selectAll(class)"> SelectAll </a>&nbsp;|&nbsp;<a style="color:red;" (click)="resetAll(class)"> Clear </a></div>
+                                <span *ngFor="let st of class.students; index as j">
+                                    <input type="checkbox" name="options" value="{{st.studentRoleNo}}" [(ngModel)]="st.checked" /> {{st.studentName}}
+                                    <span *ngIf="j !== class.students.length - 1">&nbsp;|&nbsp;</span>
+                                </span>
+                            </ng-template>
+                        </ngb-panel>
+                    </ngb-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="assignFee()">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<span class="fa fa-cog fa-1x clickable pull-right" (click)="open(assign, fee)" title="Assign"></span>

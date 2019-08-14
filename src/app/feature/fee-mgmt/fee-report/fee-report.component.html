@@ -1,0 +1,133 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Fee Reports</div>              
+            <!-- <div class="col-sm-6 text-right" (click)="exportFeeDetails()">
+                <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+            </div> -->
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                   <div class="card">
+                        <div class="card-header" style="text-align:center;background: blue;color:white;">
+                            Total Fee
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{summary.tamount}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center;background: green;color:white;">
+                            Total Fee Paid
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{summary.tpaid_amount}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center; background:grey; color:white;">
+                            Total Discount
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{summary.tdiscount}}/-
+                        </div>
+                   </div>
+               </div>
+                <div class="col-md-3">
+                   <div class="card center">
+                        <div class="card-header" style="text-align:center; background:red; color:white;">
+                            Total Balance Amount
+                        </div>
+                        <div class="card-body" style="text-align:center;">
+                            Rs. {{summary.tbalance}}/-
+                        </div>
+                   </div>
+               </div>
+            </div>
+            <hr>
+            <div class="row"> 
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                    <nb-card *ngIf="bdata">
+                      <nb-card-header>Month Wise Collected Amount</nb-card-header>
+                      <nb-card-body class="attcharts">
+                        <chart type="bar" [data]="bdata" [options]="boptions"></chart>
+                      </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="form-group col-md-3">
+                    <label>Class</label>
+                    <select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+                        <option [ngValue]="null" selected>--All--</option>
+                        <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Student</label>
+                    <select [ngModel]="model.selectedStudent" class="form-control" (ngModelChange)="onChangeStudent($event)" #cl="ngModel" name="st">
+                        <option [ngValue]="null" selected>--All--</option>
+                        <option [ngValue]="student" *ngFor="let student of students">{{student.studentName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Fee Term</label>
+                    <select [ngModel]="model.selectedFeeTerm" class="form-control" (ngModelChange)="onChangeFeeTerm($event)" #cl="ngModel" name="ft">
+                        <option [ngValue]="null" selected>--All--</option>
+                        <option [ngValue]="ft" *ngFor="let ft of feeTerms">{{ft.feeTerm}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Fee Type</label>
+                    <select [ngModel]="model.selectedFeeType" class="form-control" (ngModelChange)="onChangeFeeType($event)" #cl="ngModel" name="fr">
+                        <option [ngValue]="null" selected>--All--</option>
+                        <option [ngValue]="fr" *ngFor="let fr of feeTypes">{{fr.feeTypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-lg btn-warning pull-right" (click)="getReports()">
+                        Get More Details
+                    </button>
+               </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" *ngIf="feeReport && feeReport.length">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Fee Name</th>
+                                <th>Amount</th>
+                                <th>Discount</th>
+                                <th>Collected Amount</th>
+                                <th>Balance Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let fee of feeReport; index as i ">
+                                <td>{{i+1}}</td>
+                                <td>{{fee.feeTitle}}</td>
+                                <td style="color: blue;">{{fee.tamount}}</td>
+                                <td>{{fee.tdiscount}}</td>
+                                <td style="color: green;">{{fee.tpaid_amount}}</td>
+                                <td style="color: red;">{{fee.tbalance}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

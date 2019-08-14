@@ -1,0 +1,105 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">Exam Report</div>              
+	        <div class="col-sm-6 text-right" *ngIf="marksScored">
+	            <span *ngIf="marksScored<50" style="color: red;">'{{model.selectedClass.className}}' students scored {{marksScored}}% marks in '{{model.selectedTerm.termName}}'</span>
+                <span *ngIf="marksScored>=50 && marksScored<75" style="color: orange;">'{{model.selectedClass.className}}' students scored {{marksScored}}% marks in '{{model.selectedTerm.termName}}'</span>
+                <span *ngIf="marksScored>=75" style="color: green;">'{{model.selectedClass.className}}' students scored {{marksScored}}% marks in '{{model.selectedTerm.termName}}'</span>
+	        </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label>Terms</label>
+                    <select [ngModel]="model.selectedTerm" class="form-control" (ngModelChange)="onChangeTerm($event)" #term="ngModel" name="terms">
+                        <option [ngValue]="undefined" disabled selected>--Select Term--</option>
+                        <option [ngValue]="term" *ngFor="let term of terms">{{term.termName}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Class</label>
+                    <select [ngModel]="model.selectedClass" class="form-control" (ngModelChange)="onChangeClass($event)" #cl="ngModel" name="cl">
+                        <option [ngValue]="null" disabled selected>--Select Class--</option>
+                        <option [ngValue]="class" *ngFor="let class of classes">{{class.className}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Subject</label>
+                    <select [disabled]="!model.selectedClass" [ngModel]="model.selectedSubject" class="form-control" (ngModelChange)="onChangeSubject($event)"
+                     #subject="ngModel" name="subjects" required>
+                        <option [ngValue]="undefined" disabled selected>--Select Subject--</option>
+                        <option [ngValue]="subject" *ngFor="let subject of subjects">{{subject.subjectName}}</option>
+                    </select>
+                </div>                  
+                <div class="form-group col-md-2" *ngIf="dShow">
+                    <label>Overall Marks</label>
+                    <button class="btn btn-md" style="background: teal;padding: 35px;" title="Download Total Marks Sheet" (click)="downloadAllSubjectsMarkSheet()"><i class="fa fa-cloud-download fa-1x"></i></button>
+                </div>       
+                <div class="form-group col-md-2"  *ngIf="dShow">
+                    <label>Detailed Marks</label>
+                    <button class="btn btn-md" style="background: blue;padding: 35px;" title="Download Total Detailed Marks Sheet" (click)="downloadAllSubjectDivisionMarkSheet()"><i class="fa fa-cloud-download fa-1x"></i></button>
+                </div>    
+                <div class="form-group col-md-2" *ngIf="dSShow">
+                    <label>Subject Wise Marks</label>
+                    <button class="btn btn-md" style="background: red;padding: 35px;" title="Download Subjectwise Marks Sheet" (click)="downloadSubjectWiseMarkSheet()"><i class="fa fa-cloud-download fa-1x"></i></button>
+                </div>
+            </div>
+            <!-- <div class="row">   
+                <div class="form-group col-md-4" *ngIf="dShow">
+                    <button class="btn btn-md btn-primary" (click)="downloadAllSubjectsMarkSheet()"><i class="fa fa-cloud-download fa-2x"></i> Overall Marks Sheet</button>
+                </div>       
+                <div class="form-group col-md-4"  *ngIf="dShow">
+                    <button class="btn btn-md btn-primary" (click)="downloadAllSubjectDivisionMarkSheet()"><i class="fa fa-cloud-download fa-2x"></i> Detailed Marks Sheet</button>
+                </div>    
+                <div class="form-group col-md-4" *ngIf="dSShow">
+                    <button class="btn btn-md btn-primary" (click)="downloadSubjectWiseMarkSheet()"><i class="fa fa-cloud-download fa-2x"></i> Subject Wise Marks Sheet</button>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="form-group col-sm-5 offset-sm-7" *ngIf="students && students.length">
+                    <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search for name or roll number">
+                </div>               
+                <!-- <div class="col-sm-1 text-right" (click)="exportFeeDetails()" *ngIf="students && students.length">
+                    <i class="fa fa-share-square fa-2x" style="color: green;"></i>
+                </div>    -->          
+                <div class="alert alert-danger" *ngIf="students && students.length === 0">
+                    You have 0 students, Please create...
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" *ngIf="students && students.length">
+                        <thead>
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Student Name</th>
+                                <th>Student Role No.</th>
+                                <th>Total Obtained Marks</th>
+                                <th>Total Max Marks</th>
+                                <th>Percentage</th>
+                                <th>Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let student of students | StudentFilter : searchText: students; index as i ">
+                                <td>{{i+1}}</td>
+                                <td>{{student.studentName}}</td>
+                                <td>{{student.studentRollNo}}</td>
+                                <td style="color: green;">{{student.totalObtainedMarks}}</td>
+                                <td style="color: blue;">{{student.totalMaxMarks}}</td>
+                                <td>
+                                    <span *ngIf="student.percentage<50" style="color: red;">{{student.percentage}}%</span>
+                                    <span *ngIf="student.percentage>=50 && marksScored<75" style="color: orange;">{{student.percentage}}%</span>
+                                    <span *ngIf="student.percentage>=75" style="color: green;">{{student.percentage}}%</span>
+                                </td>
+                                <td style="color: green;">{{student.rank}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </nb-card-body> 
+</nb-card>

@@ -1,0 +1,80 @@
+<ng-template #fee let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Fee Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button> 
+    </div>
+
+    <div class="modal-body">
+        <div id="print-section" style="display: none;">
+          
+        </div>
+        <div class="">
+          <h4 class="modal-title modalHeaderColor" style="color:blue;">Total Fee: Rs. {{studentModel.totalFee}}</h4>
+          <!-- <h4 class="modal-title modalHeaderColor" style="color:red;" *ngIf="studentModel.balanceFee">Balance Fee: Rs. {{studentModel.balanceFee}}</h4>
+          <h4 class="modal-title modalHeaderColor" style="color:red;" *ngIf="!studentModel.balanceFee">Balance Fee: Rs. {{studentModel.totalFee}}</h4> -->
+          <h4 class="modal-title modalHeaderColor" style="color:red;">Balance Fee: Rs. {{studentModel.balanceFee}}</h4>
+          <div class="table-responsive" *ngIf="studentModel.feeDetails && studentModel.feeDetails.length > 0">
+              <table class="table table-bordered table-striped" *ngIf="studentModel.feeDetails && studentModel.feeDetails.length">
+                  <thead>
+                      <tr>
+                          <th>S.No.</th>
+                          <th>Amount for</th>
+                          <th>Transaction ID</th>
+                          <th>Trans.Type</th>
+                          <th>Trans.Amount</th>
+                          <th>Balance Fee</th>
+                          <th>Trans.Date</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let fee of studentModel.feeDetails index as i ">
+                          <td>{{i+1}}</td>
+                          <td>{{fee.amountFor}}</td>
+                          <td>{{fee.transactionID}}</td>
+                          <td>{{fee.transactionType}}</td>
+                          <td style="color:blue;">{{fee.feeAmount}}</td>
+                          <td style="color:red;">{{fee.balanceFee}}</td>
+                          <td>{{util.convertDateIntoDMYHMS(fee.createdDate)}}</td>
+                          <td style="color:grey;"><i class="fa fa-print fa-2x"  title="Print" (click)="print(fee)"></i></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <h4 class="modal-title modalHeaderColor">Add Fee Amount</h4>
+          <form novalidate name="form" #FeeForm="ngForm" autocomplete="off">
+            <fieldset class="form-group" style="padding: 10px;">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label>Amount</label>
+                    <input type="number" class="form-control" [(ngModel)]="model.feeDetails.feeAmount" name="feeAmount"  placeholder="10000" required>
+                  </div>
+                  <div class="form-group col-md-12">                    
+                    <label>Amount for</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.feeDetails.amountFor" name="amountFor"  placeholder="School fee" required>
+                  </div>
+                  <div class="form-group col-md-12">                    
+                    <label>Paid by</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.feeDetails.paidBy" name="paidBy"  placeholder="enter name" required>
+                  </div>
+                  <div class="form-group col-md-12">                 
+                    <label>Phone No.</label>
+                    <input type="number" class="form-control" [(ngModel)]="model.feeDetails.phoneNo" name="phoneNo"  placeholder="9xxxxxxxxx" required>
+                  </div>
+                </div>
+            </fieldset>
+          </form>
+        </div>
+        <hr/>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="addFee(fee)" [disabled]="!FeeForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<span class="fa fa-credit-card fa-1x clickable" style="color: red;" (click)="open(fee, student)" title="Fee"></span>

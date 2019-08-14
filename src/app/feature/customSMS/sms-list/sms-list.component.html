@@ -1,0 +1,38 @@
+<nb-card class="min-height-50">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-sm-6">BULK SMS</div>
+            <div class="col-sm-6 text-right">
+                <app-create-sms (add)='getSMSList()'></app-create-sms>
+            </div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="alert alert-info" *ngIf="!smslist">Fetching SMS, please wait...</div>
+        <div class="alert alert-primary" *ngIf="smslist.length === 0 ">You don't have any SMS, Please add SMS.</div>
+        <div>
+            <div class="form-row">
+                <div class="alert alert-danger" *ngIf="smslist.length === 0">You have 0 SMS...</div>
+                <table class="table table-bordered table-striped" *ngIf="smslist && smslist.length > 0">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Title</th>
+                            <th>SMS Template</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sms of smslist; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{sms.title}}</td>
+                            <td>{{sms.content}}</td>
+                            <td>{{util.convertDateIntoDMYHMS(sms.createdDate)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

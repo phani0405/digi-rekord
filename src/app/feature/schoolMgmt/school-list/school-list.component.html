@@ -1,0 +1,404 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row" *ngIf="pagedItems">
+            <div class="col-sm-6">School list</div>
+            <div class="col-sm-6 text-right">
+                <app-add-school (add)='getAllSchools()'></app-add-school>
+            </div>
+        </div>
+        <div class="row" *ngIf="!pagedItems">
+            <div class="col-sm-6">Fetching schools, please wait...</div>
+        </div>
+    </nb-card-header>
+
+    <nb-card-body>
+        <div class="alert alert-danger" *ngIf="schools && schools.length === 0">
+            You have 0 schools, Please create...
+        </div>
+        <div class="panel-body">
+            <div class="row" *ngIf="schools && schools.length">
+                <div class="form-group col-sm-6 col-md-4 col-lg-2">
+                    <label for="year">Select Year</label>
+                    <select [ngModel]="selectedYear" class="form-control" (ngModelChange)="onChangeClass($event, 'year')" name="year">
+                        <option [ngValue]="year" *ngFor="let year of years">{{year}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6 col-md-4 col-lg-2">
+                    <label for="year">Select Month</label>
+                    <select [ngModel]="selectedMonth" class="form-control" (ngModelChange)="onChangeClass($event, 'month')" name="month">
+                        <option [ngValue]="month" *ngFor="let month of months">{{month.value}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-12 col-md-4 col-lg-4 offset-lg-4">
+                    <label for="search">Search for name or code</label>
+                    <input type="text" class="form-control" [(ngModel)]="model.searchText" placeholder="Search for name or code...">
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" *ngIf="schools && schools.length">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>School Name</th>
+                            <th>School Code</th>
+                            <th>School Address</th>
+                            <th class="min-width-100">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let school of pagedItems | SchoolFilter : model.searchText: schools; index as i ">
+                            <td>{{i+1}}</td>
+                            <td>{{school.schoolName}}</td>
+                            <td>{{school.schoolCode}}</td>
+                            <td *ngIf="school.schoolAddress && school.schoolAddress.address">{{util.limitToText(school.schoolAddress.address, 20)}}</td>
+                            <td *ngIf="!school.schoolAddress || !school.schoolAddress.address"></td>
+                            <td>
+                                <span class="fa fa-eye fa-1x clickable" (click)="openModelWithDetail(content, school)" title="View"></span>&nbsp;&nbsp;
+                                <span class="fa fa-edit fa-1x clickable" (click)="open(editContentModel, school)" title="Edit"></span>&nbsp;&nbsp;
+                                <span class="fa fa-trash fa-1x clickable" (click)="openDeleteModel(deleteModel, school)" title="Delete"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <nav aria-label="Page navigation example text-center" *ngIf="pager.pages && pager.pages.length && !model.searchText  && schools.length > 10">
+                <ul class="pagination  justify-content-center">
+                    <li [ngClass]="{'disabled':pager.currentPage === 1}" class="active">
+                        <a class="page-link" (click)="setPage(pager.currentPage - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{'active':pager.currentPage === page}">
+                        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a class="page-link" (click)="setPage(pager.currentPage + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+    </nb-card-body>
+</nb-card>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">School Detail</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered" *ngIf="selectedSchoolDetail">
+            <tbody>
+                <tr *ngIf="selectedSchoolDetail.schoolLogo">
+                    <td>School Logo</td>
+                    <td>
+                        <img [src]="selectedSchoolDetail.schoolLogo" class="logoHeightWidth">
+                    </td>
+                </tr>
+                <tr>
+                    <td>School Code</td>
+                    <td>{{selectedSchoolDetail.schoolCode}}</td>
+                </tr>
+                <tr>
+                    <td>School Name</td>
+                    <td>{{selectedSchoolDetail.schoolName}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.userID">
+                    <td>User ID</td>
+                    <td>{{selectedSchoolDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolsRegistered">
+                    <td>Registered Schools</td>
+                    <td>{{selectedSchoolDetail.schoolsRegistered.length}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.address">
+                    <td>Address</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.address}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.city">
+                    <td>City</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.city}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.district">
+                    <td>District</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.district}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.state">
+                    <td>State</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.state}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.pincode">
+                    <td>Pincode</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.pincode}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolAddress && selectedSchoolDetail.schoolAddress.country">
+                    <td>Country</td>
+                    <td>{{selectedSchoolDetail.schoolAddress.country}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolOpenTime">
+                    <td>School open time</td>
+                    <td>{{selectedSchoolDetail.schoolOpenTime}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.schoolCloseTime">
+                    <td>School close time</td>
+                    <td>{{selectedSchoolDetail.schoolCloseTime}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.adminName">
+                    <td>Admin Name</td>
+                    <td>{{selectedSchoolDetail.adminName}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.userID">
+                    <td>Admin Username</td>
+                    <td>{{selectedSchoolDetail.userID}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.adminEmailID">
+                    <td>Admin EmailID</td>
+                    <td>{{selectedSchoolDetail.adminEmailID}}</td>
+                </tr>
+                <tr *ngIf="selectedSchoolDetail.adminMobile">
+                    <td>Admin Mobile Number</td>
+                    <td>{{selectedSchoolDetail.adminMobile}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #editContentModel let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Edit School</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- [(ngModel)]="model.schoolID" -->
+    <div class="modal-body">
+        <form novalidate name="form" #SchoolEditForm="ngForm" autocomplete="off">
+            <fieldset class="form-group">
+                <div class="form-row container col-sm-8">
+                </div>
+                <div class="form-row">
+                    <h5 class="underline">School Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="form-row">
+                            <label for="schoolLogo">School Logo</label>
+                            <label for="file-upload" [ngClass]="{greenColor: model.url || model.schoolLogo}" class="custom-file-upload margin-photo">
+                                <i class="fa fa-cloud-upload"></i> {{model.url || model.schoolLogo ? 'Update Logo' : 'Upload Logo'}}
+                            </label>
+                        </div>
+                        <div>
+                            <input id="file-upload" [disabled]="uploadingImageLoading" accept="image/x-png,image/jpg,image/jpeg" type='file' (change)="readUrl($event)">
+                            <div class="row logoHeightWidth" *ngIf="(model.url || model.schoolLogo) && !uploadingImageLoading">
+                                <img class="photoImg" [src]="model.url || model.schoolLogo">
+                                <span class="fa-stack fa-lg clickable remove-photo-icon" (click)="model.url = ''; model.schoolLogo = ''">
+                                    <i class="fa fa-circle fa-stack-2x icon-background" title="Remove photo"></i>
+                                    <i class="fa fa-times fa-stack-1x"></i>
+                                </span>
+                            </div>
+                            <i *ngIf="uploadingImageLoading" class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="schoolName">School Name</label>
+                            <input type="text" class="form-control" name="schoolName" [(ngModel)]="model.schoolName" #schoolName="ngModel" required pattern="^[a-zA-Z].*"
+                                placeholder="School Name">
+                            <div *ngIf="schoolName.errors && (schoolName.dirty || schoolName.touched)" class="alert alert-danger">
+                                <div [hidden]="!schoolName.errors.required">
+                                    School name is required !
+                                </div>
+                                <div [hidden]="!schoolName.errors.pattern">First letter should be albhabetic !</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="schoolCode">School Code</label>
+                            <input readonly type="text" class="form-control" name="schoolCode" [(ngModel)]="model.schoolCode" #schoolCode="ngModel" placeholder="School Code"
+                                required>
+                            <div *ngIf="schoolCode.errors && (schoolCode.dirty || schoolCode.touched)" class="alert alert-danger">
+                                <div [hidden]="!schoolCode.errors.required">
+                                    School code is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="schoolAddress">Address</label>
+                        <textarea type="text" class="form-control addressHeight" name="schoolAddress" [(ngModel)]="model.schoolAddress" #schoolAddress="ngModel"
+                            placeholder="School Address" required></textarea>
+                        <div *ngIf="schoolAddress.errors && (schoolAddress.dirty || schoolAddress.touched)" class="alert alert-danger">
+                            <div [hidden]="!schoolAddress.errors.required">
+                                School address is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="schoolPinCode">Pincode</label>
+                            <input type="text" (keypress)="onlyNumberKey($event)" class="form-control" name="schoolPinCode" [(ngModel)]="model.schoolPinCode"
+                                #schoolPinCode="ngModel" placeholder="Pincode" pattern="[0-9]*" minlength="6" maxlength="6" required>
+                            <div *ngIf="schoolPinCode.errors && (schoolPinCode.dirty || schoolPinCode.touched)" class="alert alert-danger">
+                                <div [hidden]="!schoolPinCode.errors.required">
+                                    School pin code is required !
+                                </div>
+                                <div [hidden]="!schoolPinCode.errors.minlength">Pincode should be 6 digit</div>
+                                <div [hidden]="!schoolPinCode.errors.pattern">Pincode should be only numbers</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-group" for="schoolCity">City</label>
+                            <!-- <input type="text" class="form-group form-control" [(ngModel)]="model.schoolCity" #schoolCity="ngModel" name="schoolCity" placeholder="City" minlength="45" required> -->
+                            <input type="text" (keypress)="onlyAlphabetKey($event)" class="form-group form-control" [(ngModel)]="model.schoolCity" #schoolCity="ngModel"
+                                name="schoolCity" placeholder="City" maxlength="45" required>
+                            <div *ngIf="schoolCity.errors && (schoolCity.dirty || schoolCity.touched)" class="alert alert-danger">
+                                <div [hidden]="!schoolCity.errors.required">
+                                    School city is required !
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="schoolState">State</label>
+                        <input list="states" type="text" (keypress)="onlyAlphabetKey($event)" class="form-control" [(ngModel)]="model.schoolState"
+                            #schoolState="ngModel" name="schoolState" placeholder="State" maxlength="45" required>
+                        <datalist id="states">
+                            <option *ngFor="let state of states" value="{{state.stateName}}">{{state.stateName}}</option>
+                        </datalist>
+                        <div *ngIf="schoolState.errors && (schoolState.dirty || schoolState.touched)" class="alert alert-danger">
+                            <div [hidden]="!schoolState.errors.required">
+                                School state is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="schoolDistrict">District</label>
+                        <input [disabled]="!model.schoolState" list="districts" type="text" (keypress)="onlyAlphabetKey($event)" class="form-control"
+                            [(ngModel)]="model.schoolDistrict" #schoolDistrict="ngModel" name="schoolDistrict" placeholder="District"
+                            required>
+                        <datalist id="districts">
+                            <option *ngFor="let district of states | districtFilter : model.schoolState : states;" value="{{district}}">{{district}}</option>
+                        </datalist>
+                        <div *ngIf="schoolDistrict.errors && (schoolDistrict.dirty || schoolDistrict.touched)" class="alert alert-danger">
+                            <div [hidden]="!schoolDistrict.errors.required">
+                                School district is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="schoolState">Open Time</label>
+                        <ngb-timepicker class="form-control" (keypress)="onlyNumberKey($event)" [(ngModel)]="model.openTime" [meridian]="true" #openTime="ngModel"
+                            name="openTime" required></ngb-timepicker>
+                        <div *ngIf="openTime.errors && (openTime.dirty || openTime.touched)" class="alert alert-danger">
+                            <div [hidden]="!openTime.errors.required">
+                                School open time is required !
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="schoolState">Close Time</label>
+                        <ngb-timepicker class="form-control" (keypress)="onlyNumberKey($event)" [(ngModel)]="model.closeTime" [meridian]="true" #closeTime="ngModel"
+                            name="closeTime" required></ngb-timepicker>
+                        <div *ngIf="closeTime.errors && (closeTime.dirty || closeTime.touched)" class="alert alert-danger">
+                            <div [hidden]="!closeTime.errors.required">
+                                School close time is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <h5 class="underline">Admin Details</h5>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.userName" #userName="ngModel" name="userName" pattern="^[a-zA-Z].*"
+                            placeholder="Name" required>
+                        <div *ngIf="userName.errors && (userName.dirty || userName.touched)" class="alert alert-danger">
+                            <div [hidden]="!userName.errors.required">
+                                School admin name is required !
+                            </div>
+                            <div [hidden]="!userName.errors.pattern">First letter should be albhabetic !</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Username</label>
+                        <input readonly type="text" class="form-control" [(ngModel)]="model.userID" #userID="ngModel" name="userID" placeholder="Username"
+                            required>
+                        <div *ngIf="userID.errors && (userID.dirty || userID.touched)" class="alert alert-danger">
+                            <div [hidden]="!userID.errors.required">
+                                School admin username is required !
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Email</label>
+                        <input type="email" autocomplete="new-email" class="form-control" [(ngModel)]="model.email" #email="ngModel" name="email"
+                            placeholder="Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                        <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                            <div [hidden]="!email.errors.required">
+                                School admin email is required !
+                            </div>
+                            <div [hidden]="!email.errors.pattern">
+                                Invalid email!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Mobile No.</label>
+                        <input type="text" (keypress)="onlyNumberKey($event)" autocomplete="new-password" class="form-control" [(ngModel)]="model.mobile"
+                            #mobile="ngModel" name="mobile" placeholder="Mobile Number" pattern="[0-9]*" minlength="10" maxlength="10"
+                            required>
+                        <div *ngIf="mobile.errors && (mobile.dirty || mobile.touched)" class="alert alert-danger">
+                            <div [hidden]="!mobile.errors.required">
+                                School admin mobile is required !
+                            </div>
+                            <div [hidden]="!mobile.errors.minlength">Mobile should be 10 digit</div>
+                            <div [hidden]="!mobile.errors.pattern">Mobile number should be only numbers</div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="alert alert-danger" *ngIf="message">
+            <strong>Error! </strong>{{message}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="updateSchool(editContentModel)" [disabled]="!SchoolEditForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #deleteModel let-c="close" let-d="dismiss" class="modal">
+    <div class="modal-header">
+        <h4 class="modal-title modalHeaderColor">Delete School</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure to delete this School?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">No</button>
+        <button type="button" class="btn btn-lg btn-outline-primary center" (click)="deleteSchool(selectedSchoolDetail)">Yes</button>
+    </div>
+</ng-template>

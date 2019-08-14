@@ -1,0 +1,96 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic);
+// variables
+$card-width: 95%;
+$card-height: 250px;
+$h-color: #9CC9E3;
+$yellow: #D0BB57;
+$txt-color: #DCE3E7;
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body {
+    background: #323c41;
+}
+
+.blog-card {
+    width: $card-width;
+    height: $card-height;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, .5);
+    text-align: center;
+    .gradient-overlay {
+        /* bg-gradient: */
+        width: $card-width;
+        height: 15%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 15;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+    }
+}
+
+
+.utility-info {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    z-index: 20;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.utility-list {
+    list-style-type: none;
+    margin: 0 0 8px 0px;
+    padding: 0;
+    width: 100%;
+    li {
+        width: 45%;
+        display: inline-block;
+        color: $txt-color;
+        font-family: 'Roboto', sans-serif;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.scroll-body {
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+
+.card-width {
+  margin: 0rem 1em 1rem 0rem;
+}
+
+.utility-list1 {
+  bottom: 0;
+  width: 100%;
+  margin-top: 1rem;
+  a {
+          margin-right: 9%;
+  margin-left: 9%;
+  }
+}
+
+.card-block {
+  height: 32%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskDescription {
+  margin-top: 10px 0;
+}
+
+.card-img-top {
+ height: 8rem;
+ object-fit: contain;
+}

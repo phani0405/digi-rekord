@@ -1,0 +1,131 @@
+
+.card-width {
+    margin: 0rem 1em 1rem 0rem;
+}
+
+.utility-list {
+    bottom: 0;
+    width: 100%;
+    margin-top: 1rem;
+    a {
+            margin-right: 9%;
+    margin-left: 9%;
+    }
+}
+
+.card-block {
+    height: 32%;
+    padding: 10px 10px 0px 10px;
+}
+
+.taskDescription {
+    margin-top: 10px 0;
+}
+
+.card-img-top {
+   height: 12rem;
+   object-fit: contain;
+}
+
+.commentList {
+    padding: 0;
+    list-style: none;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.actionBox ul {
+    margin-top: -1rem;
+}
+
+.commentList li {
+    margin-bottom: 0px;
+}
+
+.commentList li>div {
+    display: table-cell;
+}
+
+.commenterImage {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    float: left;
+}
+
+.commenterImage img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
+
+.commentText p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.sub-text {
+    color: #999999;
+    font-family: verdana;
+    font-size: 12px;
+    margin-left: 35px;
+}
+
+.actionBox {
+    padding: 10px;
+}
+
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 1.5rem;
+    padding: 5px;
+    width: 670px;
+    margin: 10px 0;
+}
+
+.userName {
+    color: rgba(0, 0, 0, 1.4);
+    font-size: 16px;
+}
+
+.width-750 {
+    width: 750px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.scroll-body {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.row {
+    margin: 0px;
+}
+
+.alert {
+    padding: .75rem 1.25rem;
+}
+
+.previewHW {
+    width: 5.6rem;
+    height: 5.6rem;
+}
+
+.padding-top-0 {
+    padding-top: 0px;
+}
+
+.margin_32px {
+  margin-bottom: -2rem;
+}
+
+.attachments-tile {
+    text-align: center;
+    margin-top: 8px;
+    width: 5.5rem;
+
+}

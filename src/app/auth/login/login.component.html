@@ -1,0 +1,70 @@
+<nb-layout>
+    <nb-layout-column class="padding-0">
+        <nb-card class="nbCard-height" style="background-image:url(assets/images/bgm.png); background-repeat: no-repeat;
+    background-size: cover; background-position: center;">
+            <nb-card-body>
+                <div class="container col-sm-4 col-sm-offset-4 nb-body-margin-top" style="background: rgba(0,0,0, 0.4);border: 5px solid #b7dbb6;padding: 10px; border-radius: 5px;">
+                    <!-- <h3 class="text-center signIn">Sign In</h3>
+                    <p class="text-center signInDesc">Hello! Sign in with your username or email</p> -->
+                    <div class="text-center signInDesc">
+                    <img height="120" src="assets/images/logo.png" alt="DiGiRekord">     
+                    </div>               
+                    <h4 class="text-center signIn"  style="color: white;">Sign In</h4>
+                    <div class="container col-sm-12">
+                        <div class="container col-sm-10">
+                            <alert></alert>
+                            <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                                    <label for="username" style="color: white;">Username</label>
+                                    <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+                                    <div *ngIf="f.submitted && !username.valid" class="help-block error">Username is required</div>
+                                </div>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                                    <label for="password" style="color: white;">Password</label>
+                                    <input type="password" class="form-control" oncopy="return false" onpaste="return false" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                                    <div *ngIf="f.submitted && !password.valid" class="help-block error">Password is required</div>
+                                </div>
+                                <div class="form-group">
+                                    <button [disabled]="loading" class="btn btn-block btn-hero-success">SIGN IN</button>
+                                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                    />
+                                    <!-- <a class="forgot-password forgetPassword" routerlink="../request-password" href="#/auth/request-password">Forgot Password?</a> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </nb-layout-column>
+</nb-layout>
+
+<style>
+    /* Circle Avatar Styles */
+
+img {
+    border-radius: 50%; /* relative value for
+                   adjustable image size */
+}
+img:hover {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.5s; 
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite; 
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+</style>

@@ -1,0 +1,64 @@
+<ng-template #leaveModel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title modalHeaderColor">Apply Leave</h4>
+      <button type="button" class="close" aria-label="Close" (click)="c('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> 
+  </div>
+
+  <div class="modal-body">
+      <form novalidate name="form" #LeaveForm="ngForm" autocomplete="off">
+          <fieldset class="form-group">
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="reason">Reason</label>
+                  <textarea type="text" class="form-control" [(ngModel)]="model.leaveReason" name="reason"  placeholder="Type your leave reason" required></textarea>
+                </div>
+              </div>
+              
+              
+              <div class="form-row">
+                <div class="form-group  col-md-6">
+                  <label for="reason">From Date</label>
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="fromDate" [(ngModel)]="model.fromDate" ngbDatepicker #d="ngbDatepicker">
+                    <button class="input-group-addon" (click)="d.toggle()" type="button">
+                      <i class="fa fa-calendar green-color"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="reason">To Date</label>
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="toDate" [(ngModel)]="model.toDate" ngbDatepicker #dp="ngbDatepicker">
+                    <button class="input-group-addon" (click)="dp.toggle()" type="button">
+                      <i class="fa fa-calendar green-color"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Submit To</label><br>
+                    <span *ngFor="let sf of staffs; index as i">
+                        <input type="checkbox" name="options" value="{{sf.userID}}" [(ngModel)]="sf.checked" /> {{sf.staffName}}
+                        <span *ngIf="i !== staffs.length - 1">&nbsp;|&nbsp;</span>
+                    </span>
+                </div>
+              </div> -->
+          </fieldset>
+      </form>
+
+      <div class="alert alert-danger" *ngIf="message">
+          <strong>Error! </strong>{{message}}
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-lg btn-outline-primary center" (click)="applyLeave(leaveModel)" [disabled]="!LeaveForm.form.valid">Submit</button>
+      <button type="button" class="btn btn-lg btn-outline-primary center" (click)="c('Close click')">Cancel</button>
+  </div>
+</ng-template>
+<button *ngIf='isApplyAllowed' class="btn btn-md btn-outline-primary pull-right" (click)="open(leaveModel)"><i class="fa fa-plus"></i>&nbsp;Apply</button>
